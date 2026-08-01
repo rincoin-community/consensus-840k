@@ -5,14 +5,15 @@ decision.** The main reason of this repository is to provide a space for public 
 
 - Public anchor (this repository): https://github.com/rincoin-community/consensus-840k
 
+**We invite maintainers of every active Rincoin implementation to begin a focused technical discussion of the consensus rule, implementation behavior, activation, compatibility tests, and timing.**
+
+- **Coordination notice: https://hackmd.io/@takologi/SyV7i13HGg (HackMD) or [`coordination-notice.md`](coordination-notice.md) (here)** - published 2026-08-01
+
 ***The first preference is a common consensus and one chain.** The separation material exists
 because agreement is uncertain and because deterministic rules are needed if incompatible
 continuations remain. The introduced separation base uses an exact scheduled coinbase commitment as its only new
 block-consensus branch identifier. A header-level isolation layer is documented and tested as an
 inactive contingency; it is not part of the current base.*
-
-Published 2026-08-01:
-- Coordination notice: https://hackmd.io/@takologi/SyV7i13HGg
 
 
 ## Economic Study - Scenario Analysis
