@@ -11,7 +11,7 @@ The **Rincoin Monetary Review Summary** is the concise entry point to the moneta
 scenario review:
 
 - [`Rincoin_Monetary_Review_Summary.qmd`](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Monetary_Review_Summary.qmd) — live HackMD discussion copy:
-  `[HACKMD_MONETARY_REVIEW_SUMMARY_URL]`
+  https://hackmd.io/@takologi/SJ_6uVpSfx
 - [`Rincoin_Monetary_Review_Summary.pdf`](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Monetary_Review_Summary.pdf)
   — GitHub snapshot for reading and download
 
