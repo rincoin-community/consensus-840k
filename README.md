@@ -1,68 +1,48 @@
-# Rincoin consensus 840k transition
+# Rincoin Height-840,000 Consensus Review
 
-**This directory contains public-facing drafts for Rincoin's height-840,000 consensus
-decision.** The main reason of this repository is to provide a space for public research and discussion.
+This repository is the public discussion space for Rincoin's consensus decision at
+block height 840,000. It contains review material and technical coordination
+documents; it does not adopt a candidate or announce that a chain split is final.
+The first preference remains a common consensus and one chain.
 
-- Public anchor (this repository): https://github.com/rincoin-community/consensus-840k
+## Start here: Monetary Review Summary
 
-**We invite maintainers of every active Rincoin implementation to begin a focused technical discussion of the consensus rule, implementation behavior, activation, compatibility tests, and timing.**
+The **Rincoin Monetary Review Summary** is the concise entry point to the monetary
+scenario review:
 
-- **Coordination notice: https://hackmd.io/@takologi/SyV7i13HGg (HackMD) or [`coordination-notice.md`](coordination-notice.md) (here)** - published 2026-08-01
+- [`Rincoin_Monetary_Review_Summary.qmd`](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Monetary_Review_Summary.qmd) — live HackMD discussion copy:
+  `[HACKMD_MONETARY_REVIEW_SUMMARY_URL]`
+- [`Rincoin_Monetary_Review_Summary.pdf`](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Monetary_Review_Summary.pdf)
+  — GitHub snapshot for reading and download
 
-***The first preference is a common consensus and one chain.** The separation material exists
-because agreement is uncertain and because deterministic rules are needed if incompatible
-continuations remain. The introduced separation base uses an exact scheduled coinbase commitment as its only new
-block-consensus branch identifier. A header-level isolation layer is documented and tested as an
-inactive contingency; it is not part of the current base.*
+Questions, criticism, corrections, and alternative interpretations are warmly
+welcome. You can comment on HackMD, open a
+[pull request](https://github.com/rincoin-community/consensus-840k/pulls),
+[issue](https://github.com/rincoin-community/consensus-840k/issues), or
+[Discussion](https://github.com/rincoin-community/consensus-840k/discussions), or
+join the Rincoin Community Forge Discord. See the
+[coordination notice](coordination-notice.md) for current links and participation
+instructions.
 
+## Repository guide
 
-## Economic Study - Scenario Analysis
+- [`coordination-notice.md`](coordination-notice.md) invites direct technical
+  coordination and lists the available response routes.
+- [`STATUS.md`](STATUS.md) records the current publication and decision status.
+- [`analysis/`](analysis/) contains the public monetary-review package:
+  - `Rincoin_Monetary_Review_Summary.qmd` and `.pdf` are the review source and
+    rendered snapshot.
+  - [`data/`](analysis/data/) contains the machine-readable scenario
+    configuration, comparison results, and normative vectors generated for the
+    reviewed scenarios.
+  - [`evidence/`](analysis/evidence/) contains frozen network, market, chain, and
+    source snapshots together with provenance manifests.
+  - [`includes/`](analysis/includes/) contains assets required to render the QMD
+    source.
+  - [`original/`](analysis/original/) contains the original Rincoin whitepaper.
+  - [`customized-halving/`](analysis/customized-halving/) contains a preserved copy
+    of Tokino's Customized Halving study used as source material in the review.
 
-Live discussion copies, when created:
-
-- Monetary Review Summary: (to be delivered)
-- Monetary Policy and Security - Scenario Analysis: (to be delivered)
-- Commitment specification: (to be delivered)
-<br><br>
-- Whitepaper - scenario A: (to be delivered)
-- Consensus Change Specification - scenario A: (to be delivered)
-<br><br>
-- Whitepaper - scenario B: (to be delivered)
-- Consensus Change Specification - scenario B: (to be delivered)
-<br><br>
-- Whitepaper - scenario C: (to be delivered)
-- Consensus Change Specification - scenario C: (to be delivered)
-
-### Publication sequence
-
-1. [`Rincoin_Monetary_Review_Summary.pdf`](analysis/Rincoin_Monetary_Review_Summary.pdf) and 
-   [`Rincoin_Monetary_Scenario_Analysis.pdf`](analysis/Rincoin_Monetary_Scenario_Analysis.pdf) — ready 
-   after maintainer approval and date check (within the 7 days period from the first publication).
-2. Drafts of `Whitepaper` and `Consensus Change Specification` for selected scenarios
-   will follow the Scenario Analysis, will be subject to change as the discussion will progress.
-
-## Technical Overview
-
-Live discussion copies, when created:
-
-- Technical overview: (to be delivered)
-- Commitment specification: (to be delivered)
-- Header contingency: (to be delivered)
-
-### Publication sequence
-
-1. [`coordination-notice.md`](coordination-notice.md) — ready after maintainer approval and date check.
-2. [`technical-overview.md`](technical-overview.md) and
-   [`coinbase-commitment-specification.md`](coinbase-commitment-specification.md) — technical review
-   after the coordination gate permits publication.
-3. [`header-isolation-contingency.md`](header-isolation-contingency.md) — the prepared inactive
-   option, published with the technical study rather than as the opener.
-4. [`identifier-reservation.md`](identifier-reservation.md) — used only if common consensus and
-   direct identifier coordination fail.
-5. Implementation artifacts, operator guidance, and readiness evidence — added as implementation
-   and release gates are reached.
-
-Protocol version, service flags, user-agent text, and header markers are not branch identity or
-authentication. Block separation is not transaction replay protection.
-
-
+Additional analysis, candidate documents, implementation material, and technical
+specifications will be added gradually as their review and publication gates are
+reached.

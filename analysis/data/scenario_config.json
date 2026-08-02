@@ -1,0 +1,455 @@
+{
+  "metadata": {
+    "name": "Rincoin monetary scenario comparison",
+    "document_version": "1.0",
+    "status": "Discussion Draft",
+    "publication_date": "2026-08-02",
+    "description": "Height-only subsidy schedules for Rincoin monetary-policy evaluation. All consensus-deterministic subsidy values are maximum permitted block subsidies in integer base units.",
+    "year_length": "365 days",
+    "retrieval_date": "2026-07-22",
+    "notes": [
+      "Underclaimed subsidy is not reissued.",
+      "Lost, burned, dormant, UTXO, spendable, circulating, or actual minted supply is not used to calculate future subsidy.",
+      "Transaction fees are excluded from newly issued supply.",
+      "The original whitepaper's 168,000,000 RIN statement is treated as a historical documented upper bound that is inconsistent with deployed binary-halving consensus, and as a policy target or comparison reference for some scenarios."
+    ]
+  },
+  "network": {
+    "coin_ticker": "RIN",
+    "coin_unit_base_units": 100000000,
+    "initial_subsidy_base_units": 5000000000,
+    "epoch_blocks": 210000,
+    "activation_height": 840000,
+    "target_block_seconds": 60,
+    "blocks_per_year": 525600,
+    "maximum_supply_ceiling_base_units": 16800000000000000
+  },
+  "source_materials": {
+    "original_whitepaper": {
+      "local_path": "original/rincoin_whitepaper.pdf",
+      "sha256": "82ff8d10264b54828dabb28bf493cae42bcedcb0b036394de478d6772175dfb4"
+    },
+    "tokino_customized_halving_pdf": {
+      "local_path": "customized-halving/Tokino_Rincoin_v1.6.4-1.pdf",
+      "public_url": "https://zenodo.org/records/20674990/files/Tokino_Rincoin_v1.6.4.pdf",
+      "retrieval_date": "2026-07-26",
+      "sha256": "5269207ea7e363e8df312ed50c00afc119b43e6fa5d3c717e6a7d8fc9863147b",
+      "relevant_section": "Chapter 3, Customized Halving scenarios I, II and III"
+    },
+    "customized_halving_aevust_core_ref": {
+      "local_path": "/home/tomas_admin/rincoin",
+      "repository_remote": "https://github.com/Aevust/rincoin.git",
+      "branch": "aevust/master",
+      "commit": "f1591e44277f6acb77d7b3d734da1cc884d05edb",
+      "commit_date": "2026-05-23T13:31:19+09:00",
+      "source_file": "src/validation.cpp",
+      "relevant_lines": "1271-1290"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "S0",
+      "name": "Unchanged binary halving",
+      "kind": "legacy_binary",
+      "color": [86, 86, 86],
+      "primary": true
+    },
+    {
+      "id": "S1",
+      "name": "1/20 reduction without a floor",
+      "kind": "one_twentieth_no_floor",
+      "reduction_numerator": 19,
+      "reduction_denominator": 20,
+      "rounding": "integer floor after multiplying the previous integer epoch subsidy",
+      "recurrence": "recursive from the previous integer-rounded epoch subsidy",
+      "color": [28, 112, 181],
+      "primary": true
+    },
+    {
+      "id": "S2a",
+      "display_id": "S2/a",
+      "name": "1/20 reduction with bounded 0.5 RIN phase",
+      "kind": "one_twentieth_finite_floor",
+      "floor_subsidy_base_units": 50000000,
+      "color": [0, 158, 115],
+      "primary": true
+    },
+    {
+      "id": "S2b",
+      "display_id": "S2/b",
+      "name": "Bounded 1 RIN phase comparator",
+      "kind": "one_twentieth_finite_floor",
+      "floor_subsidy_base_units": 100000000,
+      "color": [0, 114, 178],
+      "primary": true
+    },
+    {
+      "id": "S3",
+      "name": "Perpetual 0.5 RIN tail-emission comparator",
+      "kind": "one_twentieth_perpetual_floor",
+      "floor_subsidy_base_units": 50000000,
+      "color": [213, 94, 0],
+      "primary": true
+    },
+    {
+      "id": "S4",
+      "name": "Idealized 113/114 cap-derived geometric schedule",
+      "kind": "cap_derived_113_114",
+      "color": [204, 121, 167],
+      "primary": true
+    },
+    {
+      "id": "S5a",
+      "display_id": "S5/a",
+      "name": "Extended-epoch binary halving, 840,000 anchor",
+      "kind": "extended_epoch_binary_halving",
+      "epoch_anchor_height": 840000,
+      "post_activation_epoch_blocks": 2100000,
+      "color": [117, 112, 179],
+      "primary": true
+    },
+    {
+      "id": "S5B",
+      "display_id": "S5/b",
+      "name": "Extended-epoch binary halving, phase-aligned to 630,000",
+      "kind": "extended_epoch_binary_halving",
+      "epoch_anchor_height": 630000,
+      "post_activation_epoch_blocks": 2100000,
+      "color": [158, 154, 200],
+      "primary": true
+    },
+    {
+      "id": "S6a",
+      "display_id": "S6/a",
+      "name": "Customized Halving study scenario I",
+      "kind": "configured_phases",
+      "source_key": "tokino_customized_halving_pdf",
+      "color": [230, 159, 0],
+      "primary": true,
+      "phases": [
+        { "start_height": 0, "end_height": 210000, "subsidy_base_units": 5000000000, "rule": "pre-840k binary halving" },
+        { "start_height": 210000, "end_height": 420000, "subsidy_base_units": 2500000000, "rule": "pre-840k binary halving" },
+        { "start_height": 420000, "end_height": 630000, "subsidy_base_units": 1250000000, "rule": "pre-840k binary halving" },
+        { "start_height": 630000, "end_height": 840000, "subsidy_base_units": 625000000, "rule": "pre-840k binary halving" },
+        { "start_height": 840000, "end_height": 2100000, "subsidy_base_units": 400000000, "rule": "customized halving study scenario I" },
+        { "start_height": 2100000, "end_height": 4200000, "subsidy_base_units": 200000000, "rule": "customized halving study scenario I" },
+        { "start_height": 4200000, "end_height": 6300000, "subsidy_base_units": 100000000, "rule": "customized halving study scenario I" },
+        { "start_height": 6300000, "end_height": 280245000, "subsidy_base_units": 50000000, "rule": "customized halving study scenario I finite constant phase" }
+      ]
+    },
+    {
+      "id": "S6B",
+      "display_id": "S6/b",
+      "name": "Bounded Customized Halving study scenario II",
+      "kind": "bounded_height_phases_to_ceiling",
+      "source_key": "tokino_customized_halving_pdf",
+      "color": [240, 180, 70],
+      "primary": true,
+      "phases": [
+        { "start_height": 840000, "end_height": 2100000, "subsidy_base_units": 400000000, "rule": "customized halving study scenario II" },
+        { "start_height": 2100000, "end_height": 4200000, "subsidy_base_units": 200000000, "rule": "customized halving study scenario II" },
+        { "start_height": 4200000, "end_height": 6300000, "subsidy_base_units": 100000000, "rule": "customized halving study scenario II" },
+        { "start_height": 6300000, "subsidy_base_units": 60000000, "rule": "bounded scenario II constant phase; end height derived from the maximum-scheduled-issuance ceiling" }
+      ],
+      "maximum_scheduled_issuance_base_units": 16800000000000000,
+      "terminal_height_policy": "derive exactly from the deployed pre-activation schedule, configured finite phases, and integer base-unit arithmetic"
+    },
+    {
+      "id": "S6c",
+      "display_id": "S6/c",
+      "name": "Customized Halving study scenario III",
+      "kind": "configured_phases",
+      "source_key": "tokino_customized_halving_pdf",
+      "color": [250, 205, 110],
+      "primary": true,
+      "phases": [
+        { "start_height": 0, "end_height": 210000, "subsidy_base_units": 5000000000, "rule": "pre-840k binary halving" },
+        { "start_height": 210000, "end_height": 420000, "subsidy_base_units": 2500000000, "rule": "pre-840k binary halving" },
+        { "start_height": 420000, "end_height": 630000, "subsidy_base_units": 1250000000, "rule": "pre-840k binary halving" },
+        { "start_height": 630000, "end_height": 840000, "subsidy_base_units": 625000000, "rule": "pre-840k binary halving" },
+        { "start_height": 840000, "end_height": 2100000, "subsidy_base_units": 400000000, "rule": "customized halving study scenario III" },
+        { "start_height": 2100000, "end_height": 4200000, "subsidy_base_units": 200000000, "rule": "customized halving study scenario III" },
+        { "start_height": 4200000, "end_height": 6300000, "subsidy_base_units": 100000000, "rule": "customized halving study scenario III" },
+        { "start_height": 6300000, "end_height": 8400000, "subsidy_base_units": 100000000, "rule": "customized halving study scenario III extra 1 RIN phase" },
+        { "start_height": 8400000, "end_height": 233187500, "subsidy_base_units": 60000000, "rule": "customized halving study scenario III finite constant phase" }
+      ]
+    },
+    {
+      "id": "S7",
+      "name": "Aevust Core Customized Halving tail-emission implementation",
+      "kind": "configured_phases",
+      "source_key": "customized_halving_aevust_core_ref",
+      "color": [166, 86, 40],
+      "primary": true,
+      "phases": [
+        { "start_height": 0, "end_height": 210000, "subsidy_base_units": 5000000000, "rule": "pre-840k binary halving" },
+        { "start_height": 210000, "end_height": 420000, "subsidy_base_units": 2500000000, "rule": "pre-840k binary halving" },
+        { "start_height": 420000, "end_height": 630000, "subsidy_base_units": 1250000000, "rule": "pre-840k binary halving" },
+        { "start_height": 630000, "end_height": 840000, "subsidy_base_units": 625000000, "rule": "pre-840k binary halving" },
+        { "start_height": 840000, "end_height": 2100000, "subsidy_base_units": 400000000, "rule": "Aevust Core customized halving implementation" },
+        { "start_height": 2100000, "end_height": 4200000, "subsidy_base_units": 200000000, "rule": "Aevust Core customized halving implementation" },
+        { "start_height": 4200000, "end_height": 6300000, "subsidy_base_units": 100000000, "rule": "Aevust Core customized halving implementation" },
+        { "start_height": 6300000, "subsidy_base_units": 60000000, "rule": "Aevust Core customized halving implementation perpetual tail emission", "perpetual": true }
+      ]
+    }
+  ],
+  "horizons": [
+    { "label": "activation", "height": 840000 },
+    { "label": "1 year", "years_after_activation": 1 },
+    { "label": "2 years", "years_after_activation": 2 },
+    { "label": "5 years", "years_after_activation": 5 },
+    { "label": "10 years", "years_after_activation": 10 },
+    { "label": "25 years", "years_after_activation": 25 },
+    { "label": "50 years", "years_after_activation": 50 },
+    { "label": "100 years", "years_after_activation": 100 },
+    { "label": "200 years", "years_after_activation": 200 },
+    { "label": "250 years", "years_after_activation": 250 },
+    { "label": "500 years", "years_after_activation": 500 }
+  ],
+  "scarcity_thresholds_base_units": [
+    100000000,
+    50000000,
+    10000000,
+    1000000,
+    100000,
+    1
+  ],
+  "plot": {
+    "years_after_activation": 500,
+    "sample_every_blocks": 52560,
+    "near_term_years": [10, 25, 50]
+  },
+  "security_economics": {
+    "model_status": "secondary normalized sensitivity model; fee anchors are derived from the frozen chain snapshot, while price paths, hardware costs, liquidity realization and miner response are not empirical forecasts",
+    "comparison_scenarios": ["S0", "S1", "S4", "S5a", "S5B", "S6a", "S6B", "S6c"],
+    "unbounded_comparators": ["S3", "S7"],
+    "horizon_years": [0, 1, 2, 5, 10, 25, 50, 100, 250, 500],
+    "normalized_price_paths": [
+      {
+        "id": "stress",
+        "name": "Stress",
+        "initial_price_index": "1.0",
+        "annual_change_pct": "-5.0",
+        "liquidity_realization_pct": "70.0"
+      },
+      {
+        "id": "flat",
+        "name": "Flat",
+        "initial_price_index": "1.0",
+        "annual_change_pct": "0.0",
+        "liquidity_realization_pct": "90.0"
+      },
+      {
+        "id": "growth",
+        "name": "Moderate growth",
+        "initial_price_index": "1.0",
+        "annual_change_pct": "3.0",
+        "liquidity_realization_pct": "80.0"
+      }
+    ],
+    "fee_cases": [
+      {
+        "id": "low",
+        "name": "Observed low fees",
+        "fee_per_block_base_units": 0,
+        "annual_change_pct": "0.0",
+        "basis": "90-day all-block median",
+        "evidence_status": "derived from frozen observed chain data"
+      },
+      {
+        "id": "base",
+        "name": "Observed base fees",
+        "fee_per_block_base_units": 10003,
+        "annual_change_pct": "0.0",
+        "basis": "90-day all-block arithmetic mean, rounded to nearest base unit",
+        "evidence_status": "derived from frozen observed chain data"
+      },
+      {
+        "id": "high",
+        "name": "Observed active-block high fees",
+        "fee_per_block_base_units": 290698,
+        "annual_change_pct": "0.0",
+        "basis": "90-day p90 conditional on blocks containing non-coinbase transactions",
+        "evidence_status": "derived from frozen observed chain data; conditional distribution"
+      }
+    ],
+    "hardware_classes": [
+      {
+        "id": "reference",
+        "name": "Normalized reference hardware",
+        "hashrate_index_units": "1.0",
+        "electricity_cost_index_per_year": "0.40",
+        "non_electric_operating_cost_index_per_year": "0.10",
+        "hardware_amortization_index_per_year": "0.20",
+        "pool_fee_pct": "1.0"
+      },
+      {
+        "id": "efficient",
+        "name": "Normalized efficient hardware",
+        "hashrate_index_units": "1.0",
+        "electricity_cost_index_per_year": "0.28",
+        "non_electric_operating_cost_index_per_year": "0.08",
+        "hardware_amortization_index_per_year": "0.22",
+        "pool_fee_pct": "1.0"
+      },
+      {
+        "id": "high_cost",
+        "name": "Normalized high-cost hardware",
+        "hashrate_index_units": "1.0",
+        "electricity_cost_index_per_year": "0.55",
+        "non_electric_operating_cost_index_per_year": "0.15",
+        "hardware_amortization_index_per_year": "0.20",
+        "pool_fee_pct": "1.0"
+      }
+    ],
+    "entry_exit_sensitivity": [
+      {"id": "slow", "elasticity": "0.50", "response_lag_days": 30},
+      {"id": "base", "elasticity": "1.00", "response_lag_days": 14},
+      {"id": "fast", "elasticity": "1.50", "response_lag_days": 3}
+    ],
+    "attack_proxy": {
+      "durations_blocks": [6, 24, 144],
+      "redirectable_hash_shares_pct": ["10.0", "25.0", "50.0"],
+      "hypothetical_double_spend_value_indexes": ["10.0", "100.0", "1000.0"],
+      "rental_market_status": "A public RinHash ask market was observed on Mining Rig Rentals; the separate empirical model uses frozen listing depth. These generic redirected-hash shares are secondary stress cases."
+    }
+  },
+  "empirical_security": {
+    "snapshot_id": "2026-07-27T121555Z",
+    "snapshot_path": "evidence/network-and-security-snapshot-20260727T121555Z",
+    "source_manifest": "evidence/network-and-security-snapshot-20260727T121555Z/SOURCE_MANIFEST.json",
+    "history_windows_days": [30, 90, 365],
+    "primary_fee_window_days": 90,
+    "rolling_hashrate_window_blocks": 120,
+    "rental_horizons_blocks": [6, 24, 144],
+    "honest_hashrate_reduction_stress_pct": [0, 10, 25, 50],
+    "owned_hashrate_stress_mh": [0, 5, 10],
+    "order_book_depth_pct": [1, 5, 10],
+    "evidence_status": "Frozen dated evidence; collection is separate from document rendering."
+  },
+  "empirical_market_extension": {
+    "snapshot_id": "2026-07-27T163500Z",
+    "snapshot_path": "evidence/market-and-chain-snapshot-20260727T163500Z",
+    "source_manifest": "evidence/market-and-chain-snapshot-20260727T163500Z/SOURCE_MANIFEST.json",
+    "price_history_start": "2025-07-28",
+    "price_history_end": "2026-07-27",
+    "price_source": "CoinPaprika daily historical ticks",
+    "coinpaprika_free_plan_limitation": "Daily RIN history before 2025-07-27 was rejected by the API with HTTP 402 and is not interpolated.",
+    "historical_halving_heights": [210000, 420000, 630000],
+    "event_windows_days": [1, 7, 30, 90],
+    "chain_event_windows_days": [1, 7, 30],
+    "low_reported_volume_usd_threshold": "100.0",
+    "meaningful_trade_volume_usd_threshold": "100.0",
+    "frozen_honest_hashrate_mh": "19.70723840",
+    "operator_committed_hashrate_mh": ["0", "2", "4"],
+    "elastic_hash_exit_pct": ["0", "10", "25", "50", "75"],
+    "configurable_owned_hashrate_mh": ["0", "2", "5", "10"],
+    "frozen_visible_rental_capacity_mh": "10.34630000",
+    "rental_overlap_fractions_pct": ["0", "25", "50", "75", "100"],
+    "confirmation_depths": [2, 6, 12, 20, 24],
+    "service_confirmation_policies": [
+      {
+        "service": "Rincoin Core convention",
+        "confirmations": 6,
+        "policy_type": "wallet display convention",
+        "evidence_class": "operator-supplied evidence"
+      },
+      {
+        "service": "Electrin",
+        "confirmations": 6,
+        "policy_type": "wallet display convention",
+        "evidence_class": "operator-supplied evidence"
+      },
+      {
+        "service": "NestEx deposits",
+        "confirmations": 20,
+        "policy_type": "custodial exchange deposit policy",
+        "evidence_class": "operator-supplied evidence"
+      },
+      {
+        "service": "AtomicDEX setting",
+        "confirmations": 2,
+        "policy_type": "atomic-swap protocol setting",
+        "evidence_class": "operator-supplied evidence"
+      }
+    ],
+    "operator_supplied_claims": {
+      "community_operated_hashrate_mh": "4",
+      "community_hash_policy": "operator-committed under current policy",
+      "community_nestex_lp_share_pct": "84.51",
+      "community_operates_fulcrum_and_other_infrastructure": true,
+      "nestex_screenshot_capture_date": "2026-07-27",
+      "nestex_screenshot_label_for_base_pool_quantity": "Pooled NEX",
+      "nestex_nex_definition": "NEX is NestEx's own commodity coin"
+    },
+    "evidence_status": "Frozen dated evidence; collection is separate from document rendering."
+  },
+  "expected_assertions": {
+    "S0": {
+      "first_activation_subsidy_base_units": 312500000,
+      "first_zero_subsidy_height": 6930000,
+      "maximum_scheduled_issuance_base_units": 2099999997690000
+    },
+    "S1": {
+      "first_activation_subsidy_base_units": 593750000,
+      "maximum_scheduled_issuance_base_units": 4462499301750000
+    },
+    "S2a": {
+      "first_activation_subsidy_base_units": 593750000,
+      "floor_start_height": 11130000,
+      "terminal_phase_start_height": 11130000,
+      "terminal_subsidy_base_units": 50000000
+    },
+    "S2b": {
+      "first_activation_subsidy_base_units": 593750000,
+      "floor_start_height": 8190000,
+      "first_zero_subsidy_height": 135706704,
+      "maximum_scheduled_issuance_base_units": 16799999931750000,
+      "undershoot_base_units": 68250000
+    },
+    "S3": {
+      "terminal_phase_start_height": 11130000,
+      "terminal_subsidy_base_units": 50000000,
+      "unbounded": true
+    },
+    "S5a": {
+      "first_activation_subsidy_base_units": 312500000,
+      "first_zero_subsidy_height": 61740000,
+      "maximum_scheduled_issuance_base_units": 3281249976900000
+    },
+    "S5B": {
+      "first_activation_subsidy_base_units": 625000000,
+      "first_zero_subsidy_height": 63630000,
+      "maximum_scheduled_issuance_base_units": 4462499976900000
+    },
+    "S6a": {
+      "first_activation_subsidy_base_units": 400000000,
+      "terminal_phase_start_height": 6300000,
+      "terminal_subsidy_base_units": 50000000
+    },
+    "S6B": {
+      "first_activation_subsidy_base_units": 400000000,
+      "terminal_phase_start_height": 6300000,
+      "terminal_subsidy_base_units": 60000000,
+      "first_zero_subsidy_height": 234587500,
+      "maximum_scheduled_issuance_base_units": 16800000000000000
+    },
+    "S6c": {
+      "first_activation_subsidy_base_units": 400000000,
+      "terminal_phase_start_height": 8400000,
+      "terminal_subsidy_base_units": 60000000
+    },
+    "S7": {
+      "first_activation_subsidy_base_units": 400000000,
+      "terminal_phase_start_height": 6300000,
+      "terminal_subsidy_base_units": 60000000,
+      "unbounded": true
+    }
+  },
+  "public_review_scoring": {
+    "ten_year_scheduled_supply_expansion": {
+      "current_two_point_upper_bound_pct": "100",
+      "robustness_example_two_point_upper_bound_pct": "105"
+    }
+  }
+}

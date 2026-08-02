@@ -1,0 +1,61 @@
+{
+  "bestblockhash": "0000000221a467b3f1be05a0261aa323cc7aac7bba40b4d1f085ada3c563f320",
+  "blocks": 674074,
+  "chain": "main",
+  "chainwork": "00000000000000000000000000000000000000000000000000074ea47e393feb",
+  "difficulty": 0.3337798331482821,
+  "headers": 674074,
+  "initialblockdownload": false,
+  "mediantime": 1785154790,
+  "pruned": false,
+  "size_on_disk": 367140381,
+  "softforks": {
+    "bip34": {
+      "active": true,
+      "height": 26500,
+      "type": "buried"
+    },
+    "bip65": {
+      "active": true,
+      "height": 26500,
+      "type": "buried"
+    },
+    "bip66": {
+      "active": true,
+      "height": 26500,
+      "type": "buried"
+    },
+    "csv": {
+      "active": true,
+      "height": 26500,
+      "type": "buried"
+    },
+    "mweb": {
+      "active": false,
+      "bip8": {
+        "since": 0,
+        "start_height": 2217600,
+        "status": "defined",
+        "timeout_height": 2427264
+      },
+      "type": "bip8"
+    },
+    "segwit": {
+      "active": true,
+      "height": 26500,
+      "type": "buried"
+    },
+    "taproot": {
+      "active": false,
+      "bip8": {
+        "since": 0,
+        "start_height": 2161152,
+        "status": "defined",
+        "timeout_height": 2370816
+      },
+      "type": "bip8"
+    }
+  },
+  "verificationprogress": 1,
+  "warnings": ""
+}

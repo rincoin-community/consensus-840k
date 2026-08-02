@@ -1,0 +1,4 @@
+surface,observed_or_reported_resource,share_or_context,resilience_effect,dependency,evidence_class
+mining,at least 4 MH/s,20.30% of the frozen 19.70723840 MH/s network estimate,operator-committed hash remains in the modeled downside cases,network resilience becomes partly dependent on one operator's current policy,operator-supplied evidence plus derived ratio
+NestEx liquidity,84.51% of displayed LP value,largest of three reported LP positions,committed liquidity supports a thin market,withdrawal or repricing by one provider can materially change liquidity,observed share; operator identity is operator-supplied
+Fulcrum and related infrastructure,community-operated services,independent operator count not established,services provide usable network access,services controlled by one operator are not independent redundancy,operator-supplied evidence

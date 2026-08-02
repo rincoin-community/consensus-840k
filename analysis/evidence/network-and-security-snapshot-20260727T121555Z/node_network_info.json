@@ -1,0 +1,47 @@
+{
+  "connections": 8,
+  "connections_in": 0,
+  "connections_out": 8,
+  "incrementalfee": 1e-05,
+  "localaddresses": [],
+  "localrelay": true,
+  "localservices": "0000000001800449",
+  "localservicesnames": [
+    "NETWORK",
+    "WITNESS",
+    "COMPACT_FILTERS",
+    "NETWORK_LIMITED",
+    "MWEB_LIGHT_CLIENT",
+    "MWEB"
+  ],
+  "networkactive": true,
+  "networks": [
+    {
+      "limited": false,
+      "name": "ipv4",
+      "proxy": "",
+      "proxy_randomize_credentials": false,
+      "reachable": true
+    },
+    {
+      "limited": false,
+      "name": "ipv6",
+      "proxy": "",
+      "proxy_randomize_credentials": false,
+      "reachable": true
+    },
+    {
+      "limited": true,
+      "name": "onion",
+      "proxy": "",
+      "proxy_randomize_credentials": false,
+      "reachable": false
+    }
+  ],
+  "protocolversion": 70017,
+  "relayfee": 1e-05,
+  "subversion": "/RincoinCore:1.0.5/",
+  "timeoffset": 0,
+  "version": 1000500,
+  "warnings": ""
+}

@@ -1,0 +1,244 @@
+{
+  "collection_finished_utc": "2026-07-27T12:37:38Z",
+  "collection_started_utc": "2026-07-27T12:30:56Z",
+  "evidence_class": "frozen source responses",
+  "files": [
+    {
+      "bytes": 268,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/explorer_summary.json",
+      "retrieved_utc": "2026-07-27T12:30:56Z",
+      "sha256": "8917a90b492028cce7f55fb4f5fa6f1889365c48d0bbbdbe5e76b5b3c780c4c1",
+      "source_url": "https://explorer.rincoin.tech/ext/getsummary"
+    },
+    {
+      "bytes": 141,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/explorer_basic_stats.json",
+      "retrieved_utc": "2026-07-27T12:30:57Z",
+      "sha256": "fc87926078bd7d641c43d7c39929a655d3204c7bc69f5aa8920f426d3d319443",
+      "source_url": "https://explorer.rincoin.tech/ext/getbasicstats"
+    },
+    {
+      "bytes": 87,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/explorer_current_price.json",
+      "retrieved_utc": "2026-07-27T12:30:57Z",
+      "sha256": "396bd9757ac9c44d64db4adf1339145146897dc8bf4d198b30c8a9feff1c4cb6",
+      "source_url": "https://explorer.rincoin.tech/ext/getcurrentprice"
+    },
+    {
+      "bytes": 228687,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/explorer_network_chart.json",
+      "retrieved_utc": "2026-07-27T12:30:57Z",
+      "sha256": "912944ece9cc45b988b6b785a60c469f4b66f3906038529902f2debf511d297d",
+      "source_url": "https://explorer.rincoin.tech/ext/getnetworkchartdata"
+    },
+    {
+      "bytes": 23,
+      "content_type": "",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/explorer_orphan_index.txt",
+      "retrieved_utc": "2026-07-27T12:30:57Z",
+      "sha256": "b033f76421a961fc728d941c46ae32e0316dc4a9a09f37dc386e3947a2c76ce0",
+      "source_url": "https://explorer.rincoin.tech/ext/getorphanlist/0/1000"
+    },
+    {
+      "bytes": 34727,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/mrr_rinhash_rigs.json",
+      "retrieved_utc": "2026-07-27T12:30:57Z",
+      "sha256": "ee6c831205b247d94db78f08e34c181b4a25b1e87dcd09eb8f5c3dc59cbc2264",
+      "source_url": "https://www.miningrigrentals.com/api/v2/rig?type=rinhash&currency=BTC&limit=100"
+    },
+    {
+      "bytes": 255910,
+      "content_type": "text/html; charset=UTF-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/mrr_rinhash_market.html",
+      "retrieved_utc": "2026-07-27T12:30:58Z",
+      "sha256": "49569f52e43e96ea94c09703102db96327d67e02908a41ea4a0734415386ff7b",
+      "source_url": "https://www.miningrigrentals.com/rigs/rinhash"
+    },
+    {
+      "bytes": 265,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/nestex_rin_usdt_ticker.json",
+      "retrieved_utc": "2026-07-27T12:30:58Z",
+      "sha256": "f26f8176bfa58afebf71e96d86581f5d9c9b58cb93540f5bd158d508567ff71d",
+      "source_url": "https://trade.nestex.one/api/cg/tickers/RIN_USDT"
+    },
+    {
+      "bytes": 1656,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/nestex_rin_usdt_orderbook.json",
+      "retrieved_utc": "2026-07-27T12:30:59Z",
+      "sha256": "e98362e5f4292da64feb1df1b519725fb224167b07861fc5f6661897f1695c57",
+      "source_url": "https://trade.nestex.one/api/cg/orderbook/RIN_USDT?depth=0"
+    },
+    {
+      "bytes": 11195,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/nestex_rin_usdt_tradebook.json",
+      "retrieved_utc": "2026-07-27T12:31:00Z",
+      "sha256": "f0ff58c03018bcb1998336cdba06ae5817728fb66b5a3d9f719d5a5f87730e2d",
+      "source_url": "https://trade.nestex.one/api/cg/tradebook/RIN_USDT?page=1"
+    },
+    {
+      "bytes": 3291,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/rabid_rabbit_markets.json",
+      "retrieved_utc": "2026-07-27T12:31:00Z",
+      "sha256": "9f136827decb64058f5c1c8d84218dcbb9a38f5e97d6cf26d63bb159ee94c5b1",
+      "source_url": "https://rabid-rabbit.org/api/public/v1/markets"
+    },
+    {
+      "bytes": 600,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/rabid_rabbit_rin_usdt_orderbook.json",
+      "retrieved_utc": "2026-07-27T12:31:01Z",
+      "sha256": "dcf98e48a653567dd3da74a81ba9a101e20ee909bbe2bdc24dd3c71124c29496",
+      "source_url": "https://rabid-rabbit.org/api/public/v1/orderbook/RIN_USDT"
+    },
+    {
+      "bytes": 27444,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/rabid_rabbit_rin_usdt_trades.json",
+      "retrieved_utc": "2026-07-27T12:31:02Z",
+      "sha256": "ea0655ad77471bf8954050f04b76e1c875fdcc64848d8f31e69933833a690e5c",
+      "source_url": "https://rabid-rabbit.org/api/public/v1/trades/RIN_USDT"
+    },
+    {
+      "bytes": 307,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/kraken_xbt_usd_ticker.json",
+      "retrieved_utc": "2026-07-27T12:31:02Z",
+      "sha256": "ea274c1c702a8d7437781caa14fcf259add52ac84b8f9fed15e99fb6077e7fad",
+      "source_url": "https://api.kraken.com/0/public/Ticker?pair=XBTUSD"
+    },
+    {
+      "bytes": 1310,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/node_blockchain_info.json",
+      "retrieved_utc": "2026-07-27T12:31:03Z",
+      "sha256": "c2b82df7fc2e4702575486339ffe8e329e85a5cec511230f05e5c4ee613391cc",
+      "source_url": "http://127.0.0.1:9556/ JSON-RPC getblockchaininfo"
+    },
+    {
+      "bytes": 151,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/node_mining_info.json",
+      "retrieved_utc": "2026-07-27T12:31:03Z",
+      "sha256": "1252061dc42176aeff41c8c104272f2bb265c52a70fe9e352b78d616a5114eb9",
+      "source_url": "http://127.0.0.1:9556/ JSON-RPC getmininginfo"
+    },
+    {
+      "bytes": 18295,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/node_chain_tips.json",
+      "retrieved_utc": "2026-07-27T12:31:03Z",
+      "sha256": "3d59d2a9d58aea15612f0b386403486e67640202439263ba010a2a2453093f0d",
+      "source_url": "http://127.0.0.1:9556/ JSON-RPC getchaintips"
+    },
+    {
+      "bytes": 956,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/node_network_info.json",
+      "retrieved_utc": "2026-07-27T12:31:03Z",
+      "sha256": "9d8220cf141e2eaad74c4f8ea0eb3821a6f018a8881d45f874612d01258292c9",
+      "source_url": "http://127.0.0.1:9556/ JSON-RPC getnetworkinfo"
+    },
+    {
+      "bytes": 1440,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/node_tip_block.json",
+      "retrieved_utc": "2026-07-27T12:31:03Z",
+      "sha256": "766db1b8884feb6ac858ba0a9588086c5cb7d9679eb64de825cfbe2a8017932a",
+      "source_url": "http://127.0.0.1:9556/ JSON-RPC getblockheader/getblockstats"
+    },
+    {
+      "bytes": 34550047,
+      "collection": {
+        "candidate_start_height": 177301,
+        "cutoff_unix": 1753619375,
+        "earliest_retained_height": 177801,
+        "requested_days": 365,
+        "retained_blocks": 496274,
+        "tip_height": 674074
+      },
+      "content_type": "application/x-ndjson+gzip",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/node_block_history_365d.jsonl.gz",
+      "retrieved_utc": "2026-07-27T12:37:38Z",
+      "sha256": "3c1ac04b6b69ba9f26bbddffdeca2387e81a22436e17f342978dd30d0e565bdf",
+      "source_url": "http://127.0.0.1:9556/ JSON-RPC getblockstats/getblockheader; 365-day window"
+    },
+    {
+      "bytes": 30591387,
+      "collection": {
+        "cross_check": "Every reconstructed block total equals getblockstats totalfee.",
+        "non_coinbase_transactions": 68946,
+        "reconstructed_total_fees_base_units": 9522627856,
+        "transaction_bearing_blocks": 50990
+      },
+      "content_type": "application/x-ndjson+gzip",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/node_transaction_fees_365d.jsonl.gz",
+      "retrieved_utc": "2026-07-27T12:55:49Z",
+      "sha256": "1516f307d4bc8eabe77ccfd522c0812f004e671ac0a30446625fd6406eae8fa2",
+      "source_url": "http://127.0.0.1:9556/ JSON-RPC getblock/getrawtransaction; prevout-minus-output fee reconstruction"
+    },
+    {
+      "bytes": 7284,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/explorer_last_orphans_000000.json",
+      "retrieved_utc": "2026-07-27T13:07:36Z",
+      "sha256": "552c284ba0febafdb2d3049811bf0c74e4e907549aa8f913725d54d11dca14da",
+      "source_url": "https://explorer.rincoin.tech/ext/getlastorphans/0/0/100"
+    },
+    {
+      "bytes": 2562,
+      "collection": {
+        "coverage_reached_cutoff": false,
+        "cutoff_unix": 1753619375,
+        "history_days": 365,
+        "minimum_reorg_depth_parameter": 0,
+        "newest_retrieved_unix": 1785138904,
+        "oldest_retrieved_unix": 1779363362,
+        "pages": 1,
+        "records_retained": 29,
+        "records_retrieved": 29,
+        "semantics": "endpoint returns orphaned blocks with reorg_depth greater than the minimum parameter"
+      },
+      "content_type": "application/x-ndjson+gzip",
+      "http_status": 200,
+      "path": "evidence/network-and-security-snapshot-20260727T121555Z/explorer_last_orphans_365d.jsonl.gz",
+      "retrieved_utc": "2026-07-27T13:07:36Z",
+      "sha256": "1b7be21954d9562710ba0e9a4d23b6a5610dfad86f932c1d437f8cc82dfc7f16",
+      "source_url": "Derived frozen set from paginated https://explorer.rincoin.tech/ext/getlastorphans/0/start/100"
+    }
+  ],
+  "orphan_collection_finished_utc": "2026-07-27T13:07:36Z",
+  "collection_profile": "network-and-security",
+  "snapshot_id": "2026-07-27T121555Z",
+  "transaction_fee_collection_finished_utc": "2026-07-27T12:55:49Z"
+}

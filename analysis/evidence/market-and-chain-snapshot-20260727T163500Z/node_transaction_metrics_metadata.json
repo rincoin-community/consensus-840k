@@ -1,0 +1,12 @@
+{
+  "active_blocks": 50990,
+  "classification_note": "Aggregate input and output values are observed transaction values. Payment value is not inferred because change outputs are unlabeled.",
+  "collection_finished_utc": "2026-07-27T16:37:14Z",
+  "collection_started_utc": "2026-07-27T16:36:04Z",
+  "source_block_history": "evidence/network-and-security-snapshot-20260727T121555Z/node_block_history_365d.jsonl.gz",
+  "source_block_history_sha256": "3c1ac04b6b69ba9f26bbddffdeca2387e81a22436e17f342978dd30d0e565bdf",
+  "source_fee_evidence": "evidence/network-and-security-snapshot-20260727T121555Z/node_transaction_fees_365d.jsonl.gz",
+  "source_fee_evidence_sha256": "1516f307d4bc8eabe77ccfd522c0812f004e671ac0a30446625fd6406eae8fa2",
+  "total_reconstructed_fee_base_units": 9522627856,
+  "transaction_records": 68946
+}

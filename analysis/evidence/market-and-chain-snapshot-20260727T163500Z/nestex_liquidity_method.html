@@ -1,0 +1,863 @@
+
+
+
+
+
+<!DOCTYPE html>
+
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8" /><meta http-equiv="x-ua-compatible" content="ie=edge" /><meta name="referrer" content="no-referrer" /><title>
+	NestEx Exchange - Learn about Liquidity Pools at NestEx 🔒
+</title><meta name="description" content="Understand why our liquidity pools are so awesome" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link rel="shortcut icon" type="image/x-png" href="/img/nestex-1.png" />
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://nestex.one/" /><meta property="og:type" content="website" /><meta property="og:title" content="NestEx - the Secure crypto exchange for BTC, ETH, USDT and Altcoins" /><meta property="og:description" content="The first Exchange to be supported by users since PRE-LAUNCH. Be a part of the biggest exchange in history! We will help you build your Crypto Nest Eggs." /><meta property="og:image" content="https://nestex.one/img/nestex-1.png" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" /><meta property="twitter:domain" content="nestex.one" /><meta property="twitter:url" content="https://nestex.one/" /><meta name="twitter:title" content="NestEx - the Secure crypto exchange for BTC, ETH, USDT and Altcoins" /><meta name="twitter:description" content="The first Exchange to be supported by users since PRE-LAUNCH. Be a part of the biggest exchange in history! We will help you build your Crypto Nest Eggs." /><meta property="og:image" content="https://nestex.one/img/nestex-1.png" />
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" href="/assets/css/main.css" />
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        html, body {
+            scrollbar-width: thin;
+        }
+
+        @media (min-width: 1430px) {
+            html {
+                /*zoom: 120%;
+                -ms-zoom: 1.2;
+                -webkit-zoom: 1.2;
+                -moz-transform: scale(1.2,1.2);*/
+                transform-origin: center top;
+            }
+
+            body { /* use only for IE */
+                zoom: 1.2;
+                /* -ms-transform-origin: left top; */
+            }
+        }
+
+        @media (min-width: 1910px) {
+            html {
+                /*zoom: 120%;
+        -ms-zoom: 1.2;
+        -webkit-zoom: 1.2;
+        -moz-transform: scale(1.2,1.2);*/
+                transform-origin: center top;
+            }
+
+            body { /* use only for IE */
+                zoom: 1.5;
+                /* -ms-transform-origin: left top; */
+            }
+        }
+
+        @media (min-width: 2500px) {
+            html {
+                /*zoom: 120%;
+        -ms-zoom: 1.2;
+        -webkit-zoom: 1.2;
+        -moz-transform: scale(1.2,1.2);*/
+                transform-origin: center top;
+            }
+
+            body { /* use only for IE */
+                zoom: 2;
+                /* -ms-transform-origin: left top; */
+            }
+        }
+
+        a {
+            color: #aaddff;
+        }
+
+            a:hover {
+                color: var(--bs-warning);
+            }
+    </style>
+    
+    
+    
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        };
+        window.pagelen = 50;
+    </script>
+</head>
+<body>
+    <!-- Start Header Area -->
+    <header class="header navbar-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="nav-inner">
+                        <!-- Start Navbar -->
+                        <nav class="navbar navbar-expand-lg">
+                            <a class="navbar-brand" href="/">
+                                <div id="hideablepart" style="display: table-row; vertical-align: middle;">
+                                    <div style="display: table-cell; vertical-align: middle;">
+                                        <img src="/img/nestex-1.png"
+                                            alt="Logo" style="width: 50px;">
+                                    </div>
+                                    <div style="display: table-cell; padding-left: 10px;">
+                                        <big style="font-family: 'Spartan'; font-weight: 700; position: relative; display: inline-block; color: var(--bs-warning); margin: 0px; padding: 0px 20px 0px 0px;">NestEx
+
+                        <!--<span data-bs-toggle='tooltip' data-bs-placement='bottom'
+                            title='Beta Ends 17 August 2025' alt='Beta Ends 17 August 2025'
+                            style='font-size: 8px; float: right; color: var(--bs-warning); font-weight: bold; width: 40px; position: absolute; top: 3px; right: -10px; text-align: center; background: rgba(0,0,0,0.2);'>BETA</span>-->
+                                        </big>
+                                        <small style="display: block; font-family: Arial; text-transform: uppercase; margin: 0px; color: var(--bs-warning); font-size: 8pt;">Trade Crypto Securely, Reliably</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                            </button>
+
+                            
+<div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+    <ul id="nav" class="navbar-nav" style="margin-left: auto !important; margin-right: 0px !important;">
+        <li class="nav-item">
+            <a href="/spot" aria-label="Toggle navigation"><i class="fa fa-chart-line"></i>&nbsp;
+                Trade</a>
+        </li>
+        <li class="nav-item">
+            <a href="/otc" aria-label="Toggle navigation"><i class="fa fa-star" style="transform: rotate(10deg);"></i>&nbsp;
+                OTC</a>
+        </li>
+        
+        <li class="nav-item">
+            <a href="/login" aria-label="Toggle navigation"><i class="fa fa-wallet"></i>&nbsp;
+                Login</a>
+        </li>
+        
+
+        <!-- <li class="nav-item">
+            <a href="/proof-of-reserves" aria-label="Toggle navigation"><i class="fa fa-bank"></i>&nbsp;
+                Proof of Reserves</a>
+        </li>
+        <li class="nav-item">
+            <a href="/proof-of-safety" aria-label="Toggle navigation"><i class="fa fa-shield"></i>&nbsp;
+                Proof of Safety</a>
+        </li> -->
+        <!-- mobile only -->
+        
+        <li class="nav-item d-flex d-md-none">
+            <a href="/deposit" class="nav-link col w-50" aria-current="page">Deposit</a>
+            <a href="/withdraw" class="nav-link col w-50" aria-current="page">
+                <center>Withdraw</center>
+            </a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/wallet-addresses" class="nav-link" aria-current="page"><i class="fa fa-address-book"></i>
+                Wallet Addresses</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/mytransactions" class="nav-link" aria-current="page"><i class="fa fa-table-list"></i>
+                Transactions</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/mytrades" class="nav-link" aria-current="page"><i class="fa fa-table-list"></i>
+                Trades</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/myorders" class="nav-link" aria-current="page"><i class="fa fa-table-list"></i>
+                Orders</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/liquidity" class="nav-link" aria-current="page"><i class="fa fa-water"></i>
+                Liquidity Pools</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/myfaucets" class="nav-link" aria-current="page"><i class="fa fa-faucet-drip"></i>
+                Faucets</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/managecoin" class="nav-link" aria-current="page"><i class="fa fa-tools"></i>
+                <span class="badge float-end bg-warning">New</span>
+                Coin Listing</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/p2p" class="nav-link" aria-current="page"><i class="fa fa-bank"></i>&nbsp;
+                P2P</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/myref" class="nav-link" aria-current="page"><i class="fa fa-users"></i>&nbsp;
+                    Referrals</a>
+        </li>
+
+        <!-- end mobile -->
+
+        <li class="nav-item d-md-none">
+            <a href="/support" aria-label="Toggle navigation"><i class="fa fa-question-circle"></i>&nbsp;
+                Support</a>
+        </li>
+
+        <li class="nav-item d-md-none">
+            <a href="/security" class="nav-link" style="color: #3a3" aria-current="page"><i class="fa fa-shield-halved"></i>
+                Account Security</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/developers" class="nav-link" style="color: #ffb" aria-current="page"><i class="fa-solid fa-code"></i>
+                Developers</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/support/all" class="nav-link" style="color: #a33" aria-current="page"><i class="fa fa-question-circle"></i>
+                Support</a>
+        </li>
+        <li class="nav-item d-md-none">
+            <a href="/logout" class="nav-link" style="color: #a33" aria-current="page"><i class="fa fa-sign-out"></i>
+                Logout</a>
+        </li>
+
+    </ul>
+</div>
+
+                            <!-- navbar collapse -->
+                        </nav>
+                        <!-- End Navbar -->
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </header>
+    <!-- End Header Area -->
+
+    
+
+    <!-- Start Feature Area -->
+    <div class="feature section bg-dark text-light">
+        <div class="container">
+            <style>
+                .container ul {
+                    list-style-type: square;
+                    margin-left: 2em;
+                }
+            </style>
+            <div class="row justify-content-center mt-5">
+                <div class="col-12 mx-5">
+                    <h3>What are Liquidity Pools</h3>
+                    <p>
+                        A liquidity pool is a designated amount of crypto + USDT that is reserved to help new buyers / sellers get 
+                    matching orders faster. It's managed by the exchange AMM software, and any fees that would normally go to the exchange are 
+                    instead given to the liquidity pool.
+                    </p>
+                    <p><b>NOTE:</b> Fees that are added back into the pool form a part of the available trading pool. 
+                        They are shown separately for reference; 
+                        however Fees are already included in the total 
+                        Current Coins / USDT as displayed on the <a href="/liquidity">Liquidity page</a>.</p>
+                    <br />
+                    <p>
+                        Basically it's a reserve of digital assets locked within an exchange to facilitate trading. The automated market maker (AMM) algorithms 
+                        use these assets to construct trades across the Order Book. Users who contribute to the pool—known as liquidity providers—earn 
+                        transaction fees, helping to maintain market liquidity.
+                       
+                    </p>
+                    <br />
+                    <p>
+                        <b>Understanding Slippage</b><br />
+                        Slippage is the difference between the expected execution price of a trade and the price at which it actually completes. This usually happens during periods of high volatility or when placing large orders that exceed current market depth. By default, trades with more than a 0.5% deviation are blocked unless users opt for Market Trade and set a custom slippage tolerance.
+                       
+                    </p>
+                    <br />
+                    <p>
+                        <b>How Liquidity Pools Operate</b><br />
+                        Liquidity pools reward participants for staking their tokens by distributing a share of collected trade fees. Returns are proportional to each user’s contribution to the pool. For instance, NestEx applies a 0.2% fee on each trade, which is shared among LP holders. Liquidity can be withdrawn at any time, except for the initial stake in a new pool, which is locked to maintain trading stability.
+
+AMMs use mathematical models—like the constant product formula (a × b = c)—to keep token prices balanced as trades occur. If a pool contains 100,000 XYZ and 1,000 USDT, the price is set at 100 XYZ per USDT, and adjusts dynamically with each trade based on supply and demand.
+   
+                    </p>
+                    <br />
+                    <p>
+                        <b>NestEx vs. Decentralized Liquidity Pools (Uniswap, PancakeSwap)</b><br />
+                        Unlike decentralized exchanges (DEXs) that rely on on-chain smart contracts, NestEx operates as a centralized platform with its own matching engine. This setup eliminates blockchain gas fees when adding, removing, or swapping liquidity. All trading fees—fixed at 0.2%—are passed directly to liquidity providers. In contrast, DEX users may incur additional network charges and are limited to assets available on specific chains.
+                    </p>
+                    <br />
+                    <p>
+                        <b>Market values and Pool strength</b><br />
+                        Liquidity pools maintain fair market values for the tokens they hold thanks to the AMM algorithms, which maintain the price of tokens 
+                        relative to one another within any particular pool. Liquidity pools in different protocols may use algorithms that differ slightly. 
+                        For example: Uniswap liquidity pools use a constant product formula to maintain price ratios, and many DEX platforms utilize a 
+                        similar model. 
+                        <br />
+                        <center>
+                            <img style="width: 100%; max-width: 500px; margin: auto; align-content: center" src="/img/tokenvstoken.webp" />
+                        </center>
+                        <br />
+                        This algorithm helps ensure that a pool consistently provides crypto market liquidity by managing the cost and ratio 
+                        of the corresponding tokens as the demanded quantity increases. NestEx also uses the contant product formula to construct the Order Book, which is 
+                        basically {primaryLiquidity} * USDT = {constantProduct}. For an individual liquidity provider, the Constant Product does not generally change, however large lop-sided 
+                        orders may cause a drift in the LP which then gets auto-corrected over time.
+                    </p>
+                    <br />
+                    <a class="btn btn-warning btn-sm" href="https://medium.com/@tomarpari90/constant-product-automated-market-maker-everything-you-need-to-know-5bfeb0251ef2">Read more
+                    </a>
+                </div>
+                <div class="mt-3">
+                    <h3>What's new with NestEx</h3>
+                    <div class="fw-500 ">
+                        NestEx also gives Liquidity Pool holders OUR share of the fees.
+                    </div>
+                    <table class="table static text-light my-4" style="width: 550px; max-width: 100vw; margin: auto; border: 1px #fff solid;">
+                        <thead>
+                            <tr>
+                                <th>Buyer</th>
+                                <th>Seller</th>
+                                <th>LP Earns</th>
+                                <th>NestEx Earns</th>
+                                <th>External LP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>LP</td>
+                                <td>User</td>
+                                <td><i class="fa fa-check-square"></i></td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>User</td>
+                                <td>LP</td>
+                                <td><i class="fa fa-check-square"></i></td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr style="color: var(--bs-warning) !important; font-weight: bold !important;">
+                                <td>User</td>
+                                <td>User</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td><i class="fa fa-check-square"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="">
+                    If you have any queries feel free to get in touch with our support team. Create a liquidity pool with your favourite coin <a href="/liquidity">Right here!</a>. It's super easy.
+                </div>
+                <style>
+                    h2 {
+                        margin-top: 1em !important;
+                    }
+
+                    h3 {
+                        font-size: 2em;
+                        color: #eee;
+                        margin-top: 0.5em !important;
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+<footer class="footer section bg-dark" id="connect">
+    <!--
+    
+        -->
+    <!-- Start Footer Top -->
+    <div class="footer-top bg-dark">
+        <div class="container">
+            <div class="inner-content small">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer f-about">
+                            <div class="logo">
+                                <div style="display: table-row; vertical-align: middle;">
+                                    <div style="display: table-cell; vertical-align: middle;">
+                                        <img src="https://cdn.nestex.one/img/nestex-1.png"
+                                            alt="Logo" style="width: 50px;">
+                                    </div>
+                                    <div style="display: table-cell; padding-left: 10px;">
+                                        <big style="font-family: 'Spartan'; font-weight: 700; display: block; color: var(--bs-warning); margin: 0px;">NestEx</big>
+                                        <small style="display: block; font-family: Arial; text-transform: uppercase; margin: 0px; color: var(--bs-warning); font-size: 8pt;">Trade Crypto Securely, Reliably</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Build your Nest Eggs using Crypto with a privacy conscious, operationally transparent exchange that puts your needs for stability &amp; security First.</p>
+                            <h4 class="social-title mb-1">We are listed on:</h4>
+                            <ul class="social mb-2">
+                                <li><a target="_blank" rel="nofollow" href="https://miningpoolstats.stream/nestex_exchange">MiningPoolStats</a></li>
+                                <li><a target="_blank" rel="nofollow" href="https://blockspot.io/exchange/nestex/">Blockspot</a></li>
+                                
+                                <li><a target="_blank" rel="nofollow" href="https://bitcointalk.org/index.php?topic=5521707.0">BitcoinTalk</a></li>
+                                <li><a target="_blank" rel="nofollow" href="https://coinpaprika.com/exchanges/nestex/">CoinPaprika</a></li>
+                                <li><a target="_blank" rel="nofollow" href="https://www.monedas.com/exchanges/nestex">Monedas</a></li>
+                                <li><a target="_blank" rel="nofollow" href="https://coinoxid.com/exchange/nestex">Coinoxid</a></li>
+                                <li><a target="_blank" rel="nofollow" href="https://kycnot.me/service/nestex">KycNot</a></li>
+                                <li><a target="_blank" rel="nofollow" href="https://cryptorigami.com/exchange-markets/?exchange=nestex">Cryptorigami</a></li>
+                                <li><a target="_blank" rel="nofollow" href="https://www.livecoinwatch.com/exchange/nestex">LiveCoinWatch</a></li>
+                            </ul>
+                            <h4 class="social-title mt-4 mb-1">Follow Us On:</h4>
+                            <ul class="social">
+                                <li><a rel="nofollow" href="https://x.com/NestEx_one"><i class="fa fab fa-twitter"></i></a></li>
+                                <li><a rel="nofollow" href="https://discord.gg/CB3SaR7WuM"><i class="fa fab fa-discord"></i></a></li>
+                            </ul>
+                            <p>
+                                <small style="color: #888">By using our platform you agree<br />
+                                    to our                             
+                                <a href="/terms">Terms</a> &amp;
+                                <a href="/privacy">Privacy</a> policies.
+                                </small>
+                            </p>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer f-link">
+                            <h3>Trade Now</h3>
+                            <ul>
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/spot">Spot Trade</a></li>
+                                <li><a href="/vote">Vote for New Coins!</a></li>
+                                <li><a href="/liquidity-is-awesome">Liquidity Pools</a></li>
+                                <li><a href="/wallet">Secure Wallets</a></li>
+                                <li><a href="/faucets">Faucets</a></li>
+                                <li><a href="/bugbounty">Bug Bounty</a></li>
+                                <li><b>Coming soon</b></li>
+                                <li><a href="/airdrops">Airdrops</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer f-link">
+                            <h3>User Support</h3>
+                            <ul>
+                                <li><a href="/fees">Fees</a></li>
+                                <li><a href="/listing">Listing</a></li>
+                                <li><a href="/proof-of-reserves">Proof of Reserves</a></li>
+                                <li><a href="/docs/Public API Document.pdf">Public API</a>
+                                    <a
+                                        title="Uptime Monitor"
+                                        alt="Uptime Monitor" rel="nofollow"
+                                        href="https://stats.uptimerobot.com/o78r4dg9Zx"><i class="fa fa-circle" style="color: #3BD671 !important"></i></a>
+
+                                </li>
+                                <li><a href="/wallet-status">Wallet Status</a></li>
+                                <li><b>Coming soon</b></li>
+                                <li><a href="javascript:void(0)">Micro-Loans on Crypto</a></li>
+                                <li><a href="javascript:void(0)">24x7 Account Manager</a></li>
+                                <li><a href="javascript:void(0)">Self-Serve Guide</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer newsletter">
+                            <h3>Connect with us</h3>
+                            <p>Need assistance before or while trading? Contact us!</p>
+                            <p>
+                                <a class="text-white btn d-block btn-sm btn-success my-2"
+                                    target="_blank" rel="nofollow"
+                                    href="https://discord.gg/CB3SaR7WuM">
+                                    <i class="fa fab fa-discord"></i>
+                                    Ping us here
+                                </a>
+                                We'd be delighted to address any queries you may have. 9AM to 5PM Monaco Time.
+                            </p>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ End Footer Top -->
+    <!-- Start Copyright Area -->
+    <div class="copyright-area">
+        <div class="container">
+            <div class="inner-content">
+                <div class="row">
+                    <div class="col-12">
+                        <i style="float: right; color: #e5e5e5;">Charts are powered by <a style="color: var(--bs-warning); text-shadow: 0px 0px 1px #fff;" href="https://www.tradingview.com/">TradingView</a>.
+                        </i>
+                        <p class="copyright-text">© 2024-<span id="y"></span> NestEx - All Rights Reserved</p>
+                        <script>y.innerText = (new Date().getFullYear());</script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Copyright Area -->
+    <div style="font-size: 8.5pt;" class="p-3">
+        Disclaimer: Investing in cryptocurrencies involves significant market risks, including high price volatility and the potential for substantial financial loss. Individuals considering the purchase or sale of crypto assets should carefully evaluate their financial goals, level of experience, and personal risk tolerance before making any investment decisions. It is important to recognize that investments in digital assets can lead to partial or complete loss of capital, and each investor should assess their ability to bear such losses and invest only what they can afford to lose without impacting their overall financial well-being. Investors are strongly encouraged to fully understand the unique risks associated with cryptocurrency markets and to consult with qualified financial or legal advisors when uncertain about any aspect of trading or investing. Furthermore, unforeseen market or regulatory developments may pose additional risks that are beyond the control of this platform. Users are solely responsible for ensuring that their use of the platform and any related transactions comply with the laws and regulations applicable in their jurisdiction, including verifying whether access to cryptocurrency services is permitted in their country or region. It is the user's responsibility to place orders carefully, to double-check transaction details, and to monitor their account activity regularly. Users should exercise sound judgment and due diligence when assessing their own financial circumstances and should not regard any information, analysis, commentary, or opinions presented on this website as personalized investment advice or a recommendation to engage in any particular transaction. All market data, including prices and charts, are provided for informational purposes only and are sourced from third-party providers; the platform does not guarantee the accuracy, completeness, or timeliness of this information. Online trading also involves technical risks, including potential failures of software, hardware, or internet connectivity, which may disrupt trading activities. The platform cannot guarantee uninterrupted access to its services and shall not be held liable for any direct or indirect losses arising from system interruptions, connection issues, user errors, or reliance on the information provided herein.
+    </div>
+</footer>
+
+    
+<script>
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        let ref = ("" + urlParams.get('ref')).replace(/[^A-Za-z0-9_-]/ig, "");
+        console.log("referrer", ref, localStorage["ref"]);
+        if (ref && ref != "" && ref.length > 4) {
+            console.log("referer - setting it to", ref);
+            localStorage["ref"] = ref;
+        }
+    } catch { }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    (function () {
+        window.onload = function () {
+            window.setTimeout(fadeout, 500);
+        }
+
+        function fadeout() {
+            try {
+                document.querySelector('.preloader').style.opacity = '0';
+                document.querySelector('.preloader').style.display = 'none';
+            } catch { }
+        }
+
+        window.onscroll = function () {
+            var header_navbar = document.querySelector(".navbar-area");
+            if (!header_navbar) return;
+            var sticky = header_navbar.offsetTop;
+
+            var logo = document.querySelector('.navbar-brand img')
+            if (window.pageYOffset > sticky) {
+                header_navbar.classList.add("sticky");
+            } else {
+                header_navbar.classList.remove("sticky");
+            }
+
+            var backToTo = document.querySelector(".scroll-top");
+            if (backToTo) {
+                if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                    backToTo.style.display = "flex";
+                } else {
+                    backToTo.style.display = "none";
+                }
+            }
+        };
+
+        let navbarToggler = document.querySelector(".mobile-menu-btn");
+        if (navbarToggler) {
+            navbarToggler.addEventListener('click', function () {
+                navbarToggler.classList.toggle("active");
+            });
+        }
+    })();
+</script>
+
+
+
+<div id="loader" style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 99999; background: linear-gradient(rgba(5,5,10,0.85),rgba(10,10,5,0.90)), url('/img/bg.jpg'); background-size: cover;">
+    <div style="margin: auto; width: 300pt; max-width: 25vw; padding-top: calc(50vh - 5em); text-align: center;">
+        <img src="https://cdn.nestex.one/img/nestex-200-75-t1.png" style="margin-bottom: 7px; width: 100%; max-width: 200px;" />
+        <div class="progress" style="height: 2em;">
+            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+        </div>
+        <p style="color: #999; font-size: 10pt;">LOADING...</p>
+    </div>
+</div>
+
+
+<div class="modal" style="z-index: 1500" id="genericModal" data-bs-backdrop="static"  tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark" style="box-shadow: 0px 0px 3px rgba(255,215,0,0.5)">
+            <div class="modal-header">
+                <h5 class="modal-title" id="genericModalLabel"><i class="fa fa-info-circle"></i>Alert</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-light" style="max-height: calc(80vh - 50px); overflow-y: auto; overflow-x: hidden;">
+                <p>Check it out</p>
+                Welcome to Nestex!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" style="z-index: 1051" id="genericModalFS" data-bs-backdrop="static"  tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="genericModalLabelFS"><i class="fa fa-info-circle"></i>Alert</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="max-height: calc(80vh - 50px); overflow-y: auto; overflow-x: hidden;">
+                <p>Check it out</p>
+                Welcome to Nestex!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $("A.active").removeClass("active");
+        let lpn = location.pathname;
+        if ($("[href='" + lpn + "']").length) {
+            $("[href='" + lpn + "']").addClass("active");
+        } else {
+            lpn = lpn.substring(0, lpn.lastIndexOf('/'));
+            $("[href='" + lpn + "']").addClass("active");
+        }
+        let dir = "";
+        if (dir != "") {
+            $("[data-dir='" + dir + "']").addClass("active");
+        } else {
+            $("[data-dir]").first().addClass("active");
+        }
+
+        $("#loader").hide();
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        if (typeof toastr != "undefined")
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-right",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            };
+    });
+
+    function numberWithCommas(x) {
+        let y = x.toString().split(".")[0];
+        let z = x.toString().split(".")[1];
+        if (!z) z = "0";
+        if (z.length > 5) z = z.substr(0, 5);
+        return y.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + z;
+    }
+
+    window.enableWaiting = function () {
+        addEventListener("beforeunload", beforeUnloadListener, { capture: true });
+    }
+    window.disableWaiting = function () {
+        removeEventListener("beforeunload", beforeUnloadListener, { capture: true });
+    }
+
+    window.beforeUnloadListener = (event) => {
+        event.preventDefault();
+        return event.returnValue = "Are you sure you want to exit?";
+    };
+
+    window._alert = window.alert;
+
+    window.alert = function (text, title = "Alert") {
+        disableWaiting();
+        $("#genericModal").modal("show");
+        $("#genericModal .modal-body").html(text);
+        $("#genericModal .modal-content").removeClass("modal-backdrop");
+        $("#genericModal .modal-footer *").remove();
+        $("#genericModal .modal-footer").html(`<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`);
+        $("#genericModalLabel").html(`<i class="fa fa-info-circle"></i> ` + title);
+        $("#genericModal .btn-close").show();
+    }
+    window.fullScreenalert = function (text, title = "Alert") {
+        disableWaiting();
+        $("#genericModalFS").modal("show");
+        $("#genericModalFS .modal-body").html(text);
+        $("#genericModalFS .modal-content").addClass("modal-backdrop");
+        $("#genericModalFS .modal-footer *").remove();
+        $("#genericModalFS .modal-footer").html(`<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>`);
+        $("#genericModalLabelFS").html(`<i class="fa fa-info-circle"></i> ` + title);
+        $("#genericModalFS .btn-close").show();
+    }
+
+    window.progresswait = function (text) {
+        console.log("showprogress");
+        enableWaiting();
+        $("#genericModal").modal("show");
+        $("#genericModal .modal-body").html("" + (text ? text : ""));
+        $("#genericModal .modal-content").removeClass("modal-backdrop");
+        $("#genericModal .modal-footer *").remove();
+        $("#genericModal .modal-footer").html(`<i class='fa fa-spin fa-spinner'></i>`);
+        $("#genericModalLabel").html(`<i class="fa fa-info-circle"></i> Please wait`);
+        $("#genericModal .btn-close").hide();
+    }
+    window.progressfinish = function (text) {
+        console.log("hideprogress");
+        disableWaiting();
+        $("#genericModal").modal("hide");
+    }
+    window.confirm = function (text, yesfn = function () { }, nofn = function () { }) {
+        enableWaiting();
+        $("#genericModal").modal("show");
+        $("#genericModal .modal-body").html(text);
+        $("#genericModal .modal-content").removeClass("modal-backdrop");
+        $("#genericModal .modal-footer *").remove();
+        let yesbtn = document.createElement("button");
+        yesbtn.className = "btn btn-primary";
+        yesbtn.innerHTML = "OK";
+        yesbtn.onclick = function () {
+            disableWaiting();
+            $("#genericModal").modal("hide");
+            setTimeout(yesfn, 150);
+        }
+
+        let nobtn = document.createElement("button");
+        nobtn.className = "btn btn-secondary";
+        nobtn.innerHTML = "Cancel";
+        nobtn.onclick = function () {
+            disableWaiting();
+            $("#genericModal").modal("hide");
+            setTimeout(nofn, 150);
+        }
+
+        $("#genericModal .modal-footer").append(yesbtn);
+        $("#genericModal .modal-footer").append(nobtn);
+        $("#genericModalLabel").html(`<i class="fa fa-info-circle"></i> Give confirmation`);
+        $("#genericModal .btn-close").hide();
+    }
+    window.prompt = function (text = "Enter the choice", promptResult) {
+        enableWaiting();
+        $("#genericModal").modal("show");
+        $("#genericModal .modal-body").html(text + "<BR><input autocomplete='off' class='form-control' type='text' id='promptresult' name='promptresult' />");
+        $("#genericModal .modal-content").removeClass("modal-backdrop");
+        $("#genericModal .modal-footer *").remove();
+        let yesbtn = document.createElement("button");
+        yesbtn.className = "btn btn-primary";
+        yesbtn.innerHTML = "OK";
+        promptresult.onkeydown = (e) => {
+            e = e || window.event;
+            if (e.keyCode == 13) {
+                yesbtn.click();
+            }
+        };
+        yesbtn.onclick = function () {
+            disableWaiting();
+            if (promptResult) promptResult($('#promptresult').val());
+            $("#genericModal .modal-body").html(" ");
+            $("#genericModal").modal("hide");
+        }
+
+        let nobtn = document.createElement("button");
+        nobtn.className = "btn btn-secondary";
+        nobtn.innerHTML = "Cancel";
+        nobtn.onclick = function () {
+            disableWaiting();
+            if (promptResult) promptResult(null);
+            $("#genericModal .modal-body").html(" ");
+            $("#genericModal").modal("hide");
+        }
+
+        $("#genericModal .modal-footer").append(yesbtn);
+        $("#genericModal .modal-footer").append(nobtn);
+        $("#genericModalLabel").html(`<i class="fa fa-info-circle"></i> Give input`);
+        $("#genericModal .btn-close").hide();
+        setTimeout(function () {
+            $("#genericModal #promptresult").focus();
+        }, 600);
+    }
+
+    window.post = function post(path, params, method = 'post') {
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    setInterval(() => {
+        Array.from(document.querySelectorAll("time")).forEach(x => {
+            let [h, m, s] = x.innerText.split(":").map(Number);
+            let nowsec = h * 3600 + m * 60 + s;
+
+            if (x.dataset["dir"] == "ASC") nowsec++; else nowsec--;
+
+            if (nowsec < 0) nowsec = 0;
+
+            h = Math.floor(nowsec / 3600);
+            m = Math.floor((nowsec % 3600) / 60);
+            s = nowsec % 60;
+
+            x.innerText =
+                String(h).padStart(2, "0") + ":" +
+                String(m).padStart(2, "0") + ":" +
+                String(s).padStart(2, "0");
+        });
+    }, 1000);
+
+</script>
+
+<!-- <script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer
+></script> -->
+    <script src="/js/dataTables.min.js"></script>
+    <link rel="stylesheet" href="/css/dataTables.dataTables.min.css" />
+
+    <script>
+        $(function () {
+            try {
+                $.fn.dataTableExt.sErrMode = "console";
+
+                window.table = new DataTable('TABLE:not(.static)', {
+                    "order": [],
+                    pageLength: pagelen,
+                    lengthMenu: [pagelen, pagelen * 2, pagelen * 5],
+                    "columnDefs": [
+                        { "type": "num-fmt", "targets": [2, 3] },
+                    ]
+                });
+            } catch { }
+
+
+                
+
+            $("A.active").removeClass("active");
+            $("[href='" + location.pathname + "']").addClass("active");
+            $("#loader").hide();
+
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a21d04dd7d89f97e',t:'MTc4NTE2OTcyNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</html>

@@ -1,0 +1,5 @@
+service,confirmations,policy_type,evidence_class
+Rincoin Core convention,6,wallet display convention,operator-supplied evidence
+Electrin,6,wallet display convention,operator-supplied evidence
+NestEx deposits,20,custodial exchange deposit policy,operator-supplied evidence
+AtomicDEX setting,2,atomic-swap protocol setting,operator-supplied evidence

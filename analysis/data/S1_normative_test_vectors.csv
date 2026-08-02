@@ -1,0 +1,36 @@
+vector_id,height,post_activation_epoch_index,recurrence_input_subsidy_base_units,maximum_permitted_subsidy_base_units,maximum_permitted_subsidy_rin,scheduled_issuance_before_height_base_units,expected_rule,notes
+S1-001,839999,legacy,,625000000,6.25000000,1968749375000000,deployed pre-activation rule,last pre-activation block
+S1-002,840000,1,625000000,593750000,5.93750000,1968750000000000,floor(previous_epoch_subsidy * 19 / 20),activation block; first block of post-activation epoch 1
+S1-003,840001,1,625000000,593750000,5.93750000,1968750593750000,floor(previous_epoch_subsidy * 19 / 20),second activation-epoch block
+S1-004,1049999,1,625000000,593750000,5.93750000,2093436906250000,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 1
+S1-005,1050000,2,593750000,564062500,5.64062500,2093437500000000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 2
+S1-006,1259999,2,593750000,564062500,5.64062500,2211890060937500,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 2
+S1-007,1260000,3,564062500,535859375,5.35859375,2211890625000000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 3
+S1-008,1469999,3,564062500,535859375,5.35859375,2324420557890625,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 3
+S1-009,1470000,4,535859375,509066406,5.09066406,2324421093750000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 4
+S1-010,1679999,4,535859375,509066406,5.09066406,2431324529943594,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 4
+S1-011,1680000,5,509066406,483613085,4.83613085,2431325039010000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 5
+S1-012,1889999,5,509066406,483613085,4.83613085,2532883303246915,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 5
+S1-013,1890000,6,483613085,459432430,4.59432430,2532883786860000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 6
+S1-014,2099999,6,483613085,459432430,4.59432430,2629364137727570,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 6
+S1-015,2100000,7,459432430,436460808,4.36460808,2629364597160000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 7
+S1-016,2309999,7,459432430,436460808,4.36460808,2721020930379192,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 7
+S1-017,2310000,8,436460808,414637767,4.14637767,2721021366840000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 8
+S1-018,2519999,8,436460808,414637767,4.14637767,2808094883272233,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 8
+S1-019,2520000,9,414637767,393905878,3.93905878,2808095297910000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 9
+S1-020,2729999,9,414637767,393905878,3.93905878,2890815138384122,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 9
+S1-021,2730000,10,393905878,374210584,3.74210584,2890815532290000,floor(previous_epoch_subsidy * 19 / 20),first block of post-activation epoch 10
+S1-022,2939999,10,393905878,374210584,3.74210584,2969399380719416,floor(previous_epoch_subsidy * 19 / 20),last block of post-activation epoch 10
+S1-023,8189999,35,109265378,103802109,1.03802109,4048329427947891,floor(previous_epoch_subsidy * 19 / 20),last block before crossing below 1 RIN
+S1-024,8190000,36,103802109,98612003,0.98612003,4048329531750000,floor(previous_epoch_subsidy * 19 / 20),crossing below 1 RIN
+S1-025,8190001,36,103802109,98612003,0.98612003,4048329630362003,floor(previous_epoch_subsidy * 19 / 20),second block after crossing below 1 RIN
+S1-026,11129999,49,53285986,50621686,0.50621686,4260519337398314,floor(previous_epoch_subsidy * 19 / 20),last block before crossing below 0.5 RIN
+S1-027,11130000,50,50621686,48090601,0.48090601,4260519388020000,floor(previous_epoch_subsidy * 19 / 20),crossing below 0.5 RIN
+S1-028,11130001,50,50621686,48090601,0.48090601,4260519436110601,floor(previous_epoch_subsidy * 19 / 20),second block after crossing below 0.5 RIN
+S1-029,17639999,80,10865369,10322100,0.10322100,4421314665357900,floor(previous_epoch_subsidy * 19 / 20),last block before crossing below 0.1 RIN
+S1-030,17640000,81,10322100,9805995,0.09805995,4421314675680000,floor(previous_epoch_subsidy * 19 / 20),crossing below 0.1 RIN
+S1-031,17640001,81,10322100,9805995,0.09805995,4421314685485995,floor(previous_epoch_subsidy * 19 / 20),second block after crossing below 0.1 RIN
+S1-032,73500000,347,2,1,0.00000001,4462499301540000,floor(previous_epoch_subsidy * 19 / 20),first one-base-unit subsidy block
+S1-033,73709999,347,2,1,0.00000001,4462499301749999,floor(previous_epoch_subsidy * 19 / 20),final non-zero subsidy block
+S1-034,73710000,348,1,0,0.00000000,4462499301750000,zero after integer exhaustion,first zero-subsidy block
+S1-035,73710001,348,1,0,0.00000000,4462499301750000,zero after integer exhaustion,second zero-subsidy block

@@ -1,0 +1,744 @@
+---
+title: "Rincoin Monetary Review Summary"
+subtitle: "Public Review of Post-840k Monetary Schedules"
+author: "Rincoin Community Forge"
+date: "2026-08-02"
+document-version: "1.0"
+status: "Discussion Draft"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    header-includes: |
+      \usepackage{xcolor}
+      \usepackage{pdflscape}
+      \newcommand{\blandscape}{\begin{landscape}}
+      \newcommand{\elandscape}{\end{landscape}}
+geometry: "a4paper,margin=1.25in,portrait"
+header-includes:
+  - '\titlehead{\centering\includegraphics[width=2.2in]{includes/assets/rincoin.png}}'
+  - '\usepackage{draftwatermark}'
+  - '\SetWatermarkText{DRAFT}'
+  - '\SetWatermarkScale{1}'
+  - '\SetWatermarkLightness{0.92}'
+  - '\SetWatermarkAngle{45}'
+license: "CC-BY-4.0"
+bibliography: references.bib
+csl: chicago-author-date.csl
+link-citations: true
+---
+
+::: {.callout-warning}
+## Discussion Draft
+
+**Document version 1.0 · Public-review date 2026-08-02**
+
+This summary presents selected scenarios as the principal review set. None
+is preferred or adopted Rincoin consensus. Values are generated from the same
+configuration and scripts used by the full analysis.
+:::
+
+# Purpose of This Document
+This document is a self-contained decision summary. It presents the problem, candidate schedules, principal evidence, and trade-offs without requiring the reader to consult the *Rincoin Monetary Policy and Security Scenario Analysis*. The full analysis provides derivations, source audits, sensitivity tests, and reproducibility material. Values are rounded for readability except where exact heights or consensus amounts are material. Citations are selective rather than exhaustive.
+
+# Terms Used in This Summary
+
+- **Block subsidy** - 
+New RIN that a miner is permitted to create in a block's coinbase transaction.
+Transaction fees are paid to the miner separately and are not new issuance.
+- **Block height** - The sequential position of a block in the blockchain. Height 840,000 is the
+proposed activation point considered in this review.
+- **Activation height** - The first block height at which a new consensus rule is enforced. Rules below
+the activation height remain unchanged unless a specification explicitly says
+otherwise.
+- **Reward epoch** - A predetermined range of block heights during which the maximum block subsidy
+remains unchanged. A subsidy transition occurs at an epoch boundary.
+- **Scheduled issuance** - The amount of new RIN that the consensus rules permit to be created over a
+specified period. Actual issuance can be lower if miners claim less than the
+maximum permitted subsidy.
+- **Maximum scheduled issuance** - The total amount of RIN that could be created if miners claimed the maximum
+permitted subsidy in every block. It does not attempt to estimate lost coins,
+inactive balances, or economically circulating supply.
+- **Bounded issuance** - A monetary rule under which maximum scheduled issuance is finite and the block
+subsidy eventually reaches zero.
+- **Subsidy floor** -
+  A lower bound below which the subsidy is not permitted to fall. If the floor
+  continues indefinitely, total scheduled issuance is unbounded.
+- **Fixed subsidy phase** -
+  A predetermined block-height interval during which the subsidy remains
+  constant. A finite fixed phase ends at a specified height or supply boundary.
+- **Tail emission** - A non-zero block subsidy that continues indefinitely. Tail emission provides a
+  permanent nominal miner-revenue component but makes total scheduled issuance
+  unbounded.
+- **Target year** - A time conversion based on Rincoin's 60-second target block interval. It is a
+planning measure, not a prediction of exact calendar time, because actual block
+intervals vary.
+- **Miner-revenue shock** - The immediate percentage change in maximum block subsidy at a scheduled
+  boundary. It is used here as a proxy for the change in miner revenue under
+  unchanged RIN price, transaction fees, hashrate, and operating costs.
+- **Price-only compensation** - The increase in the RIN market price that would be required to preserve the
+same fiat-denominated subsidy revenue after a subsidy reduction, assuming
+hashrate, fees, and all other conditions remain unchanged.
+- **Consensus rule** - A rule used by validating nodes to determine whether a block or transaction is
+valid. Nodes enforcing incompatible consensus rules can form separate chains.
+- **Governance contingency** - A possible future change selected through a decision process rather than
+already fixed solely by block height. Such a contingency does not become a
+consensus rule until its authority, trigger, exact behavior, and activation
+method are explicitly specified and implemented.
+
+# Decision Problem
+
+Rincoin targets a block every 60 seconds and inherited a 210,000-block binary
+halving interval. Each reward epoch therefore lasts about five target months,
+not about four years. Continuing the deployed rule creates repeated 50%
+reductions in maximum block subsidy at that cadence.
+
+Currently, the maximum subsidy is 6.25 RIN and we are approaching the fourth halving
+at height 840,000. Under S0, the subsidy falls to 3.125 RIN. S1 sets 5.9375 RIN, 
+S5/b retains 6.25 RIN, and S6/b sets 4 RIN.
+
+The original RinCoin whitepaper states a maximum supply of 168 million RIN,
+while the deployed binary-halving schedule approaches approximately 21 million
+RIN. That documentation-versus-code mismatch is why the review compares total
+scheduled issuance as well as reward cadence. The analysis does not assume that
+168 million RIN must be issued: it distinguishes a historical upper bound from a
+target final issuance and from the deterministic maximum produced by each
+scenario.
+The historical parameters and deployed subsidy rule are documented separately
+in the original whitepaper and immutable Core source
+[@rincoinWhitepaper2025; @rincoinCore2026chainparams;
+@rincoinCore2026subsidy].
+
+The immediate decision before block height 840,000 is whether to retain S0 or
+adopt one of the fixed deterministic candidate schedules evaluated here. 
+Alternatives must be compared on both monetary effects and the network's
+ability to absorb reward transitions.
+
+The Customized Halving work correctly identified Rincoin's unusually frequent
+50% subsidy shocks as a problem requiring explicit review. This
+acknowledgment does not imply acceptance of its exact parameters or
+implementation choices [@tokino2026regenerative].
+
+# Decision Tree
+
+The analysis applies policy choices before numerical scoring:
+
+1. **No correction desired:** S0 remains the deployed baseline.
+2. **Correction desired; unbounded issuance acceptable:** S3 and S7 remain
+   policy comparators.
+3. **Correction and bounded issuance required:** evaluate S1, S2/a, S2/b, S4,
+   S5/a, S5/b, S6/a, S6/b, and S6/c.
+
+S0 is labeled **baseline outside corrective candidate set**. S3 and S7 are
+labeled **outside bounded-supply candidate set**. They remain visible in
+monetary and security comparisons but do not receive a bounded-candidate score.
+
+The eligible scenarios are scored equally on five declared criteria:
+
+- reward-path correction;
+- monetary discipline;
+- ten-year scheduled supply expansion;
+- nominal subsidy runway;
+- rule clarity and auditability.
+
+The score does not include empirical security evidence and is not a synthetic
+measure of network safety.
+
+# Scenario Overview
+
+## Preserving the Current State - S0
+
+Scenario S0 is the baseline for all other scenarios because it follows the subsidy 
+rule that has governed the chain since genesis - the subsidy is halved 
+every 210,000 blocks until integer right-shift rounding reaches zero.
+
+S0 requires no post-840k consensus change. It is included to show the deployed-code baseline against which all hard-fork alternatives must justify their additional issuance and implementation risk.
+
+## Reduction-Factor Scenarios - S1, S2, S3, S4
+
+Reduction-factor scenarios are a direct way to slow the fast subsidy decline caused by 60-second blocks by changing the reduction factor at the end of each epoch while retaining the epoch length of 210,000 blocks and a simple geometric rule for subsidy calculation.
+
+### S1 - One-Twentieth Reduction Without a Floor
+
+In S1, the subsidy is multiplied by 19/20 each epoch, corresponding nominally to a 5% 
+reduction before integer-floor effects.
+The one-twentieth reduction is one tenth of the original one-half reduction, matching 
+the fact that Rincoin’s target block interval is one tenth as long as Bitcoin’s.
+This is an intuitive decimal scaling of the original reduction, not an exact calendar-time
+equivalence. There is no fixed floor and no constant terminal phase in S1. 
+
+
+### S2 - One-Twentieth Reduction With Finite Constant-Phase Variants
+
+S2 variants apply the S1 one-twentieth reduction until the next calculated subsidy would fall below a selected fixed phase amount. They then use that fixed subsidy for a predetermined number of blocks and stop before exceeding the 168,000,000 RIN ceiling.
+
+- S2/a - Finite 0.5 RIN Phase
+- S2/b - Finite 1 RIN Phase
+
+### S3 - Perpetual 0.5 RIN Tail-Emission
+
+S3 applies the one-twentieth reduction until 0.5 RIN and then keeps a perpetual 0.5 RIN subsidy. This scenario isolates the explicit-tail-emission design choice.
+
+### S4 - Idealized 113/114 Cap-Derived Geometric Schedule
+
+S4 uses an epoch coefficient of 113/114 and has no fixed subsidy phase. The coefficient has been defined as mathematically closest to the originally declared 168,000,000 RIN maximum when applied as a geometric post-840k rule under integer base-unit arithmetic.
+
+## Extended-Epoch Binary-Halving Scenarios - S5
+
+Both S5 variants retain binary integer halving, nominally a 50% reduction with
+floor rounding at base-unit precision, but lengthen the reward epoch to
+2,100,000 blocks, i.e. 10x longer. This way, each long epoch lasts
+approximately four target years, comparable to Bitcoin's approximately four-year epoch. 
+
+There are two S5 variants that differ only in the boundary used
+as the phase anchor for post-activation calculations:
+- **S5/a** - Long Epoch Anchored at Height 840,000 and subsidy of 3.125 RIN
+- **S5/b** - Long Epoch Phase-Aligned to Height 630,000 and subsidy 6.25 RIN
+
+Both variants are deterministic, have no fixed terminal phase, and eventually
+reach zero through binary integer rounding.
+
+## Customized Halving Study Scenarios - S6, S7
+
+### S6 - Tokino's Study Scenarios
+
+S6 variants model the three Customized Halving scenarios in chapter 3 of
+Tokino's Rincoin v1.6.4 study [@tokino2026regenerative]. The study combines deliberately 
+chosen deterministic block rewards with annual loss-rate and effective-circulating-supply 
+assumptions. Only the parts that can be evaluated as present Layer-1 subsidy rules are taken 
+from the study.
+
+All three variants initially follow the same reward path: 
+
+- 4 RIN from height 840,000, 
+- 2 RIN from 2,100,000, 
+- 1 RIN from 4,200,000. 
+
+They differ on what happens at height 6,300,000. The study does not explain how it arrived at these specific values of subsidies and epoch lengths.
+
+- **S6/a** - Scenario I - a finite 0.5 RIN phase from 6,300,000 until the simulated 168,000,000 RIN ceiling is reached.
+- **S6/b** - Scenario II - 0.6 RIN from height 6,300,000 through
+  234,587,499, followed by zero subsidy from height 234,587,500. The terminal
+  height is derived from an exact 168,000,000 RIN maximum-scheduled-issuance
+  ceiling.
+- **S6/c** - Scenario III - an additional 1 RIN phase from 6,300,000, and a finite 0.6 RIN phase from 8,400,000 until the simulated 168,000,000 RIN ceiling is reached.
+
+
+The fixed S6/b schedule analyzed here assumes a deterministic piecewise function of block height.[^1]
+
+[^1]: The broader Customized Halving framework in Tokino's study additionally 
+  proposes a governance-controlled contingency that could replace Scenario II
+  with Scenario III. The study does not specify a complete consensus mechanism for
+  authorizing and activating that switch. For this reason, that contingency is not
+  part of the fixed S6/b schedule unless separately specified as consensus behavior.
+
+For deterministic comparison, this review interprets the 168,000,000 RIN
+ceiling as a precomputed height-based maximum-scheduled-issuance cutoff.
+Underclaimed subsidy is not reissued and does not extend the final fixed phase.
+This interpretation is provisional pending clarification from the study's
+author.
+
+### S7 - Aevust Core Customized Halving Tail-Emission Implementation
+
+S7 models the inspected Aevust Core subsidy implementation snapshot as a separate 
+source artifact [@aevustCore2026customized]. This scenario follows the same 
+4 → 2 → 1 → 0.6 RIN path as S6/b. The two remain identical until the finite 
+S6/b terminal cutoff. The inspected S7 implementation contains no such cutoff 
+and therefore continues 0.6 RIN indefinitely.
+
+\newpage
+\blandscape
+
+<!-- include: includes/scenario_summary_table.qmd -->
+<!-- Generated by scripts/simulate_monetary_scenarios.py from data/scenario_summary.csv. Do not edit by hand. -->
+
+| Scenario | Name | First post-840,000 subsidy | Effective maximum scheduled issuance | Post-840,000 issuance | Zero height | Constant phase | Share of original 168M statement |
+| :---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| S0 | Unchanged binary halving | 3.12500000 | 20999999.97690000 | 1312499.97690000 | 6930000 | none | 12.49999999 |
+| S1 | 1/20 reduction without a floor | 5.93750000 | 44624993.01750000 | 24937493.01750000 | 73710000 | none | 26.56249584 |
+| S2/a | 1/20 reduction with bounded 0.5 RIN phase | 5.93750000 | 167999999.88020000 | 148312499.88020000 | 261919612 | 0.50000000 | 99.99999993 |
+| S2/b | Bounded 1 RIN phase comparator | 5.93750000 | 167999999.31750000 | 148312499.31750000 | 135706704 | 1.00000000 | 99.99999959 |
+| S3 | Perpetual 0.5 RIN tail-emission comparator | 5.93750000 | unbounded | unbounded | none | 0.50000000 | unbounded |
+| S4 | Idealized 113/114 cap-derived geometric schedule | 6.19517543 | 167999782.97970000 | 148312282.97970000 | 384300000 | none | 99.99987082 |
+| S5/a | Extended-epoch binary halving, 840,000 anchor | 3.12500000 | 32812499.76900000 | 13124999.76900000 | 61740000 | none | 19.53124986 |
+| S5/b | Extended-epoch binary halving, phase-aligned to 630,000 | 6.25000000 | 44624999.76900000 | 24937499.76900000 | 63630000 | none | 26.56249986 |
+| S6/a | Customized Halving study scenario I | 4.00000000 | 168000000.00000000 | 148312500.00000000 | 280245000 | 0.50000000 | 100.00000000 |
+| S6/b | Bounded Customized Halving study scenario II | 4.00000000 | 168000000.00000000 | 148312500.00000000 | 234587500 | 0.60000000 | 100.00000000 |
+| S6/c | Customized Halving study scenario III | 4.00000000 | 168000000.00000000 | 148312500.00000000 | 233187500 | 0.60000000 | 100.00000000 |
+| S7 | Aevust Core Customized Halving tail-emission implementation | 4.00000000 | unbounded | unbounded | none | 0.60000000 | unbounded |
+
+: {tbl-colwidths="[7,17,10,13,20,11,10,12]"}
+<!-- /include: includes/scenario_summary_table.qmd -->
+
+The scenarios represent distinct design choices:
+
+- **S0** continues binary halving every 210,000 blocks.
+- **S1** uses a recursive 19/20 rule every 210,000 blocks, nominally a 5%
+  reduction with integer-floor rounding after each epoch, and has no floor.
+- **S2/a and S2/b** use the S1 decline followed by finite 0.5 or 1 RIN phases.
+- **S3** uses the S1 decline followed by a perpetual 0.5 RIN tail emission.
+- **S4** uses a cap-derived 113/114 geometric coefficient.
+- **S5/a** retains binary halving and starts 2,100,000-block epochs at height
+  840,000.
+- **S5/b** uses binary integer halving every 2,100,000 blocks, nominally 50%
+  with floor rounding at base-unit precision, and for calculations at and above
+  height 840,000 phase-aligns its epochs to height 630,000. No historical block
+  or validation rule is changed.
+- **S6/a, S6/b, and S6/c** model the three Layer-1 schedules in Tokino's
+  Customized Halving study.
+- **S7** models the inspected Aevust Core path, whose 0.6 RIN phase is
+  unbounded in the subsidy function.
+
+\elandscape
+
+# Principal Public-Review Comparison
+
+The full bounded-candidate evaluation contains nine schedules. The table below
+shows the three highest-scoring schedules together with S6/b, which is included
+as the bounded representative of the published Customized Halving direction.
+The score is one input to candidate selection, not the sole selection
+mechanism. See the analysis for the full table and details.
+
+| Criterion | S1 | S5/a | S5/b | S6/b |
+|---|---:|---:|---:|---:|
+| Reward-path correction | 4/4 | 3/4 | 3/4 | 2/4 |
+| Monetary discipline | 4/4 | 4/4 | 4/4 | 1/4 |
+| Ten-year scheduled supply expansion | 2/4 | 3/4 | 1/4 | 3/4 |
+| Nominal subsidy runway | 3/4 | 2/4 | 3/4 | 3/4 |
+| Rule clarity and auditability | 4/4 | 4/4 | 4/4 | 1/4 [^2]|
+| **Unweighted balance indicator** | **17/20** | **16/20** | **15/20** | **10/20** |
+
+: {tbl-colwidths="[48,13,13,13,13]"}
+
+[^2]: The S6/b rule-clarity score evaluates the source proposal as published, not the
+later reference specification prepared for this review. A precise review-package
+specification can make the fixed S6/b interpretation implementable and
+auditable, but it does not retroactively provide the study's missing parameter
+derivation or define its governance contingency.
+
+S5/a remains an important secondary comparator because it receives the
+second-highest monetary score. It is not included in the principal review set
+because it retains the immediate 50% activation reduction, does not form the
+near-equal-total-issuance comparison available between S1 and S5/b, and does
+not represent a separate externally developed proposal family.
+
+The one- and two-point differences among S1, S5/a, and S5/b do not prove that
+one schedule is correct. S1 and S5/b are selected as the controlled comparison 
+pair because they hold final issuance effectively constant while isolating the 
+choice between smooth recurring reductions and discrete halvings. This focused 
+comparison does not establish that S5/a is dominated or ineligible. Immediate 
+miner-revenue shock and social milestone value are evaluated separately rather 
+than hidden inside the monetary score. S6/b enters the principal review set for 
+a separate representational and implementation-history reason, not because the 
+score places it alongside the three highest-scoring schedules. 
+
+## S1 and S5/b Use Nearly the Same Issuance Budget
+
+<!-- include: includes/S1_S5B_equal_issuance_derivation.qmd -->
+<!-- Generated by scripts/simulate_monetary_scenarios.py from data/S1_S5B_equal_issuance.csv. Do not edit by hand. -->
+
+For S1, the ideal real-number post-840,000 total is:
+
+`210000 * 5.9375 / (1 - 0.95) = 24,937,500 RIN`
+
+For S5/b, the ideal real-number post-840,000 total is:
+
+`1890000 * 6.25 + 2100000 * 3.125 / (1 - 0.5) = 24,937,500 RIN`
+
+Integer consensus arithmetic produces:
+
+- S1 maximum scheduled issuance: `44,624,993.01750000 RIN`;
+- S5/b maximum scheduled issuance: `44,624,999.76900000 RIN`;
+- S5/b minus S1: `6.75150000 RIN`.
+
+The ideal post-activation totals are equal. The small integer-result difference comes from their different rounding paths. The policy choice is therefore primarily about issuance timing and shape rather than final amount: S1 uses recurring 19/20 reductions, nominally 5%, while S5/b front-loads more issuance and then applies four-year binary integer halvings, nominally 50%.
+<!-- /include: includes/S1_S5B_equal_issuance_derivation.qmd -->
+
+The integer difference is only 6.75150000 RIN. S1 distributes the remaining
+issuance through recurring 5% reductions. S5/b initially front-loads more
+issuance, then distributes the remainder through approximately four-year 50%
+halvings. The decision is primarily about timing and shape, not final amount.
+
+<!-- include: includes/S1_S5B_candidate_comparison_table.qmd -->
+<!-- Generated by scripts/simulate_monetary_scenarios.py from data/S1_S5B_candidate_comparison.csv. Do not edit by hand. -->
+
+| Metric | S1 | S5/b |
+| :--- | ---: | ---: |
+| Subsidy at activation | 5.93750000 RIN | 6.25000000 RIN |
+| Immediate miner-revenue shock | 5.00000000% | 0.00000000% |
+| Consensus divergence height | 840,000 | 840,000 |
+| First later reduction | height 1,050,000 | height 2,730,000 |
+| First later reduction amount | 5.00000000% | 50.00000000% |
+| Nominal ordinary reduction | 5.00000000% | 50.00000000% |
+| Cadence | 210,000 blocks | 2,100,000 blocks |
+| Mathematical half-life | 13.51340733 epochs | 1.00000000 epochs |
+| Mathematical half-life | 5.39919243 target years | 3.99543379 target years |
+| Post-activation issuance after 1 year | 2997273.75000000 RIN | 3285000.00000000 RIN |
+| Post-activation issuance after 5 years | 11808776.17164000 RIN | 14118750.00000000 RIN |
+| Post-activation issuance after 10 years | 18029979.34674000 RIN | 20353125.00000000 RIN |
+| Post-activation issuance after 25 years | 23930272.32810000 RIN | 24600585.93750000 RIN |
+| Maximum scheduled issuance | 44624993.01750000 RIN | 44624999.76900000 RIN |
+| First zero-subsidy height | 73,710,000 | 63,630,000 |
+<!-- /include: includes/S1_S5B_candidate_comparison_table.qmd -->
+
+
+## Candidate Priorities
+
+The principal review set contains three candidates selected for two different reasons. 
+
+S1 and S5/b form a controlled comparison pair because they allocate effectively the same
+final issuance through different temporal paths. 
+
+S6/b is included as the bounded Customized Halving representative and because a closely 
+related reward path has already been implemented in Aevust Core. Its finite terminal 
+cutoff, however, is not present in the inspected implementation.
+
+**S1 prioritizes**
+
+- gradual 5% reductions;
+- elimination of large scheduled reward cliffs;
+- predictable miner-revenue adjustment;
+- frequent but individually small monetary changes.
+
+**S5/b prioritizes**
+
+- no immediate miner-revenue reduction at height 840,000;
+- an approximately four-year halving rhythm;
+- simple Bitcoin-like public communication;
+- discrete and socially significant monetary milestones;
+- greater time before the first future reward reduction.
+
+**S6/b prioritizes**
+
+- preserving 168,000,000 RIN as the documented terminal scheduled-supply target;
+- a simple and publicly recognizable staged subsidy path of
+  4 → 2 → 1 → 0.6 RIN;
+- maintaining a non-zero nominal block subsidy over a very long time horizon;
+- providing a long-lived miner-revenue component while remaining
+  mathematically finite;
+- continuity with the published Customized Halving direction and with the
+  related implementation work already undertaken.
+
+The fixed S6/b candidate evaluated in this summary is a deterministic
+piecewise function of block height. Its subsidy amounts and transition heights
+are specified in advance.
+
+The broader Customized Halving framework also discusses a governance-controlled
+contingency under which the finite S6/b path could be replaced by the S6/c path.
+That contingency is treated separately and is not part of the fixed S6/b 
+candidate unless it is defined through an additional explicit consensus rule.
+
+# Monetary Milestones and Coordination
+
+S5/b's approximately four-year halvings could create recognizable public
+milestones, focus attention on scarcity, and coordinate releases and service
+readiness. Bitcoin halvings are widely associated with scarcity narratives and
+later market cycles, but that temporal association does not prove that halvings
+cause price increases. A recent synthetic-control preprint reports a positive
+estimate for the 2024 Bitcoin halving but no statistically significant and
+robust estimate for the 2020 halving [@virtonen2025halving]. Salient events may
+also amplify speculative volatility,
+disappointment, miner exit, and operational risk.
+
+S1's 5% boundaries are continuously predictable but are unlikely to become
+major public events individually. Community milestones could still be created
+through releases, reports, or anniversaries, without the same consensus-level
+scarcity signal. These possible social effects are policy considerations, not
+deterministic outputs, and are not numerically scored.
+
+S6/b also creates highly visible monetary milestones, but with a different
+shape. Its first later post-activation reduction occurs after approximately
+2.4 target years, followed by two approximately four-year boundaries and then
+a multi-century 0.6 RIN fixed phase. The 4 → 2 → 1 → 0.6 path is simple to
+communicate and can support public anticipation, but its irregular first
+interval, large reward cliffs, and extremely long final phase produce a
+different narrative from S5/b's recurring four-year halvings.
+
+| Dimension | S1 | S5/b | S6/b |
+|---|---|---|---|
+| Determinism of the fixed consensus schedule        | Strong | Strong | Strong |
+| Long-term policy-path predictability               | Strong | Strong | Limited[^3] |
+| Governance contingency outside the fixed schedule  | None | None | Present in the broader framework[^3] |
+| Parameter-derivation transparency                  | High | High | Limited |
+| Subsidy-path smoothness                            | High | Low | Low |
+| Frequency of monetary boundaries                   | High | Low | Low |
+| Individual event salience                          | Low | High | High |
+| Potential concentration of event-driven volatility | Low | High | High |
+| Miner-revenue discontinuity | Low per boundary     | High at later halvings | High at the activation and later boundaries |
+| Time from activation to first later scheduled reduction | Approximately 0.40 target years | Approximately 3.60 target years | Approximately 2.40 target years |
+
+: {tbl-colwidths="[40,20,20,20]"}
+
+[^3]: The fixed S6/b schedule can be encoded as a deterministic piecewise function of
+  block height. However, the published Customized Halving framework treats the
+  selected path as subject to governance control and permits a possible switch
+  to S6/c. The arithmetic of a frozen S6/b implementation is therefore
+  predictable, while the longer-term policy commitment is less predictable
+  unless the governance contingency, decision authority, trigger, and activation
+  method are exhaustively specified or removed.
+
+  More broadly, Tokino's study appears to treat subsidy design as a subject of
+  continuing governance control rather than as an irrevocably fixed height-only
+  rule. This is an interpretation of the framework's design logic, not an
+  independently specified consensus mechanism.
+
+# Empirical Security Evidence
+
+The empirical overlay is separate from the monetary score. It uses frozen data
+and labels observations, derived results, operator-supplied evidence, normalized
+sensitivities, and speculative stress cases separately
+[@rincoinEvidence2026network; @rincoinEvidence2026market].
+
+<!-- include: includes/empirical_network_snapshot_table.qmd -->
+<!-- Generated by scripts/analyze_empirical_snapshot.py from data/empirical_network_snapshot.csv. Do not edit by hand. -->
+
+| Metric | Value | Unit | Evidence class |
+|:---|---:|:---|:---|
+| Local-node block height | 674074 | blocks | directly observed |
+| Maximum current block subsidy | 6.25000000 | RIN/block | consensus-deterministic and directly observed |
+| Current difficulty | 0.333779833148 | difficulty | directly observed |
+| Current network hashrate estimate | 19.70723840 | MH/s | directly observed node estimate |
+| NestEx RIN price | 0.000656840000 | USDT/RIN | directly observed venue quote |
+| Scheduled daily issuance | 9000.00000000 | RIN/day | derived consensus-deterministic |
+| Observed non-coinbase transactions (90 d) | 6362 | transactions | derived from observed data |
+| Mean total fees per block (90 d) | 0.00010003 | RIN/block | derived from observed data |
+| Fee share of miner revenue (90 d) | 0.00097646 | % | derived from observed data |
+| Explorer-indexed orphaned blocks (90 d) | 29 | blocks | directly observed explorer index |
+| Visible RinHash rental capacity | 10.346300 | MH/s | directly observed asks |
+| Visible rental capacity / current node hashrate | 52.50 | % | derived from observed data |
+| NestEx bid depth within 5% | 18440.91901400 | RIN | derived from observed order book |
+
+: {tbl-colwidths="[30,20,20,30]"}
+<!-- /include: includes/empirical_network_snapshot_table.qmd -->
+
+At the frozen snapshot, transaction fees supplied a negligible share of miner
+revenue. Historical price windows provide no high-confidence example of RIN
+price promptly and durably doubling around a binary halving. Median rolling
+hashrate fell in each observed 30-day post-halving window, although market
+disruptions, missing prices, thin volume, and difficulty response prevent a
+causal elasticity estimate.
+
+## Activation Shocks
+
+<!-- include: includes/summary_activation_shock_table.qmd -->
+<!-- Generated by scripts/analyze_empirical_snapshot.py from scripts/analyze_market_evidence.py and frozen public-review evidence. Do not edit by hand. -->
+
+| Scenario | Immediate miner-revenue shock | First later scheduled reward shock | Ordinary reduction rule | Terminal integer-rounding effect |
+|:---:|---:|---:|:---|:---|
+| S1 | 5.00000000% | 5.00000000% at height 1,050,000 | 5.00000000%; 210,000-block recursive 19/20 reductions | 100.00000000% at height 73,710,000, from 0.00000001 RIN |
+| S5/b | 0.00000000% | 50.00000000% at height 2,730,000 | 50.00000000%; 2,100,000-block binary integer halvings | 100.00000000% at height 63,630,000, from 0.00000001 RIN |
+
+: {tbl-colwidths="[15,20,30,35]"}
+<!-- /include: includes/summary_activation_shock_table.qmd -->
+
+S1's **immediate miner-revenue shock** is nominally 5% and requires
+approximately 5.263% price growth for price-only compensation. Its later
+scheduled reductions follow the same recursive 19/20 integer rule. 
+
+S5/b has no immediate miner-revenue shock at the activation height, but its first 
+later scheduled reward shock is 50% at height 2,730,000 and would require a 100%
+price response if fees and costs were unchanged.
+
+S6/b's immediate miner-revenue shock is nominally 36% and would require
+approximately 56.25% price growth for price-only compensation. It later
+halves the subsidy from 4 to 2 RIN at height 2,100,000, from 2 to 1 RIN at
+height 4,200,000, and from 1 to 0.6 RIN at height 6,300,000. The first two
+boundaries are 50% reductions and would each require 100% price growth for
+price-only compensation. The third is a 40% reduction and would require
+approximately 66.67% price growth, assuming fees and costs remain unchanged.
+
+All three alternatives activate subsidy rules different from S0 at height 840,000. 
+The final candidate implementations are intended to add explicit branch separation 
+so that the maintained chains cannot remain silently compatible after activation.
+Legacy software permits 3.125 RIN there; S1 permits 5.9375 RIN, S5/b permits
+6.25 RIN, and S6/b permits 4 RIN. Current observed fees are orders of magnitude
+too small to replace even S1's comparatively small non-zero activation reduction.
+
+## Rental Exposure
+
+The network-aligned MRR snapshot advertised 10.3463 MH/s against an observed
+19.70723840 MH/s network estimate. Delivery was not tested, and the market
+reported no recent rentals; asks are not market-clearing prices.
+
+<!-- include: includes/rental_overlap_model_table.qmd -->
+<!-- Generated by scripts/analyze_empirical_snapshot.py from data/scenario_config.json and frozen network/rental observations. Do not edit by hand. -->
+
+| Alpha | Removed MH/s | Remaining honest | Attacker MH/s | Attacker / combined | Attacker exceeds honest |
+|---:|---:|---:|---:|---:|:---:|
+| 0.00% | 0.00000000 | 19.70723840 | 10.34630000 | 34.42622916% | false |
+| 25.00% | 2.58657500 | 17.12066340 | 10.34630000 | 37.66816102% | false |
+| 50.00% | 5.17315000 | 14.53408840 | 10.34630000 | 41.58415791% | false |
+| 75.00% | 7.75972500 | 11.94751340 | 10.34630000 | 46.40883914% | false |
+| 100.00% | 10.34630000 | 9.36093840 | 10.34630000 | 52.49999919% | true |
+<!-- /include: includes/rental_overlap_model_table.qmd -->
+
+Alpha estimates the fraction of advertised rental capacity already included
+in the observed Rincoin network hashrate and therefore redirected rather than
+added during a rental. The zero-overlap case treats rental hash as 
+entirely additive. Higher alpha values model part of that capacity already 
+contributing to the observed honest chain and then being redirected. 
+
+The operator-supplied ~4 MH/s Community Forge component is not listed on MRR
+and remains outside this overlap.
+
+## Confirmation Context
+
+<!-- include: includes/service_confirmation_policies_table.qmd -->
+<!-- Generated by scripts/analyze_empirical_snapshot.py from data/scenario_config.json. Do not edit by hand. -->
+
+| Service | Confirmations | Policy context | Evidence |
+|:---|---:|:---|:---|
+| Rincoin Core convention | 6 | wallet display convention | operator-supplied evidence |
+| Electrin | 6 | wallet display convention | operator-supplied evidence |
+| NestEx deposits | 20 | custodial exchange deposit policy | operator-supplied evidence |
+| AtomicDEX setting | 2 | atomic-swap protocol setting | operator-supplied evidence |
+
+: {tbl-colwidths="[20,10,35,35]"}
+<!-- /include: includes/service_confirmation_policies_table.qmd -->
+
+These settings describe different services. AtomicDEX's two confirmations are
+an atomic-swap setting, not a custodial exchange deposit policy. None is
+certified as safe by this analysis.
+
+## Liquidity and Operator Concentration
+
+Observed exchange liquidity was thin and concentrated. Operator-supplied
+evidence attributes at least 4 MH/s of mining, approximately 85% of displayed
+NestEx liquidity-provider value, and several infrastructure services to one
+community operator. That support improves resilience while creating
+single-operator dependency; resources under common control are not independent
+redundancy [@rincoinOperator2026evidence].
+
+# Principal Review Conclusion
+
+The principal public-review comparison is **S1, S5/b and S6/b**.
+
+The maximum total scheduled issuance of S1 and S5/b is approximately 44.625 
+million RIN. Their ideal post-activation issuance is 24.9375 million RIN. 
+
+S6/b reaches its 168 million RIN terminal supply after approximately
+444.7 target years from activation. The final 0.6 RIN phase alone lasts
+approximately 434 target years. It is therefore mathematically finite but
+operationally tail-like over any current human planning horizon.
+
+S1 is the stronger candidate if the principal objective is to eliminate large
+scheduled reward cliffs and allow miner economics to adjust gradually.
+
+S5/b is the stronger candidate if the principal objective is to avoid an
+immediate subsidy reduction, restore a familiar four-year monetary rhythm, and
+preserve major public halving milestones.
+
+S6/b is the stronger candidate if the principal objectives are to preserve 
+the documented 168 million RIN terminal target, retain a long-lived nominal 
+mining subsidy, and maintain continuity with the published Customized Halving
+direction. Its costs are a 36% activation shock, later 50% and 40% cliffs, a
+multi-century fixed phase, lower long-term policy predictability under the
+broader governance framework, and the absence of the finite terminal cutoff
+from the inspected related implementation.[^4]
+
+[^4]: It is important to remind here that the S6/b scenario is only a subset of 
+   the broader Customized Halving framework. The framework allows for a 
+   governance-controlled contingency, which could have different implications 
+   for long-term issuance and miner revenue. See above.
+
+The S1 and S5/b rules allocate nearly the same issuance budget differently. S1 uses
+frequent 5% reductions. S5/b keeps 6.25 RIN until height 2,730,000 and then uses
+infrequent 50% reductions. Neither priority is objectively superior, and the
+raw score does not include milestone and social-coordination preferences.
+
+> Should Rincoin distribute the remaining issuance through smooth recurring 
+> reductions, through infrequent four-year halvings, or through the staged 
+> 4 → 2 → 1 → 0.6 RIN Customized Halving path intended to preserve the documented
+> 168 million RIN terminal target?
+
+None of the three candidates is preferred or has been adopted as consensus.
+
+# Principal Objections and Trade-Offs
+
+1. S1 imposes a 5% immediate miner-revenue shock and changes subsidy every
+   210,000 blocks. Its smoother path does not guarantee sufficient coin value,
+   independent mining, liquidity, or long-term security.
+2. S1 has a long declining tail even without a fixed phase, and its frequent
+   changes may offer less public narrative value than discrete halvings.
+3. S5/b schedules more issuance than S1 during the first ten target years and
+   preserves future 50% miner-revenue cliffs.
+4. S5/b's halving milestones may attract attention, but may also concentrate
+   volatility, expectations, and operational risk at known boundaries.
+5. All three candidate rules change deployed consensus at height 840,000 and
+   introduce implementation and chain-separation risk.
+6. None of the three candidate trajectories is stated explicitly in the original
+   whitepaper.
+7. Current empirical data are thin, dated, and partly operator-supplied.
+8. S6/b preserves the documented 168 million RIN target and a long-lived
+   nominal mining subsidy, but it schedules substantially more total issuance
+   than S1 or S5/b.
+9. S6/b imposes a 36% activation shock, followed by two 50% reductions and one
+   40% reduction.
+10. S6/b's final 0.6 RIN phase lasts for several centuries. It is mathematically
+    finite but behaves like a tail subsidy over any present planning horizon. 
+    The inspected related implementation also lacks the finite terminal cutoff.
+11. The relationship between the fixed deterministic S6/b candidate and the
+    broader governance contingency of Customized Halving remains to be specified.
+
+# What Could Change the Principal Review Set
+
+The principal review set and its interpretation should be reconsidered if:
+
+1. the community does not consider the fast binary-halving cadence a problem;
+2. bounded issuance is not considered a required policy property;
+3. credible evidence shows that four-year 50% reward shocks are reliably
+   absorbed by price or miner economics;
+4. implementation, arithmetic, or security defects are found in S1, S5/b, or
+   S6/b;
+5. another bounded scenario performs better under the same published criteria;
+6. corrected source data materially change the empirical conclusions;
+7. the authors or maintainers of Customized Halving materially revise, withdraw,
+   or supersede S6/b.
+
+# Public-Review Questions
+
+1. Should Rincoin change the deployed S0 schedule at height 840,000, or retain
+   it unchanged?
+2. Should Rincoin eliminate all large scheduled reward cliffs through S1?
+3. Should it retain four-year halving milestones through S5/b?
+4. Or should Rincoin instead use the S6/b staged 4 → 2 → 1 → 0.6 RIN path in
+   order to preserve the documented 168 million RIN terminal target?
+5. Is S6/b's approximately 36% immediate activation reduction acceptable?
+6. Is its multi-century 0.6 RIN fixed phase a useful bounded security budget,
+   or does it behave too much like a practical tail emission?
+7. Should the fixed S6/b candidate be evaluated independently of the broader
+   governance contingency?
+8. How much weight should be given to the existence of a related Aevust Core
+   implementation, given that it does not implement the finite terminal cutoff?
+9. How much value should be assigned to the psychological, communication, and
+   community-coordination role of halving events?
+10. Is the approximately 3.6-year delay before S5/b's first future halving a
+   sufficient opportunity for the market and mining ecosystem to mature?
+11. Is S1's smoother but less eventful monetary path preferable?
+12. Does any evidence support or contradict an expectation that halving
+    milestones improve price, attention, or adoption?
+13. Are the three candidate rules described accurately, and do the normative
+    specifications implement them without ambiguity?
+14. Should S5/a remain a secondary comparator, or should it be added to the
+    principal review set as a fourth candidate?
+15. Are any eligibility gates, criteria, or scoring thresholds incorrect?
+16. Is any source, calculation, or simulation result wrong?
+
+# Review Instructions
+
+Reviewers should read this summary first, then use the full *Rincoin Monetary
+Policy and Security Scenario Analysis* to audit claims and generated evidence.
+Consensus arithmetic should be checked against the *Rincoin 840k Consensus
+Change Specifications*, `data/scenario_config.json`,
+`data/S1_normative_test_vectors.csv`, `data/S5B_normative_test_vectors.csv`,
+and `data/S6B_normative_test_vectors.csv`. All three candidates have separate normative
+specifications and vector sets; none should be inferred from another by informal modification.
+
+Where practical, distinguish factual corrections from policy preferences,
+but free-form feedback is welcome. Consensus-critical arithmetic or implementation 
+defects should be reported with the affected height, expected subsidy, actual result, 
+reproduction steps, and software commit where possible. Review participation does not 
+imply support for activation or adoption.
+
+# References {.unnumbered}
