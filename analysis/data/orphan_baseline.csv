@@ -1,0 +1,4 @@
+window_days,indexed_orphaned_blocks,reorg_depth_mean,reorg_depth_median,reorg_depth_p90,reorg_depth_maximum,coverage_status,evidence_class
+30,14,1.0000,1.0000,1.0000,1.0000,"complete for the explorer's returned orphan index; endpoint exhausted below its 100-record page limit, but index retention and pre-index history were not independently verified",directly observed explorer orphan index
+90,29,1.0000,1.0000,1.0000,1.0000,"complete for the explorer's returned orphan index; endpoint exhausted below its 100-record page limit, but index retention and pre-index history were not independently verified",directly observed explorer orphan index
+365,29,1.0000,1.0000,1.0000,1.0000,"complete for the explorer's returned orphan index; endpoint exhausted below its 100-record page limit, but index retention and pre-index history were not independently verified",directly observed explorer orphan index

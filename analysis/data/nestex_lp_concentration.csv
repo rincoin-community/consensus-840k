@@ -1,0 +1,5 @@
+rank,reported_value_usdt,share_pct,hhi_contribution,operator_identity,evidence_class
+1,500.91,84.52,0.71436304,Rincoin Community (operator-supplied),directly observed share; operator identity is operator-supplied
+2,71.27,12.03,0.01447209,not independently identified,directly observed share; operator identity is operator-supplied
+3,20.50,3.46,0.00119716,not independently identified,directly observed share; operator identity is operator-supplied
+summary,592.68,100.01,0.73003229,effective provider count 1.3698,derived from observed endpoint shares

@@ -1,0 +1,6 @@
+The network has no premine or developer tax as stated in the original RinCoin
+whitepaper [@rincoinWhitepaper2025]. Its operation depends on independently validating nodes, miners,
+wallets, and services choosing compatible software. RinHash seeks to increase
+the cost of fixed-function mining specialisation, but does not guarantee equal
+hardware access. Long-term security depends on subsidy, fees, coin value,
+liquidity, mining efficiency, and broad operational participation.

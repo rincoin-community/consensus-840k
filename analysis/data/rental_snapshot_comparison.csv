@@ -1,0 +1,3 @@
+snapshot,retrieved_utc,available_rigs,advertised_available_hashrate_mh,rented_rigs,lowest_ask_btc_per_mh_day,baseline_use,evidence_class
+network-aligned base snapshot,2026-07-27T12:30:57Z,22,10.34630000,0,0.00001514,used with the contemporaneous 19.70723840 MH/s node estimate,directly observed from a frozen public source
+later same-day snapshot,2026-07-27T16:28:45Z,14,6.65830000,0,0.00001791,reported as a later market observation; not mixed into the aligned baseline,directly observed from a frozen public source

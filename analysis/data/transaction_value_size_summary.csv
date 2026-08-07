@@ -1,0 +1,9 @@
+metric,unit,observations,minimum,p10,median,mean,p90,maximum,evidence_class
+aggregate_input_rin,RIN,68946,0.00100000,25.00000000,567.69069820,3649.28833577,9019.93634944,408108.30196991,derived from observed main-chain transactions
+aggregate_output_rin,RIN (includes possible change),68946,0.00090000,24.99951874,567.68967363,3649.28695460,9019.93606674,408108.30166081,derived from observed main-chain transactions
+serialized_size_bytes,bytes,68946,188.00000000,222.00000000,222.00000000,1471.72954196,2535.00000000,217303.00000000,derived from observed main-chain transactions
+vsize_bytes,vbytes,68946,109.00000000,141.00000000,141.00000000,1085.98919444,1385.00000000,99499.00000000,derived from observed main-chain transactions
+input_count,inputs,68946,1.00000000,1.00000000,1.00000000,9.19748789,15.00000000,1468.00000000,derived from observed main-chain transactions
+output_count,outputs,68946,1.00000000,2.00000000,2.00000000,3.22601746,6.00000000,26.00000000,derived from observed main-chain transactions
+fee_rin,RIN,68946,0.00000148,0.00028200,0.00028372,0.00138117,0.00208200,0.09999371,derived from observed main-chain transactions
+fee_rate_base_units_per_vbyte,base units/vbyte,68946,1.03496503,100.00000000,200.44680851,180.93121890,201.27659574,523.56020942,derived from observed main-chain transactions

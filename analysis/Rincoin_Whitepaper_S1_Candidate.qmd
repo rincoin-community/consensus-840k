@@ -1,0 +1,67 @@
+---
+title: "Rincoin Whitepaper"
+subtitle: "S1 Monetary Schedule Candidate"
+author: "Rincoin Community Forge"
+date: "2026-08-07"
+document-version: "1.0"
+status: "Discussion Draft"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+geometry: "a4paper,margin=1.5in,portrait"
+header-includes:
+  - '\titlehead{\centering\includegraphics[width=2.4in]{includes/assets/rincoin.png}}'
+  - '\usepackage{draftwatermark}'
+  - '\SetWatermarkText{DRAFT}'
+  - '\SetWatermarkScale{1}'
+  - '\SetWatermarkLightness{0.92}'
+  - '\SetWatermarkAngle{45}'
+license: "CC-BY-4.0"
+bibliography: references.bib
+csl: chicago-author-date.csl
+link-citations: true
+---
+
+::: {.callout-warning}
+## Candidate Discussion Draft
+
+**Document version 1.0**
+
+This candidate shows how the Rincoin whitepaper would define the network under
+the S1 monetary schedule. It is not adopted consensus and remains subject to
+public review, compatible implementation, testing, and voluntary network
+adoption.
+:::
+
+# Abstract {.unnumbered}
+
+{{< include includes/whitepaper/common_abstract_identity.qmd >}}
+
+{{< include includes/whitepaper/S1_abstract_monetary.qmd >}}
+
+{{< include includes/whitepaper/common_abstract_operations.qmd >}}
+
+{{< include includes/whitepaper/common_rincoin.qmd >}}
+
+{{< include includes/whitepaper/S1_parameter_table.qmd >}}
+
+{{< include includes/whitepaper/common_ledger_transactions.qmd >}}
+
+{{< include includes/whitepaper/common_blocks_pow.qmd >}}
+
+{{< include includes/whitepaper/S1_monetary_policy.qmd >}}
+
+{{< include includes/whitepaper/common_mining_incentives_open.qmd >}}
+
+{{< include includes/whitepaper/S1_mining_transition.qmd >}}
+
+{{< include includes/whitepaper/common_mining_incentives_close.qmd >}}
+
+{{< include includes/whitepaper/common_network_operation.qmd >}}
+
+The candidate S1 consensus arithmetic and boundary behaviour are defined in
+the *Rincoin 840k S1 Consensus Change Specification* [@rincoinS1Spec2026].
+
+{{< include includes/whitepaper/common_references.qmd >}}

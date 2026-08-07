@@ -1,0 +1,5 @@
+Rincoin is a decentralised Layer-1 UTXO cryptocurrency secured by proof of
+work. It combines direct ownership and independent validation with a 60-second
+target block interval, the memory-hard RinHash proof-of-work construction, and
+Dark Gravity Wave v3 difficulty adjustment. Its monetary rule is deterministic:
+the maximum permitted block subsidy depends only on block height.

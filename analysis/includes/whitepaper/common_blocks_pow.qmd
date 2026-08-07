@@ -1,0 +1,19 @@
+# Blocks, Proof of Work and Difficulty
+
+Miners assemble valid transactions into candidate blocks and search for a
+header whose proof-of-work hash satisfies the current target. RinHash combines
+BLAKE3, Argon2d, and SHA3-256. Its memory-hard stage is intended to increase the
+cost of fixed-function specialisation compared with simple hash-only
+proof-of-work designs. Specialisation resistance is parameter-dependent and is
+not a permanent guarantee of equal CPU, GPU, FPGA, or ASIC economics
+[@rincoinCore2026deployed].
+
+Rincoin targets one block every 60 seconds. Dark Gravity Wave v3 adjusts
+difficulty from recent block history so that the network can respond to changes
+in available hashrate. Difficulty adjustment governs the work required for a
+valid block; it does not alter the subsidy schedule
+[@rincoinCore2026deployed].
+
+Nodes choose among valid histories by cumulative proof of work. A chain with
+more blocks is not necessarily preferred if it represents less accumulated
+work.

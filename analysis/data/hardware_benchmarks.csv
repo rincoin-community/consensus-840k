@@ -1,0 +1,2 @@
+dataset_status,hardware_model,hardware_class,miner_software_and_version,hashrate_mhps,wall_power_watts,hashrate_per_watt,electricity_cost_per_mh_day,acquisition_cost,source,test_date,evidence_class
+pending,,,,,,,,,No sufficient independently reproducible RinHash hashrate-and-wall-power dataset was identified in the frozen evidence.,,missing empirical measurement; not modeled as observed data

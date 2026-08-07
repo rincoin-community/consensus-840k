@@ -1,0 +1,5 @@
+# References {.unnumbered}
+
+The candidate specification and companion review package provide the normative
+subsidy arithmetic, deployed-source audit, and reproducibility materials
+[@rincoinAnalysis2026].

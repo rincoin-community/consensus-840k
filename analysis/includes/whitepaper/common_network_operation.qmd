@@ -1,0 +1,11 @@
+# Network Operation and Protocol Evolution
+
+Rincoin operates through independently validating nodes, miners, wallets,
+exchanges, explorers, and other services using compatible rules. Validating
+nodes independently enforce the consensus rules implemented by the software
+they choose to run.
+
+Consensus changes require publicly inspectable specifications and software,
+testable boundary behaviour, compatible deployments, and voluntary adoption by
+network participants. Publication of a draft describes a rule; it does not
+activate that rule.

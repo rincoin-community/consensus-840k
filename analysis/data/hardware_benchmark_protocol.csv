@@ -1,0 +1,6 @@
+step,measurement,requirement
+1,Hardware and software identity,"Record exact CPU/GPU/FPGA model, memory, firmware/driver, operating system, miner repository commit and build flags."
+2,Controlled hashrate,"Run a fixed-duration warm-up and measurement interval against a named pool or local validation target; retain accepted, rejected and stale shares."
+3,Wall power,"Measure whole-system wall power with a calibrated meter; report idle baseline, load mean, variance, clocks and power limits."
+4,Economics,Calculate MH/s per watt and electricity cost per MH/day under an explicit tariff; report acquisition price and date separately.
+5,Reproducibility,"Repeat on at least two systems where practical and publish raw logs, meter data, configuration and checksums."

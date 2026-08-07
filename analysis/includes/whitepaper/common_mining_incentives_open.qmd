@@ -1,0 +1,5 @@
+# Mining Incentives and Network Security
+
+Miner revenue consists of block subsidy and transaction fees. Its economic
+value depends on the RIN price, usable liquidity, fee demand, hardware
+efficiency, energy cost, and competition among miners.

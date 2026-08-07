@@ -1,0 +1,5 @@
+flag,criteria
+high,"Price, executed trades, spread and depth are available from the same venue and period; reported volume exceeds 1,000 USD/day; the last meaningful trade is no more than one day old."
+medium,"Price and executed volume exceed 100 USD/day, with at least one direct liquidity control (trade count, spread or depth); no material data gap overlaps the window."
+low,"A price exists, but volume is positive and at most 100 USD/day, historical spread/depth is absent, or staleness cannot be ruled out."
+unusable,"An anchor price is missing, reported volume is zero with no executed-trade evidence, or a material data gap spans the event."

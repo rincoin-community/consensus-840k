@@ -1,0 +1,2 @@
+scenario_id,reduction_ratio,mathematical_half_life_epochs,mathematical_half_life_target_years,metric_status
+S0,0.50000000,1.00000000,0.39954338,descriptive real-number metric; consensus uses recursive integer arithmetic

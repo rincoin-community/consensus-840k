@@ -1,0 +1,13 @@
+# Ledger and Transactions
+
+Rincoin transactions consume existing unspent transaction outputs and create
+new outputs. Spending authority is evaluated under the applicable signature and
+script rules. During block validation, full nodes verify that referenced inputs
+are available and value-conserving and perform input-script checks before
+updating the UTXO set [@rincoinCore2026deployed].
+
+Each block contains a coinbase transaction that may claim no more than the
+height-dependent subsidy plus transaction fees. Fees transfer existing RIN to
+miners and are not new issuance. If a miner claims less than the maximum
+permitted subsidy, the difference is not reissued
+[@rincoinCore2026deployed].

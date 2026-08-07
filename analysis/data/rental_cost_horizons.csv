@@ -1,0 +1,4 @@
+rental_scope,analytical_horizon_blocks,analytical_horizon_hours,theoretical_prorated_cost_btc,theoretical_prorated_cost_usd,actual_minimum_lease_cost_btc,actual_minimum_lease_cost_usd,evidence_class
+all visible available advertised capacity,6,0.1000,0.000001470505,0.095509,0.000090932105,5.906049,derived from quoted asks and contractual minimum durations; not an executed rental price
+all visible available advertised capacity,24,0.4000,0.000005882021,0.382038,0.000090932105,5.906049,derived from quoted asks and contractual minimum durations; not an executed rental price
+all visible available advertised capacity,144,2.4000,0.000035292123,2.292227,0.000090932105,5.906049,derived from quoted asks and contractual minimum durations; not an executed rental price

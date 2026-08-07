@@ -1,0 +1,8 @@
+aggregate_output_value_range,observations,serialized_size_p10_bytes,serialized_size_median_bytes,serialized_size_p90_bytes,median_input_count,median_output_count,value_semantics
+less than 1 RIN,115,222,267,370,1,2,aggregate outputs include possible change and known test activity
+1 to less than 10 RIN,899,191,253,518,1,2,aggregate outputs include possible change and known test activity
+10 to less than 100 RIN,22854,219,397,1172,2,3,aggregate outputs include possible change and known test activity
+"100 to less than 1,000 RIN",14160,222,1702,3853,10,4,aggregate outputs include possible change and known test activity
+"1,000 to less than 10,000 RIN",26104,222,222,222,1,2,aggregate outputs include possible change and known test activity
+"10,000 to less than 100,000 RIN",4781,222,222,518,1,2,aggregate outputs include possible change and known test activity
+"100,000 RIN or more",33,222,518,6678,3,2,aggregate outputs include possible change and known test activity

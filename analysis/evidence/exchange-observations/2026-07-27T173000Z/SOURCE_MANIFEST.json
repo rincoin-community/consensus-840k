@@ -1,0 +1,83 @@
+{
+  "files": [
+    {
+      "bytes": 264,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/nestex_ticker.json",
+      "retrieved_utc": "2026-07-27T16:51:11Z",
+      "sha256": "e115c698cdc2c0e00f07ee5c845dc294251da5d857e4efc565d79f084ed9c7e4",
+      "source_url": "https://trade.nestex.one/api/cg/tickers/RIN_USDT"
+    },
+    {
+      "bytes": 1656,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/nestex_orderbook.json",
+      "retrieved_utc": "2026-07-27T16:51:11Z",
+      "sha256": "15a15791308d14a349f33711f8328c66958ca688a726a0578da6eeba5a334444",
+      "source_url": "https://trade.nestex.one/api/cg/orderbook/RIN_USDT?depth=0"
+    },
+    {
+      "bytes": 11192,
+      "content_type": "application/json; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/nestex_tradebook_page_1.json",
+      "retrieved_utc": "2026-07-27T16:51:12Z",
+      "sha256": "ff0197603e6c94d97ef6760a9c8a8b83b943fe85c45c22942d3a22c86d004b31",
+      "source_url": "https://trade.nestex.one/api/cg/tradebook/RIN_USDT?page=1"
+    },
+    {
+      "bytes": 2829,
+      "content_type": "text/html; charset=utf-8",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/nestex_liquidity.html",
+      "retrieved_utc": "2026-07-27T16:51:12Z",
+      "sha256": "76dfb3298c771530e794f42e099bec39dd683fd8d221ac9c1e7a7230a0726138",
+      "source_url": "https://trade.nestex.one/ajax/liq_stats.aspx?cur=RIN"
+    },
+    {
+      "bytes": 1312,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/coinpaprika_markets.json",
+      "retrieved_utc": "2026-07-27T16:51:13Z",
+      "sha256": "457ce44d9521441b7599fddf458689148c4c9eef19a5055d91d027ebdd2f3262",
+      "source_url": "https://api.coinpaprika.com/v1/coins/rin-rincoin/markets?quotes=USD"
+    },
+    {
+      "bytes": 3291,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/rabid_rabbit_markets.json",
+      "retrieved_utc": "2026-07-27T16:51:13Z",
+      "sha256": "9f136827decb64058f5c1c8d84218dcbb9a38f5e97d6cf26d63bb159ee94c5b1",
+      "source_url": "https://rabid-rabbit.org/api/public/v1/markets"
+    },
+    {
+      "bytes": 600,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/rabid_rabbit_orderbook.json",
+      "retrieved_utc": "2026-07-27T16:51:14Z",
+      "sha256": "cf114674eac5f537649385eaa7ed5f981c757afadf8db623b56e751edc84d6f2",
+      "source_url": "https://rabid-rabbit.org/api/public/v1/orderbook/RIN_USDT"
+    },
+    {
+      "bytes": 27444,
+      "content_type": "application/json",
+      "http_status": 200,
+      "path": "evidence/exchange-observations/2026-07-27T173000Z/rabid_rabbit_trades.json",
+      "retrieved_utc": "2026-07-27T16:51:14Z",
+      "sha256": "ea0655ad77471bf8954050f04b76e1c875fdcc64848d8f31e69933833a690e5c",
+      "source_url": "https://rabid-rabbit.org/api/public/v1/trades/RIN_USDT"
+    }
+  ],
+  "notes": [
+    "Run once per day; do not infer missing days.",
+    "CoinPaprika aggregate and direct venue volume must not be added together.",
+    "AtomicDEX/Gleec volume is represented only when a frozen source reports it."
+  ],
+  "observation_id": "2026-07-27T173000Z",
+  "retrieved_utc": "2026-07-27T16:51:15Z"
+}

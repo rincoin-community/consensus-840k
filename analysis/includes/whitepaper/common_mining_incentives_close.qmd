@@ -1,0 +1,4 @@
+As subsidy declines, security depends increasingly on transaction fees, coin
+value, efficient mining, and the willingness of independent operators to
+support the network. A nominal reward alone cannot ensure decentralisation,
+liquidity, or resistance to reorganisation.

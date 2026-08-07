@@ -1,0 +1,13 @@
+category,case_id,case_name,parameter,value,unit,status
+price path,stress,Stress,annual price-index change / liquidity realization,-5.0% / 70.0%,normalized sensitivity,"illustrative, not forecast"
+price path,flat,Flat,annual price-index change / liquidity realization,0.0% / 90.0%,normalized sensitivity,"illustrative, not forecast"
+price path,growth,Moderate growth,annual price-index change / liquidity realization,3.0% / 80.0%,normalized sensitivity,"illustrative, not forecast"
+fees,low,Observed low fees,fee per block / annual change; basis: 90-day all-block median,0 base units / 0.0%,base units per block,derived from frozen observed chain data
+fees,base,Observed base fees,"fee per block / annual change; basis: 90-day all-block arithmetic mean, rounded to nearest base unit",10003 base units / 0.0%,base units per block,derived from frozen observed chain data
+fees,high,Observed active-block high fees,fee per block / annual change; basis: 90-day p90 conditional on blocks containing non-coinbase transactions,290698 base units / 0.0%,base units per block,derived from frozen observed chain data; conditional distribution
+hardware,reference,Normalized reference hardware,electricity + other operations + amortization,0.40 + 0.10 + 0.20,normalized value per hashrate-index unit-year,"placeholder class, not measured RinHash hardware"
+hardware,efficient,Normalized efficient hardware,electricity + other operations + amortization,0.28 + 0.08 + 0.22,normalized value per hashrate-index unit-year,"placeholder class, not measured RinHash hardware"
+hardware,high_cost,Normalized high-cost hardware,electricity + other operations + amortization,0.55 + 0.15 + 0.20,normalized value per hashrate-index unit-year,"placeholder class, not measured RinHash hardware"
+miner response,slow,Slow,revenue elasticity / response lag,0.50 / 30 days,normalized sensitivity,"illustrative, not behavioral law"
+miner response,base,Base,revenue elasticity / response lag,1.00 / 14 days,normalized sensitivity,"illustrative, not behavioral law"
+miner response,fast,Fast,revenue elasticity / response lag,1.50 / 3 days,normalized sensitivity,"illustrative, not behavioral law"

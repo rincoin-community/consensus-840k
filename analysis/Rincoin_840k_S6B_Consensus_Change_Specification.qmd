@@ -1,0 +1,221 @@
+---
+title: "Rincoin 840k S6/b Consensus Change Specification"
+subtitle: "Bounded Height-Only Customized Halving Transition"
+author: "Rincoin Community Forge"
+date: "2026-08-07"
+document-version: "1.0"
+status: "Discussion Draft"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    header-includes: |
+      \usepackage{longtable}
+geometry: "a4paper,margin=1.25in,portrait"
+header-includes:
+  - '\titlehead{\centering\includegraphics[width=2.2in]{includes/assets/rincoin.png}}'
+  - '\usepackage{draftwatermark}'
+  - '\SetWatermarkText{DRAFT}'
+  - '\SetWatermarkScale{1}'
+  - '\SetWatermarkLightness{0.92}'
+  - '\SetWatermarkAngle{45}'
+license: "CC-BY-4.0"
+bibliography: references.bib
+csl: chicago-author-date.csl
+link-citations: true
+---
+
+# Status
+
+This is a **Candidate Specification — Discussion Draft** for a possible
+Rincoin consensus change at block height 840,000. It is independently
+implementable, but it is not adopted consensus and does not activate itself.
+
+**Document version 1.0 · Public-review date 2026-08-07**
+
+S6/b is a provisional deterministic bounded interpretation of Customized
+Halving Scenario II pending clarification from the study's author. This
+specification fixes the rule needed for reproducible review; it does not claim
+that the source study supplied the terminal derivation or every consensus
+detail [@tokino2026regenerative].
+
+# Scope
+
+This document defines only the maximum block subsidy by height, its activation
+boundary, terminal-height derivation, coinbase amount validation, and fixed
+test vectors. It leaves chain-separation commitments, replay policy, release
+engineering, and activation coordination to separate specifications.
+
+The schedule is height-only. It does not use actual issued supply, circulating
+supply, spendable supply, lost or burned coins, transaction volume, price,
+governance state, or prior underclaims as consensus inputs.
+
+# Units and Conventions
+
+- One RIN is exactly `100000000` base units.
+- Height intervals are half-open: $[a,b)$ includes $a$ and excludes $b$.
+- The subsidy returned by the rule is the maximum amount of new RIN that the
+  coinbase transaction may create at that height.
+- Transaction fees are not new issuance.
+- All calculations use non-negative integers. Consensus code must not use
+  floating-point arithmetic.
+
+# Historical Rule Below Height 840,000
+
+For every height $h < 840{,}000$, nodes use the deployed Rincoin subsidy rule
+without modification [@rincoinCore2026subsidy]. With initial subsidy
+$5{,}000{,}000{,}000$ base units and 210,000-block epochs:
+
+$$
+S_0(h) = 5{,}000{,}000{,}000 \mathbin{\mathtt{>>}}
+\left\lfloor\frac{h}{210{,}000}\right\rfloor.
+$$
+
+Consequently, scheduled issuance before height 840,000 is exactly:
+
+$$
+210{,}000 \times (50 + 25 + 12.5 + 6.25)
+= 19{,}687{,}500\ \mathrm{RIN}.
+$$
+
+An implementation of S6/b must produce identical subsidy results and block
+validity below height 840,000. It must not apply the new phases retroactively.
+
+# Post-Activation Maximum Subsidy
+
+For height $h \ge 840{,}000$, the maximum subsidy $S(h)$ is:
+
+| Height interval | Maximum subsidy, base units | Maximum subsidy, RIN |
+|:---|---:|---:|
+| $840{,}000 \le h < 2{,}100{,}000$ | `400000000` | 4.00000000 |
+| $2{,}100{,}000 \le h < 4{,}200{,}000$ | `200000000` | 2.00000000 |
+| $4{,}200{,}000 \le h < 6{,}300{,}000$ | `100000000` | 1.00000000 |
+| $6{,}300{,}000 \le h < 234{,}587{,}500$ | `60000000` | 0.60000000 |
+| $h \ge 234{,}587{,}500$ | `0` | 0.00000000 |
+
+Height 840,000 is the first block governed by the new rule. Height
+234,587,499 is the final block with a non-zero scheduled subsidy. Height
+234,587,500 is the first zero-subsidy block.
+
+# Terminal-Height Derivation
+
+The terminal height is derived; it is not an independently selected input.
+Exact scheduled issuance before the 0.6 RIN phase is:
+
+| Component | Blocks | RIN per block | Scheduled issuance, RIN |
+|:---|---:|---:|---:|
+| Deployed rule below 840,000 | 840,000 | phase-dependent | 19,687,500 |
+| $[840{,}000,2{,}100{,}000)$ | 1,260,000 | 4 | 5,040,000 |
+| $[2{,}100{,}000,4{,}200{,}000)$ | 2,100,000 | 2 | 4,200,000 |
+| $[4{,}200{,}000,6{,}300{,}000)$ | 2,100,000 | 1 | 2,100,000 |
+| **Total before height 6,300,000** |  |  | **31,027,500** |
+
+The exact remaining maximum scheduled issuance is:
+
+$$
+168{,}000{,}000 - 31{,}027{,}500 = 136{,}972{,}500\ \mathrm{RIN}.
+$$
+
+At 0.6 RIN per block, the final phase contains exactly:
+
+$$
+136{,}972{,}500 / 0.6 = 228{,}287{,}500\ \text{blocks}.
+$$
+
+Therefore its exclusive end, and the first zero-subsidy height, is:
+
+$$
+6{,}300{,}000 + 228{,}287{,}500 = 234{,}587{,}500.
+$$
+
+An implementation must derive and assert this result with integer base-unit
+arithmetic. It must fail its build or tests if the ceiling is not exactly
+divisible by the final-phase subsidy after earlier scheduled issuance is
+deducted.
+
+# Maximum-Scheduled-Issuance Semantics
+
+Maximum scheduled issuance is the sum of the maximum subsidy permitted at
+every height. Under this rule it is exactly `16800000000000000` base units,
+or `168000000.00000000 RIN`.
+
+A miner may claim less than the maximum subsidy. Any unclaimed amount is not
+reissued, does not accumulate, does not extend the 0.6 RIN phase, and does not
+change the subsidy at any later height. Actual issued supply can therefore be
+lower than maximum scheduled issuance.
+
+Consensus validation must not scan historical coinbases to calculate a supply
+cap. It must not consult chainstate totals, UTXO totals, circulating-supply
+estimates, burns, lost coins, or wallet state when calculating $S(h)$.
+
+# Coinbase Amount Validation
+
+For a block at height $h$, let $F$ be the sum of transaction fees in that
+block and let $C$ be the total value of all coinbase outputs. Nodes reject the
+block if:
+
+$$
+C > S(h) + F.
+$$
+
+An exact claim of $S(h)+F$ is valid if every other consensus rule passes. An
+underclaim is valid and permanently forgoes the difference. A claim one base
+unit above $S(h)+F$ is invalid. At and after height 234,587,500, the coinbase
+may claim fees but no new subsidy.
+
+# Boundary and Normative Vectors
+
+The complete normative vector artifacts are:
+
+- `data/S6B_normative_test_vectors.csv`;
+- `data/S6B_normative_test_vectors.json`;
+- `data/S6B_normative_test_vectors.sha256`.
+
+They include every activation and phase boundary, the final two non-zero
+blocks, the first zero-subsidy block, and the following block. They also record
+cumulative maximum scheduled issuance immediately before and after each block.
+
+{{< include includes/S6B_normative_vectors_table.qmd >}}
+
+{{< include includes/S6B_vector_hashes_table.qmd >}}
+
+The vectors are generated by `scripts/simulate_monetary_scenarios.py` and
+checked by the separate `scripts/verify_s6b_independently.py`, which does not
+import the primary subsidy implementation.
+
+# Compatibility and Activation Risks
+
+At height 840,000, S6/b permits 4 RIN while unchanged deployed software permits
+3.125 RIN. The validity sets overlap when a miner underclaims: a coinbase claim
+at or below the lower permitted amount may be valid under both subsidy rules.
+Subsidy difference alone therefore does not guarantee deterministic branch
+separation.
+
+All nodes, miners, pools, wallets, explorers, and services that intend to
+follow this rule require coordinated software and activation handling. Pool
+coinbase construction must include fees correctly and must never treat the
+168M maximum as a stateful supply counter.
+
+# Chain Separation and Replay
+
+This monetary specification does not select a chain-separation commitment or a
+transaction-replay policy. Those are unresolved until a separate reviewed
+specification fixes their exact bytes, activation behavior, and test vectors.
+Implementers must not infer branch identity from the subsidy amount alone.
+
+# Reference Implementation Placeholders
+
+The following references must be replaced with immutable identifiers before a
+release decision:
+
+- source repository and commit: `[SOURCE_REPOSITORY_AND_COMMIT]`;
+- subsidy implementation path and symbol: `[SUBSIDY_IMPLEMENTATION]`;
+- block-validation call site: `[BLOCK_VALIDATION_CALL_SITE]`;
+- unit and functional test commits: `[TEST_COMMITS]`;
+- candidate binary hashes: `[CANDIDATE_BINARY_HASHES]`.
+
+No runtime option may choose among S1, S5/b, and S6/b in a final mainnet
+binary. A final release must contain one reviewed immutable schedule.
+
+# References {.unnumbered}

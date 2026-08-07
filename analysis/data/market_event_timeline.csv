@@ -1,0 +1,15 @@
+date_or_window,event,source_url,evidence_class,confidence,notes
+2025-04-23,Exbitron RIN/USDT listing announcement,https://bitcointalk.org/index.php?topic=5537764,directly observed from a public forum source,medium,Public announcement date; immutable archive still desirable.
+2025-06-02,CoinPaprika RIN market-data listing announcement,https://bitcointalk.org/index.php?topic=5537764,directly observed from a public forum source,medium,Public announcement date; immutable archive still desirable.
+summer 2025,Reported Exbitron operational interruption or security incident,,operator-supplied evidence,low,Exact date and independent primary source remain unavailable.
+2025-08-20T01:52:39Z,"First Rincoin binary subsidy halving, block 210,000",local synchronized Rincoin Core node,directly observed,high,Exact main-chain block timestamp.
+late 2025 to early 2026,Reported transfer of primary RIN trading activity from Exbitron to NestEx,,operator-supplied evidence,low,Venue-level historical volume series is incomplete.
+2025-12-19,Public takologi/rincoin repository created,https://github.com/takologi/rincoin,directly observed from frozen GitHub API metadata,high,Repository creation is not evidence of network adoption.
+2026-01-21T15:54:35Z,"Second Rincoin binary subsidy halving, block 420,000",local synchronized Rincoin Core node,directly observed,high,Exact main-chain block timestamp.
+spring 2026,Reported permanent end of RIN trading on Exbitron,https://www.exbitron.com/,operator-supplied evidence,low,The current shutdown page was unavailable to the collector; exact RIN delisting date remains unverified.
+2026-04-22,Governance-document repository first published,https://github.com/Aevust/rincoin-rips/commit/596bfa9f0d91b2dda3517540d320231c78798d8a,directly observed from frozen GitHub API metadata,high,Descriptive event marker only; no price causality is inferred.
+2026-05-11,Governance-document set expanded,https://github.com/Aevust/rincoin-rips/commit/ac3d4933a901404cc121ff10ee35be27644ce77c,directly observed from frozen GitHub API metadata,high,Descriptive event marker only.
+2026-05-17,Rincoin Community Core maintenance work publicly committed,https://github.com/takologi/rincoin/commit/0f2d7d8b6e8feec1f7986d25eb9bccbc3f4088d1,directly observed from frozen GitHub API metadata,high,Public code milestone; not a measure of operator adoption.
+2026-05-21 to 2026-05-22,"Governance, fork-status and canonical-source documents expanded",https://github.com/Aevust/rincoin-rips/commits/master,directly observed from frozen GitHub API metadata,high,Descriptive labels only; no causal price interpretation.
+2026-06-24T21:32:43Z,"Third Rincoin binary subsidy halving, block 630,000",local synchronized Rincoin Core node,directly observed,high,Exact main-chain block timestamp.
+2026-07-27,NestEx is the dominant CoinPaprika-reported RIN venue; Rabid Rabbit and AtomicDEX/Gleec activity is small,https://api.coinpaprika.com/v1/coins/rin-rincoin/markets?quotes=USD,directly observed from a frozen public source,medium,"A dated market snapshot, not a permanent venue ranking."

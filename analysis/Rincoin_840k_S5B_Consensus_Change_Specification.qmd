@@ -1,0 +1,299 @@
+---
+title: "Rincoin 840k S5/b Consensus Change Specification"
+subtitle: "Extended-Epoch Binary-Halving Transition"
+author: "Rincoin Community Forge"
+date: "2026-08-07"
+document-version: "1.0"
+status: "Discussion Draft"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    header-includes: |
+      \usepackage{longtable}
+geometry: "a4paper,margin=1.25in,portrait"
+header-includes:
+  - '\titlehead{\centering\includegraphics[width=2.2in]{includes/assets/rincoin.png}}'
+  - '\usepackage{draftwatermark}'
+  - '\SetWatermarkText{DRAFT}'
+  - '\SetWatermarkScale{1}'
+  - '\SetWatermarkLightness{0.92}'
+  - '\SetWatermarkAngle{45}'
+license: "CC-BY-4.0"
+bibliography: references.bib
+csl: chicago-author-date.csl
+link-citations: true
+---
+
+# Status
+
+This is a **Candidate Specification — Discussion Draft** for a Rincoin
+hard-fork consensus change. Publication does not imply adoption. The
+specification, reference implementation, tests, activation plan, service
+readiness, and chain-identification decisions remain under review.
+
+**Document version 1.0 · Public-review date 2026-08-07**
+
+The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** in
+this document are to be interpreted as described in
+RFC 2119 and RFC 8174 when, and only when, they appear in all capitals
+[@bradner1997rfc2119; @leiba2017rfc8174].
+
+# Scope
+
+This specification defines only the maximum permitted block subsidy at and
+after block height 840,000 under candidate S5/b.
+
+It does not change:
+
+- prior blockchain history or the validity of blocks below height 840,000;
+- existing UTXOs or ownership claims;
+- RinHash or its parameters;
+- Dark Gravity Wave v3;
+- transaction format or signature rules;
+- transaction-fee accounting;
+- any unrelated consensus rule.
+
+Transaction replay, network separation, release deployment, and service
+migration require separate decisions. They are not solved by this subsidy rule.
+
+# Definitions
+
+| Term | Definition |
+|---|---|
+| Activation height $H$ | `840000` |
+| Phase anchor $A$ | `630000` |
+| Long reward epoch length $L$ | `2100000` blocks |
+| Base unit | $10^{-8}$ RIN; `1 RIN = 100000000` base units |
+| Base subsidy $R$ | `625000000` base units, or `6.25000000 RIN` |
+| Post-activation phase index $n$ | $\left\lfloor(h-A)/L\right\rfloor$ for height $h\geq H$ |
+| Maximum permitted block subsidy | Maximum newly issued amount a coinbase MAY claim at a height, excluding transaction fees |
+| Rounding rule | Integer binary right shift; values below one base unit become zero |
+| First later halving height | `2730000` |
+| First zero-subsidy height | `63630000` |
+
+The phase anchor is used only to calculate subsidy at and above the activation
+height. It does not make the extended-epoch rule retroactive and does not alter
+the validity of any historical block.
+
+# Pre-Activation Rule
+
+For every block height $h < 840000$, conforming software MUST apply the
+deployed pre-activation subsidy rule without modification. This specification
+does not restate that rule as new normative text.
+
+The inspected deployed implementation is `GetBlockSubsidy` at commit
+`b52c87778f800dc5f4e2f59c372badbc139f933f`
+[@rincoinCore2026subsidy].
+The candidate implementation MUST demonstrate identical subsidy outputs and
+block-validity behaviour below activation through regression tests.
+
+# Activation
+
+The candidate rule activates at **block height 840,000**.
+
+- Height 839,999 MUST use the deployed pre-activation rule.
+- Height 840,000 MUST use the S5/b post-activation calculation with phase
+  index $n=0$.
+- Height 840,001 MUST remain in phase index $n=0$.
+- The phase anchor at height 630,000 MUST NOT be applied as a new rule to any
+  height below 840,000.
+
+There is no transition window in which either subsidy rule is accepted.
+
+# Post-Activation Subsidy Rule
+
+For block height $h \geq H$, calculate:
+
+$$
+n=\left\lfloor\frac{h-A}{L}\right\rfloor.
+$$
+
+The maximum permitted block subsidy is:
+
+$$
+\operatorname{Subsidy}(h)=
+\begin{cases}
+625{,}000{,}000 \mathbin{\mathtt{>>}} n, & 0\leq n<30,\\
+0, & n\geq30.
+\end{cases}
+$$
+
+The right shift is an integer operation on a non-negative value. An
+implementation MUST test `n >= 30` before shifting so that it does not perform
+an out-of-range shift.
+
+This is binary integer halving, nominally a 50% reduction, with floor rounding
+at base-unit precision. When the preceding value is odd, the effective
+percentage reduction can differ slightly from 50%.
+
+Consequences:
+
+- height 840,000 returns `625000000` base units;
+- height 2,729,999 returns `625000000` base units;
+- height 2,730,000 returns `312500000` base units;
+- each subsequent 2,100,000-block boundary applies the specified binary
+  integer-halving operation;
+- there is no fixed subsidy floor;
+- there is no constant terminal phase;
+- there is no perpetual tail emission;
+- height 63,629,999 returns `1` base unit;
+- height 63,630,000 and every later height return zero.
+
+# Integer Arithmetic
+
+A conforming implementation:
+
+1. MUST represent subsidy in integer base units;
+2. MUST calculate the phase index from integer block heights;
+3. MUST use binary integer right shift or an exactly equivalent integer-only
+   division by $2^n$;
+4. MUST return zero when $n\geq30$ without performing an out-of-range shift;
+5. MUST NOT use floating-point arithmetic in consensus calculation;
+6. MUST produce the same result on every supported architecture and build
+   configuration.
+
+Conceptual pseudocode:
+
+```cpp
+CAmount GetPost840kS5BSubsidy(int height)
+{
+    assert(height >= 840000);
+
+    const int64_t phase =
+        ((int64_t)height - 630000) / 2100000;
+
+    if (phase >= 30) {
+        return 0;
+    }
+    return ((CAmount)625000000) >> phase;
+}
+```
+
+An equivalent implementation MAY be used only if exhaustive phase tests
+demonstrate identical subsidy outputs and block-validity behaviour.
+
+# Issuance Accounting
+
+The maximum permitted subsidy MUST be a deterministic function of block height.
+It MUST NOT depend on:
+
+- actual subsidy claimed by earlier coinbase transactions;
+- circulating, spendable, active, lost, or burned supply;
+- UTXO state beyond ordinary block validation;
+- market price or network hashrate;
+- transaction fees.
+
+The total value of coinbase outputs MUST NOT exceed the maximum permitted block
+subsidy at height $h$ plus the transaction fees collected from that block.
+
+Transaction fees are transfers of existing RIN and are not newly issued supply.
+A miner MAY claim less than the maximum permitted subsidy. Any underclaimed
+amount MUST NOT be reissued at a later height.
+
+# Boundary Vectors
+
+The following vectors are generated from `data/scenario_config.json` by
+`scripts/simulate_monetary_scenarios.py`. They cover activation, the phase
+anchor interpretation, early halving boundaries, the final non-zero phase, and
+the first zero-subsidy block.
+
+{{< include includes/S5B_normative_vectors_table.qmd >}}
+
+Machine-readable forms:
+
+- `data/S5B_normative_test_vectors.csv`
+- `data/S5B_normative_test_vectors.json`
+
+{{< include includes/S5B_vector_hashes_table.qmd >}}
+
+A conforming reference implementation MUST match every vector. Before
+activation readiness is claimed, an independent implementation SHOULD generate
+the same outputs without importing the simulator's subsidy function.
+
+# Maximum Scheduled Issuance
+
+Under the candidate integer rule:
+
+- maximum scheduled issuance below height 840,000 is
+  `19,687,500.00000000 RIN`;
+- maximum scheduled issuance at and above height 840,000 is
+  `24,937,499.76900000 RIN`;
+- total maximum scheduled issuance is
+  **`44,624,999.76900000 RIN`**;
+- the first zero-subsidy height is **`63,630,000`**.
+
+The original whitepaper's 168,000,000 RIN statement is a historical upper
+design bound, not the effective maximum of this rule. No state-dependent
+mechanism can increase scheduled issuance from 44,624,999.76900000 RIN toward
+168,000,000 RIN.
+
+These totals assume every block claims the maximum permitted subsidy. Actual
+issued and circulating supply MAY be lower.
+
+# Compatibility and Activation Risk
+
+At height 840,000, S5/b permits `6.25000000 RIN`, while the unchanged deployed
+binary-halving rule permits `3.12500000 RIN`. S5/b therefore has no immediate
+miner-revenue shock, but consensus activation divergence is immediate. A block
+whose coinbase claims more than the legacy amount but no more than the S5/b
+amount will be valid under S5/b and invalid under unchanged software.
+
+Nodes enforcing different rules can therefore diverge at or after the first
+block whose coinbase claim distinguishes the rules. Deployment MUST be treated
+as a hard fork. Implementers MUST test:
+
+- height 839,999 and 840,000 boundary behaviour;
+- heights 2,729,999 and 2,730,000;
+- coinbase claims below, equal to, and one base unit above each maximum;
+- reorganisation across the activation boundary in both directions;
+- initial block download across the boundary;
+- block-template subsidy and miner coinbase validation;
+- deterministic behaviour on all supported platforms.
+
+# Chain Identification and Replay
+
+This subsidy change separates block validity but does not, by itself, prevent
+transaction replay between branches that share transaction formats and
+signature rules. A block-version marker alone would not provide transaction
+replay protection.
+
+Before activation readiness is claimed, a separate deployment analysis MUST
+resolve or explicitly accept:
+
+- P2P and software identity;
+- wallet and service chain selection;
+- explorer and exchange labelling;
+- deposit and withdrawal routing;
+- transaction replay exposure;
+- whether replay protection requires an additional consensus change.
+
+<!-- TODO: Link the reviewed chain-identification and replay-risk specification. -->
+
+# Reference Implementation
+
+The candidate implementation is for testing and public review. It is not final,
+adopted, production-ready, official, or activation-ready.
+
+<!-- TODO: Select the public implementation home: restored Rin-coin organization access or a new rincoin-community organization. -->
+<!-- TODO: Insert public repository URL, branch, immutable implementation commit, exact source lines, and CI test-artifact links. -->
+<!-- TODO: Insert an independently generated test-vector hash and cross-implementation result. -->
+<!-- TODO: Insert reproducible build instructions and identify any unreleased test artifacts as not for production use. -->
+
+# Non-Normative Rationale
+
+The companion *Rincoin Monetary Policy and Security Scenario Analysis* compares
+S5/b against S1, the unchanged rule, other extended-epoch schedules, fixed
+phases, cap-derived decline, Customized Halving study schedules, and perpetual
+tails. The *Rincoin Monetary Review Summary* presents the decision path and
+questions for public review [@rincoinAnalysis2026; @rincoinReviewSummary2026].
+
+S5/b allocates the remaining issuance through approximately four-year binary
+integer halvings, nominally 50%, and avoids an immediate miner-revenue reduction
+at activation. It is one member of the principal comparison pair in the
+public-review package; S1 allocates almost the same final issuance through
+recursive 19/20 reductions, nominally 5%. This rationale is non-normative and
+does not alter any requirement in this specification.
+
+# References {.unnumbered}

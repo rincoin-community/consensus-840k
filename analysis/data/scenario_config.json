@@ -51,6 +51,8 @@
       "id": "S0",
       "name": "Unchanged binary halving",
       "kind": "legacy_binary",
+      "reduction_numerator": 1,
+      "reduction_denominator": 2,
       "color": [86, 86, 86],
       "primary": true
     },

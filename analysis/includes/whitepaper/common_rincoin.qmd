@@ -1,0 +1,12 @@
+# Rincoin
+
+Rincoin is a proof-of-work digital currency for direct settlement and
+self-custody. It uses the UTXO ledger model and cumulative-proof-of-work chain
+selection. Independent full nodes validate transactions and blocks; miners
+order transactions by extending the valid chain with the greatest cumulative
+work [@rincoinCore2026deployed].
+
+The design combines one-minute target blocks with a memory-hard proof-of-work
+function and finite, predictable issuance. It favours a compact base layer,
+transparent validation rules, open-source software, and direct control of
+private keys.

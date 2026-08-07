@@ -1,0 +1,39 @@
+{
+  "mechanism": "exchange-managed automated liquidity reserve integrated with NestEx's centralized order book",
+  "mechanism_source": "https://trade.nestex.one/liquidity-is-awesome",
+  "operator_supplied": {
+    "base_quantity_displayed": "450742.4413250",
+    "effective_price_usdt": "0.00065716",
+    "evidence_class": "operator-supplied evidence",
+    "largest_provider_share_pct": "84.51",
+    "notes": "The screenshot labels the quantity Pooled NEX; NEX is NestEx's own commodity coin. The label is retained verbatim.",
+    "pooled_usdt": "296.209619",
+    "provider_count": 3,
+    "reported_24h_volume_rin": "67700",
+    "reported_24h_volume_usdt": "44.2847730",
+    "retrieved_or_capture_utc": "2026-07-27",
+    "second_provider_share_pct": "12.03",
+    "snapshot": "operator-supplied screenshot",
+    "third_provider_share_pct": "3.46",
+    "total_liquidity_usd": "592.410",
+    "ui_base_quantity_label": "Pooled NEX"
+  },
+  "public_endpoint": {
+    "base_quantity_displayed": "450546.550872",
+    "effective_price_usdt": "0.00065773",
+    "evidence_class": "directly observed from a frozen public source",
+    "largest_provider_share_pct": "84.52",
+    "notes": "The current endpoint explicitly labels a near-identical base quantity as Pooled RIN; this supports, but does not rewrite, the historical screenshot label.",
+    "pooled_usdt": "296.340079",
+    "provider_count": 3,
+    "reported_24h_volume_rin": "67554.25264074",
+    "reported_24h_volume_usdt": "44.16236700",
+    "retrieved_or_capture_utc": "2026-07-27T16:28:44Z",
+    "second_provider_share_pct": "12.03",
+    "snapshot": "public RIN liquidity endpoint",
+    "third_provider_share_pct": "3.46",
+    "total_liquidity_usd": "592.68",
+    "ui_base_quantity_label": "Pooled RIN"
+  },
+  "slippage_model_status": "No AMM-only slippage formula is applied; executable depth is measured from the public order book."
+}

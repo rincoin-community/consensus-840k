@@ -1,0 +1,13 @@
+{
+  "deployed_issuance_before_activation_base_units": 1968750000000000,
+  "final_phase_blocks": 228287500,
+  "first_zero_subsidy_height": 234587500,
+  "implementation": "independent height-only calculation; primary generator not imported",
+  "issuance_at_final_phase_start_base_units": 3102750000000000,
+  "maximum_scheduled_issuance_base_units": 16800000000000000,
+  "status": "passed",
+  "underclaim_does_not_change_later_schedule": true,
+  "vector_count": 16,
+  "vector_csv_sha256": "2802045fde1e8ef0cd061a7e01dded6488fca5f2ca9c5573ca9d46dfeadefb70",
+  "vector_json_sha256": "50c4328578e8e46adc800a80e96796bb13572315f0130691a0d01ac7acfd628b"
+}
