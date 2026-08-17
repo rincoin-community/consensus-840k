@@ -11,7 +11,12 @@ their assumptions, and their technical consequences available for public review.
 
 ## Start here
 
-Two entry points, depending on how much detail you want:
+Two different questions, two different starting points. Pick the one you actually have.
+
+### Why is this happening, and what's being decided? (background and decision process)
+
+For readers who want the reasoning, the alternatives, and how a scenario gets chosen — not yet the
+implementation details.
 
 - **[`Rincoin_Monetary_Review_Summary.pdf`](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Monetary_Review_Summary.pdf)**
   — the short read: scenarios, findings, and open questions
@@ -25,7 +30,22 @@ Two entry points, depending on how much detail you want:
   ([`.qmd` source](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Monetary_Scenario_Analysis.qmd))
 
 A HackMD discussion copy of the full analysis will follow; the summary already has
-one (linked above).
+one (linked above). The three scenarios these documents narrow down to are detailed in
+[Candidate documents](#candidate-documents-for-three-preselected-scenarios) below.
+
+### What actually changes, and what do I need to do? (technical impact only)
+
+For pool operators, exchanges, wallet or mining-software developers, and anyone else who just needs
+to know what's mechanically changing — without reading the monetary reasoning first.
+
+- **[`technology/README.md`](technology/README.md)** — starts with a one-screen brief for
+  integrators (what a pool, exchange, wallet, or miner/GBT client needs to do, in a few bullets),
+  then covers the full technical design: how blocks are told apart between possible continuations
+  (a scheduled coinbase commitment), how transactions are told apart (a sighash-level fork
+  identifier — explicitly *not* the transaction-version-marker approach some external proposals
+  use), what's still open, what's conditional, and what we've deliberately ruled out.
+
+Nothing in either path is adopted or final, per the note above — both are discussion drafts.
 
 ## Candidate documents for three preselected scenarios
 
@@ -63,6 +83,11 @@ instructions.
 - [`coordination-notice.md`](coordination-notice.md) invites direct technical
   coordination and lists the available response routes.
 - [`STATUS.md`](STATUS.md) records the current publication and decision status.
+- [`technology/`](technology/) covers the technical side of the transition: the scheduled coinbase
+  commitment that separates blocks, the sighash-level fork identifier that separates transactions,
+  what we'd still consider adding and under what conditions, what we won't do, and an assessment of
+  the external RIP-0002/RIP-0009 proposals. Starts with a quick brief for pool, exchange, wallet,
+  and mining-software integrators.
 - [`analysis/`](analysis/) contains the public review package:
   - `Rincoin_Monetary_Review_Summary.*` and `Rincoin_Monetary_Scenario_Analysis.*`
     — the summary and the full analysis, as `.qmd` source and rendered `.pdf`.
@@ -107,5 +132,6 @@ validation stages against the already-rendered PDFs). Its final packaging step a
 checksums release files that are not part of this repository, so run the individual
 scripts if you only want to reproduce a specific result.
 
-Additional technical overview material, implementation code, and further
-specifications will be added as their review and publication gates are reached.
+The technical overview, coinbase-commitment specification, replay-protection design, and external
+RIP assessment are published in [`technology/`](technology/). Implementation code and further
+normative specifications will be added as their own review and publication gates are reached.
