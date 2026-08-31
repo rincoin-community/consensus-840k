@@ -1,0 +1,37 @@
+case_id,layer,description,expected,actual,verdict,test_id,status
+FC-P01,unit,exact correct S6/b commitment round-trips,accept,accept,PASS,build_and_parse_round_trip,DONE
+FC-N01,unit,wrong format_version byte,reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,wrong_format_version_rejected,DONE
+FC-N02,unit,wrong fork_no,reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,wrong_fork_no_rejected,DONE
+FC-N03,unit,wrong scenario_id,reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,wrong_scenario_id_rejected,DONE
+FC-N04,unit,nonzero flags byte,reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,nonzero_flags_rejected,DONE
+FC-N05,unit,non-minimal push encoding,reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,non_minimal_push_rejected,DONE
+FC-N06,unit,truncated payload (27 bytes),reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,truncated_payload_rejected,DONE
+FC-N07,unit,extended payload (29 bytes),reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,extended_payload_rejected,DONE
+FC-N08,unit,correct payload plus trailing separate op,reject,not yet run,SKIP_NOT_WRITTEN,-,OUTSTANDING
+FC-N09,unit,correct script nonzero output value,reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,nonzero_commitment_value_rejected,DONE
+FC-N10,unit,two identical correct outputs,reject bad-fork-commitment-duplicate,reject bad-fork-commitment-duplicate,PASS,two_correct_commitments_still_rejected,DONE
+FC-N11,unit,correct + wrong-scenario duplicate,reject bad-fork-commitment-duplicate,reject bad-fork-commitment-duplicate,PASS,duplicate_commitment_rejected_even_if_one_correct,DONE
+FC-N12,unit,missing commitment output,reject bad-fork-commitment-missing,reject bad-fork-commitment-missing,PASS,missing_commitment_rejected,DONE
+FC-N13,unit,wrong branch_id,reject bad-fork-commitment-malformed,reject bad-fork-commitment-malformed,PASS,wrong_branch_id_rejected,DONE
+FC-N14,unit,correct + wrong-branch_id duplicate,reject,not yet separately asserted,SKIP_NOT_WRITTEN,-,OUTSTANDING
+S6B-SUBS-01,unit,subsidy at height 839999 (pre-fork),625000000 base units,625000000 base units,PASS,s6b_subsidy_frozen_vectors,DONE
+S6B-SUBS-02,unit,subsidy at height 840000 (phase 1: 4 RIN),400000000 base units,400000000 base units,PASS,s6b_subsidy_frozen_vectors,DONE
+S6B-SUBS-03,unit,subsidy at height 2100000 (phase 2: 2 RIN),200000000 base units,200000000 base units,PASS,s6b_subsidy_frozen_vectors,DONE
+S6B-SUBS-04,unit,subsidy at height 4200000 (phase 3: 1 RIN),100000000 base units,100000000 base units,PASS,s6b_subsidy_frozen_vectors,DONE
+S6B-SUBS-05,unit,subsidy at height 6300000 (phase 4: 0.6 RIN),60000000 base units,60000000 base units,PASS,s6b_subsidy_frozen_vectors,DONE
+S6B-SUBS-06,unit,subsidy at height 234587499 (final nonzero),60000000 base units,60000000 base units,PASS,s6b_subsidy_frozen_vectors,DONE
+S6B-SUBS-07,unit,subsidy at height 234587500 (derived terminal cutoff),0,0,PASS,s6b_subsidy_frozen_vectors,DONE
+S6B-SUBS-08,unit,subsidy strictly decreasing across full phase table then terminates at zero,strictly decreasing then 0,confirmed,PASS,s6b_subsidy_strictly_decreasing_then_terminates,DONE
+S6B-SUBS-09,unit,subsidy at INT_MAX height completes without hanging,<1s and zero,zero in <1s,PASS,s6b_subsidy_extreme_height_is_fast_and_zero,DONE
+S6B-SUBS-10,unit,independent verification of terminal height and issuance ceiling,234587500 and exactly 168000000 RIN,234587500 and exactly 168000000 RIN,PASS,verify_s6b_independently.py (pre-existing; reused),DONE
+S6B-FUNC-01,functional,single node: commitment enforcement end-to-end via RPC/P2P,enforced,enforced,PASS,feature_fork_commitment.py,DONE
+S6B-FUNC-02,functional,single node: subsidy enforcement across all 5 phase transitions incl. terminal cutoff,enforced,enforced,PASS,feature_fork_subsidy.py,DONE
+S6B-FUNC-03,functional,single node: sig_fork_id tx propagation/rejection,enforced,enforced,PASS,feature_fork_sig_fork_id.py,DONE
+S6B-FUNC-04,functional,two nodes: higher-work commitment-valid chain wins reorg,wins,wins,PASS,feature_fork_reorg.py,DONE
+S6B-FUNC-05,functional,two nodes: higher-work commitment-invalid chain does not win,does not win,does not win,PASS,feature_fork_reorg.py,DONE
+S6B-XIMPL-01,functional,S6/b vs v1.1.0: clean divergence no adoption,no adoption,confirmed,PASS,feature_fork_vs_legacy.py,DONE
+S6B-XIMPL-02,functional,S6/b vs v1.0.1: clean divergence no crash,no adoption of S6/b chain,confirmed,PASS,feature_fork_vs_legacy.py,DONE
+S6B-XIMPL-03,functional,S6/b vs Aevust fork: header/full-block asymmetry,validated tip never adopts foreign chain,confirmed,PASS,feature_fork_vs_aevust.py,DONE
+S6B-XIMPL-04,design review,rincoin-core/rincoin@v1.1's Customized Halving compared for security/readability/auditability,honest comparison recorded,unbounded issuance + non-extensible if-chain identified; not adopted as-is,PASS (informs design, not a pass/fail test),manual review (see build-manifest.json),DONE
+S6B-XIMPL-MATRIX,cross-implementation,full producer x validator matrix across all reference binaries,TBD,not yet run,SKIP_NOT_BUILT,fork_interop_matrix.py (not yet written),OUTSTANDING
+S6B-CI,functional,full pre-existing CI functional allowlist unmodified,159/159 pass,159/159 pass,PASS,test_runner.py,DONE

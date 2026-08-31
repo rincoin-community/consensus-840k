@@ -1,0 +1,33 @@
+{
+  "scenario": "S5B",
+  "repository": "rincoin-community/rincoin-core",
+  "branch": "consensus/s5b-testing",
+  "branched_from": "consensus/s1-testing @ a8617fc73 (post branch_id migration)",
+  "commit": "08faf8844440f03bb7663d05c4813ccc6d6203a0",
+  "note_on_binary_provenance": "Binaries were built from a clean incremental rebuild at this exact commit (no uncommitted changes on top). Supersedes the 3cad3c7f2 build recorded in earlier drafts (which also carried a build-before-commit -dirty version-string quirk, now gone): this commit cherry-picks the same three real bug fixes as S1 (mainnet-guard scope, a ConnectBlock() use-after-free found by CI's ASan leg, and a CI artifact-naming fix), with the guard's scenario-name text corrected from S1 to S5/b -- see open-items.md's \"Done since the previous draft\".",
+  "version_string_reported": "v1.2.0.0-08faf8844",
+  "build_flags": {
+    "configure": "default (./scripts/build.sh, no non-default WITH_* flags)",
+    "mainnet_guard": "RINCOIN_TESTING_ALLOW_MAINNET env var required at every invocation to run on mainnet; unset in all tests below"
+  },
+  "binary_sha256": {
+    "src/rincoind": "3c3140b90c130a46ac6ba0138dbcdd55a648e511c92ecff2a5664a0a3860ffe4",
+    "src/rincoin-cli": "0001e99e5fee0a42ff71aba8e2ff8a35c2c67ac4f35ff99aa5612b5482330bba",
+    "src/test/test_rincoin": "b96ec427576cb61612fc5da49bae4db94bb53a536d76311d184f867c5b327f2f"
+  },
+  "ci_run": "https://github.com/rincoin-community/rincoin-core/actions/runs/33436296857",
+  "ci_run_status_at_time_of_writing": "in progress -- update this field once concluded",
+  "reference_binaries_used": {
+    "v1.1.0": "rincoin-community/rincoin-core, tag v1.1.0, built via test/build_reference_node.py",
+    "v1.0.1": "Rin-coin/rincoin, tag v1.0.1, built via test/build_reference_node.py",
+    "aevust": "Aevust/rincoin, feature/port-sim-v1.0.7, built via test/build_reference_node.py as a foreign (non-remote) clone"
+  },
+  "branch_id_used": {
+    "value": "00112233445566778899aabbccddeeff",
+    "status": "canonical synthetic test value published in technology/consensus-transition.md §5, shared scenario-agnostic infrastructure -- same value S1 uses, no separate migration needed for this branch"
+  },
+  "scenario_id_used": {
+    "value": 2,
+    "status": "provisional, ad-hoc value pending official assignment upstream (none exists yet for any candidate scenario) -- S1=1, S5/b=2, S6/b=3 by convention"
+  }
+}

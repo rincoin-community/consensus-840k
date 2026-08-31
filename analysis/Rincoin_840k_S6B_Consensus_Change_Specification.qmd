@@ -15,11 +15,6 @@ format:
 geometry: "a4paper,margin=1.25in,portrait"
 header-includes:
   - '\titlehead{\centering\includegraphics[width=2.2in]{includes/assets/rincoin.png}}'
-  - '\usepackage{draftwatermark}'
-  - '\SetWatermarkText{DRAFT}'
-  - '\SetWatermarkScale{1}'
-  - '\SetWatermarkLightness{0.92}'
-  - '\SetWatermarkAngle{45}'
 license: "CC-BY-4.0"
 bibliography: references.bib
 csl: chicago-author-date.csl
@@ -206,14 +201,42 @@ Implementers must not infer branch identity from the subsidy amount alone.
 
 # Reference Implementation Placeholders
 
-The following references must be replaced with immutable identifiers before a
-release decision:
+A testing-mode-only candidate implementation now fills these references (it
+is not final, adopted, production-ready, official, or activation-ready --
+these remain identifiers to re-confirm and immutably lock before any actual
+release decision, not a readiness claim):
 
-- source repository and commit: `[SOURCE_REPOSITORY_AND_COMMIT]`;
-- subsidy implementation path and symbol: `[SUBSIDY_IMPLEMENTATION]`;
-- block-validation call site: `[BLOCK_VALIDATION_CALL_SITE]`;
-- unit and functional test commits: `[TEST_COMMITS]`;
-- candidate binary hashes: `[CANDIDATE_BINARY_HASHES]`.
+- source repository and commit:
+  [`rincoin-community/rincoin-core`](https://github.com/rincoin-community/rincoin-core),
+  branch [`consensus/s6b-testing`](https://github.com/rincoin-community/rincoin-core/tree/consensus/s6b-testing)
+  (branched from `consensus/s1-testing`), commit `4b05eda72`
+  ([CI run](https://github.com/rincoin-community/rincoin-core/actions/runs/33436296904));
+- subsidy implementation path and symbol: `src/validation.cpp`,
+  `GetBlockSubsidyPostFork()`, scanning `Consensus::Params::ForkSubsidyPhases`
+  (`src/consensus/params.h`), populated per network in `src/chainparams.cpp`;
+- block-validation call site: `GetBlockSubsidy()` in `src/validation.cpp`,
+  dispatching to the above from `ForkH1Height` onward;
+- unit and functional test commits: same commit as above --
+  `src/test/fork_subsidy_tests.cpp` (unit), `test/functional/feature_fork_subsidy.py`
+  (functional, exercises every phase transition including the terminal cutoff);
+- candidate binary hashes: see
+  [`verification/S6B/build-manifest.json`](../verification/S6B/build-manifest.json).
+
+This build refuses to start on mainnet unless `RINCOIN_TESTING_ALLOW_MAINNET=1`
+is set in the process environment at every invocation. Build instructions:
+`./scripts/prereqs.sh && ./scripts/build.sh`. Test-vector cross-check,
+executed test results, and the cross-implementation comparison against
+older Rincoin releases and other independently-developed forks --
+including a design review of a structurally similar third-party
+implementation before this one was written --:
+[`verification/S6B_Consensus_Testing_Summary.qmd`](../verification/S6B_Consensus_Testing_Summary.qmd)
+and its evidence annex, [`verification/S6B/`](../verification/S6B/). Local
+verification is complete and passing (532 C++ unit tests, 6 fork-scenario
+functional tests, 159 pre-existing functional tests, all green, cross-checked
+against the pre-existing `analysis/scripts/verify_s6b_independently.py`); the
+full cross-implementation producer × validator matrix and two narrow
+commitment test-vector cases remain outstanding — see that annex's own
+`open-items.md`.
 
 No runtime option may choose among S1, S5/b, and S6/b in a final mainnet
 binary. A final release must contain one reviewed immutable schedule.

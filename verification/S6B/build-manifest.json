@@ -1,0 +1,37 @@
+{
+  "scenario": "S6B",
+  "repository": "rincoin-community/rincoin-core",
+  "branch": "consensus/s6b-testing",
+  "branched_from": "consensus/s1-testing @ a8617fc73 (post branch_id migration)",
+  "commit": "4b05eda72419617feea060ec601845a32fac5930",
+  "note_on_binary_provenance": "Binaries were built from a clean incremental rebuild at this exact commit (no uncommitted changes on top). Supersedes the 2cec8c6d9 build recorded in earlier drafts (which also carried a build-before-commit -dirty version-string quirk, now gone): this commit cherry-picks the same three real bug fixes as S1 (mainnet-guard scope, a ConnectBlock() use-after-free found by CI's ASan leg, and a CI artifact-naming fix), with the guard's scenario-name text corrected from S1 to S6/b -- see open-items.md's \"Done since the previous draft\".",
+  "version_string_reported": "v1.2.0.0-4b05eda72",
+  "build_flags": {
+    "configure": "default (./scripts/build.sh, no non-default WITH_* flags)",
+    "mainnet_guard": "RINCOIN_TESTING_ALLOW_MAINNET env var required at every invocation to run on mainnet; unset in all tests below"
+  },
+  "binary_sha256": {
+    "src/rincoind": "71dbb4660a9b71b5458fa6c70de825a0d9154539ed5748fb4da9695c321ca00b",
+    "src/rincoin-cli": "32ecb924c427326ee9df325a3203602a6e6656e8c0c87dd59da6d7032010798e",
+    "src/test/test_rincoin": "a52c733f95d977ba9555b685904902a46b40a678850fef63115d0ccc049c5714"
+  },
+  "ci_run": "https://github.com/rincoin-community/rincoin-core/actions/runs/33436296904",
+  "ci_run_status_at_time_of_writing": "in progress -- update this field once concluded",
+  "reference_binaries_used": {
+    "v1.1.0": "rincoin-community/rincoin-core, tag v1.1.0, built via test/build_reference_node.py",
+    "v1.0.1": "Rin-coin/rincoin, tag v1.0.1, built via test/build_reference_node.py",
+    "aevust": "Aevust/rincoin, feature/port-sim-v1.0.7, built via test/build_reference_node.py as a foreign (non-remote) clone"
+  },
+  "branch_id_used": {
+    "value": "00112233445566778899aabbccddeeff",
+    "status": "canonical synthetic test value published in technology/consensus-transition.md §5, shared scenario-agnostic infrastructure -- same value S1 and S5/b use, no separate migration needed"
+  },
+  "scenario_id_used": {
+    "value": 3,
+    "status": "provisional, ad-hoc value pending official assignment upstream (none exists yet for any candidate scenario) -- S1=1, S5/b=2, S6/b=3 by convention"
+  },
+  "design_review_before_implementation": {
+    "reviewed": "rincoin-core/rincoin@v1.1, src/validation.cpp GetBlockSubsidy()",
+    "finding": "structurally similar Customized Halving schedule with no terminal cutoff (unbounded issuance) and a hardcoded if-chain with no structural way to change phase count; adopted its interval-relative height scaling idea, not its implementation shape -- see the commit message and S6B_Consensus_Testing_Summary.qmd for the full comparison"
+  }
+}

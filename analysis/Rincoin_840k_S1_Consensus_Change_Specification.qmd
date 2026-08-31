@@ -15,11 +15,6 @@ format:
 geometry: "a4paper,margin=1.25in,portrait"
 header-includes:
   - '\titlehead{\centering\includegraphics[width=2.2in]{includes/assets/rincoin.png}}'
-  - '\usepackage{draftwatermark}'
-  - '\SetWatermarkText{DRAFT}'
-  - '\SetWatermarkScale{1}'
-  - '\SetWatermarkLightness{0.92}'
-  - '\SetWatermarkAngle{45}'
 license: "CC-BY-4.0"
 bibliography: references.bib
 csl: chicago-author-date.csl
@@ -271,17 +266,39 @@ resolve or explicitly accept:
 - transaction replay exposure;
 - whether replay protection requires an additional consensus change.
 
-<!-- TODO: Link the reviewed chain-identification and replay-risk specification. -->
+The chain-identification and replay-risk mechanism (a scheduled coinbase
+commitment plus a sighash-level `sig_fork_id`) is specified in
+`technology/consensus-transition.md` §5–6 and
+`technology/replay-protection-plan.md`; it applies identically across S1,
+S5/b, and S6/b and is not repeated in this document.
 
 # Reference Implementation
 
 The candidate implementation is for testing and public review. It is not final,
 adopted, production-ready, official, or activation-ready.
 
-<!-- TODO: Select the public implementation home: restored Rin-coin organization access or a new rincoin-community organization. -->
-<!-- TODO: Insert public repository URL, branch, immutable implementation commit, exact source lines, and CI test-artifact links. -->
-<!-- TODO: Insert an independently generated test-vector hash and cross-implementation result. -->
-<!-- TODO: Insert reproducible build instructions and identify any unreleased test artifacts as not for production use. -->
+The public implementation home is the `rincoin-community` GitHub organization.
+A testing-mode-only candidate implementation is published at
+[`rincoin-community/rincoin-core`](https://github.com/rincoin-community/rincoin-core),
+branch [`consensus/s1-testing`](https://github.com/rincoin-community/rincoin-core/tree/consensus/s1-testing),
+commit `e79704fb3` ([CI run](https://github.com/rincoin-community/rincoin-core/actions/runs/33436297657)).
+This branch refuses to start on mainnet unless `RINCOIN_TESTING_ALLOW_MAINNET=1`
+is set in the process environment at every invocation; it is not for
+production use.
+
+Build instructions: `./scripts/prereqs.sh && ./scripts/build.sh` (see that
+repository's `README.md` for platform-specific detail).
+
+Test-vector cross-check, executed test results, and the cross-implementation
+comparison against older Rincoin releases and other independently-developed
+forks: [`verification/S1_Consensus_Testing_Summary.qmd`](../verification/S1_Consensus_Testing_Summary.qmd)
+and its evidence annex, [`verification/S1/`](../verification/S1/). Local
+verification is complete and passing (532 C++ unit tests, 6 fork-scenario
+functional tests, 159 pre-existing functional tests, all green); the full
+cross-implementation producer × validator matrix and two narrow commitment
+test-vector cases remain outstanding — see that annex's own `open-items.md`.
+The `branch_id` used in the tests matches `technology/consensus-transition.md`
+§5's canonical synthetic value.
 
 # Non-Normative Rationale
 
