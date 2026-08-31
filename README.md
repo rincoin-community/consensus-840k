@@ -11,7 +11,7 @@ their assumptions, and their technical consequences available for public review.
 
 ## Start here
 
-Two different questions, two different starting points. Pick the one you actually have.
+Three different questions, three different starting points. Pick the one you actually have.
 
 ### Why is this happening, and what's being decided? (background and decision process)
 
@@ -45,7 +45,20 @@ to know what's mechanically changing — without reading the monetary reasoning 
   identifier — explicitly *not* the transaction-version-marker approach some external proposals
   use), what's still open, what's conditional, and what we've deliberately ruled out.
 
-Nothing in either path is adopted or final, per the note above — both are discussion drafts.
+### How do we know it works? (testing evidence)
+
+For readers who don't have time to read the design documents or the source code, but want to know
+whether a testing-mode implementation of a candidate actually behaves as designed — checked by
+running it, not by re-reading the specification.
+
+- **[`verification/`](verification/)** — per-scenario testing evidence, once a scenario has a
+  testing-mode implementation to test: unit-level correctness against frozen vectors, single- and
+  multi-node functional behavior, and cross-implementation behavior against older Rincoin releases
+  and other independently-developed forks. Starts with a short summary per scenario; the full
+  evidence — acceptance matrices, raw results, exact commits — is in each scenario's own annex.
+
+Nothing in any of the three paths is adopted or final, per the note above — all are discussion drafts,
+and testing evidence for a scenario is not a claim that the scenario has been selected.
 
 ## Candidate documents for three preselected scenarios
 
@@ -55,17 +68,61 @@ a **consensus change specification draft** (the normative subsidy rule, activati
 boundary, coinbase validation, and fixed test vectors). All six are watermarked
 discussion drafts.
 
-| Scenario | Schedule from height 840,000 | Whitepaper draft | Specification draft |
-| --- | --- | --- | --- |
-| **S1** — 1/20 reduction, no floor | Recursive 19/20 rule per epoch (nominally −5%) with integer-floor rounding, epoch length unchanged at 210,000 blocks (~5 months); no floor and no tail; permits at most ≈44,624,993 RIN | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S1_Candidate.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S1_Candidate.qmd) | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S1_Consensus_Change_Specification.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S1_Consensus_Change_Specification.qmd) |
-| **S5/b** — extended epoch, phase-aligned to 630,000 | Epoch prolonged 10× to 2,100,000 blocks (~4 years) with the new epoch starting from height 630,000; subsidy stays 6.25 RIN through height 2,729,999, then binary halving; no floor and no tail; permits at most ≈44,624,999 RIN | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S5B_Candidate.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S5B_Candidate.qmd) | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S5B_Consensus_Change_Specification.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S5B_Consensus_Change_Specification.qmd) |
-| **S6/b** — bounded Customized Halving, study scenario II | Customized Halving per Tokino's study: 4 RIN from 840,000, 2 RIN from 2,100,000, 1 RIN from 4,200,000, 0.6 RIN from 6,300,000, zero from 234,587,500; permits exactly 168,000,000 RIN | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S6B_Candidate.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S6B_Candidate.qmd) | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S6B_Consensus_Change_Specification.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S6B_Consensus_Change_Specification.qmd) |
+| Scenario | Schedule from height 840,000 | Whitepaper draft | Specification draft | Testing evidence |
+| --- | --- | --- | --- | --- |
+| **S1** — 1/20 reduction, no floor | Recursive 19/20 rule per epoch (nominally −5%) with integer-floor rounding, epoch length unchanged at 210,000 blocks (~5 months); no floor and no tail; permits at most ≈44,624,993 RIN | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S1_Candidate.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S1_Candidate.qmd) | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S1_Consensus_Change_Specification.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S1_Consensus_Change_Specification.qmd) | [`verification/S1_Consensus_Testing_Summary`](verification/S1_Consensus_Testing_Summary.qmd) — draft, in progress |
+| **S5/b** — extended epoch, phase-aligned to 630,000 | Epoch prolonged 10× to 2,100,000 blocks (~4 years) with the new epoch starting from height 630,000; subsidy stays 6.25 RIN through height 2,729,999, then binary halving; no floor and no tail; permits at most ≈44,624,999 RIN | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S5B_Candidate.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S5B_Candidate.qmd) | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S5B_Consensus_Change_Specification.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S5B_Consensus_Change_Specification.qmd) | [`verification/S5B_Consensus_Testing_Summary`](verification/S5B_Consensus_Testing_Summary.qmd) — draft, in progress |
+| **S6/b** — bounded Customized Halving, study scenario II | Customized Halving per Tokino's study: 4 RIN from 840,000, 2 RIN from 2,100,000, 1 RIN from 4,200,000, 0.6 RIN from 6,300,000, zero from 234,587,500; permits exactly 168,000,000 RIN | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S6B_Candidate.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_Whitepaper_S6B_Candidate.qmd) | [PDF](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S6B_Consensus_Change_Specification.pdf) · [QMD](https://github.com/rincoin-community/consensus-840k/blob/main/analysis/Rincoin_840k_S6B_Consensus_Change_Specification.qmd) | [`verification/S6B_Consensus_Testing_Summary`](verification/S6B_Consensus_Testing_Summary.qmd) — draft, in progress |
 
 All subsidy values are maximum permitted block subsidies in integer base units. The
 schedules are height-only: they never use issued, circulating, spendable, lost, or
 burned supply as a consensus input. Each specification covers the subsidy rule only —
 chain separation, replay policy, release engineering, and activation coordination
 are left to separate documents.
+
+## Testing-mode implementations
+
+Each scenario above also has a testing-mode branch of `rincoin-community/rincoin-core`
+— an actual build of the consensus code, not a paper design: the coinbase commitment,
+the sighash-level fork identifier, and the candidate's own subsidy rule, all compiled
+in and exercised against a running node. Gated so it can never run on mainnet by
+accident (refuses to start unless `RINCOIN_TESTING_ALLOW_MAINNET=1` is set in the
+process environment) — not a production or release build.
+
+| Scenario | Branch |
+| --- | --- |
+| S1 | [`consensus/s1-testing`](https://github.com/rincoin-community/rincoin-core/tree/consensus/s1-testing) |
+| S5/b | [`consensus/s5b-testing`](https://github.com/rincoin-community/rincoin-core/tree/consensus/s5b-testing) |
+| S6/b | [`consensus/s6b-testing`](https://github.com/rincoin-community/rincoin-core/tree/consensus/s6b-testing) |
+
+Build and test (same commands on every branch, after checking one out):
+
+```
+./scripts/prereqs.sh && ./scripts/build.sh   # build
+./src/test/test_rincoin                      # unit tests
+python3 test/functional/fork_report.py       # the six fork-scenario functional tests
+```
+
+**All three branches pass their full local test suite — 697 tests each, all green:**
+532 C++ unit tests, 6 fork-scenario functional tests, and the full pre-existing
+159-test functional CI allowlist, run unmodified to confirm no regression. Main
+setups exercised, per branch:
+
+- **Unit-level** — the candidate's subsidy rule, coinbase-commitment build/parse,
+  and sighash-level fork-identifier mixing, each checked against frozen vectors.
+- **Single-node functional** — commitment validation and subsidy enforcement,
+  driven through a real running node via RPC/P2P, not just in-process.
+- **Multi-node functional** — reorg across the activation height: a higher-work
+  but commitment-*invalid* chain must not win.
+- **Cross-implementation** — each build set against two older Rincoin releases
+  (`v1.1.0`, `v1.0.1`) and an independently developed foreign fork
+  (`Aevust/rincoin`).
+
+Full evidence, exact commit hashes, and reproduction commands are in each
+scenario's own `verification/` annex (linked in the candidate table above). CI
+runs automatically on these branches; see each branch's
+[Actions](https://github.com/rincoin-community/rincoin-core/actions) history for
+the latest result.
 
 ## Participate
 
@@ -118,6 +175,15 @@ instructions.
     used as source material in the review.
   - `references.bib` and `chicago-author-date.csl` are the shared bibliography and
     citation style.
+- [`verification/`](verification/) contains per-scenario testing evidence for whichever
+  scenarios have a testing-mode implementation: a short summary document per scenario
+  (`S1_Consensus_Testing_Summary.*`, `S5B_Consensus_Testing_Summary.*`,
+  `S6B_Consensus_Testing_Summary.*`), plus each scenario's own evidence annex
+  (`S1/`, `S5B/`, `S6B/`) with the full acceptance matrix, the
+  commitment test-vector catalog as actually exercised, unit- and functional-test
+  results, exact binary/commit provenance, and an explicit list of what isn't covered
+  yet. Testing evidence for a scenario is not a claim that the scenario has been
+  selected.
 
 ## Reproducing the documents
 
