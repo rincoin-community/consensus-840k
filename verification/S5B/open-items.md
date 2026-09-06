@@ -22,13 +22,7 @@ is counted as passed or covered in the summary or the acceptance matrix.
 
 ## Specific to this scenario
 
-3. **CI result on the pushed commit.** This branch is pushed to
-   `rincoin-community/rincoin-core` at `08faf8844`
-   ([run 33436296857](https://github.com/rincoin-community/rincoin-core/actions/runs/33436296857)),
-   but that run had not concluded as of this draft — everything above was
-   verified locally. Update `build-manifest.json`'s
-   `ci_run_status_at_time_of_writing` and this item once it has.
-4. **Per-scenario `-reindex-chainstate` re-verification.** S1's own
+3. **Per-scenario `-reindex-chainstate` re-verification.** S1's own
    empirical check (mine past H1, `-reindex-chainstate`, compare tip and
    `verifychain`) was not independently re-run for S5/b. The property being
    checked is architectural (shared, unmodified code), not scenario-specific,
@@ -36,6 +30,21 @@ is counted as passed or covered in the summary or the acceptance matrix.
 
 ## Done since the previous draft
 
+- **CI is green.** This branch at `b40c765ff` has a fully passing CI run
+  ([run 33994483619](https://github.com/rincoin-community/rincoin-core/actions/runs/33994483619)):
+  all three jobs succeeded. This is no longer an open item.
+- **A fourth real bug, found by CI's own first full functional-test run, now
+  fixed.** Cherry-picked from `consensus/s1-testing`: `test_runner.py --ci`
+  was hard-failing the `unit+functional` job before any test ran, because the
+  fork-testing framework's own script files weren't registered in
+  `test_runner.py`'s `NON_SCRIPTS` list. Fixed by registering them. See
+  [`S1/open-items.md`](../S1/open-items.md) for the full root-cause detail.
+- **`feature_taproot.py` CI-runner flake, confirmed not a real bug.** Once
+  the above fix let the functional suite run, `unit+functional`'s first
+  attempt failed on a `sync_blocks()` peer-count assertion — the same test,
+  same assertion, on all three scenario branches simultaneously, consistent
+  with CI-runner resource contention rather than a code defect. Confirmed by
+  `gh run rerun --failed`: a clean pass with no further changes.
 - **Three real bugs found by CI, all fixed.** Cherry-picked from
   `consensus/s1-testing` (its own CI run 33423822277 on commit `a8617fc73`
   actually concluded and failed): a mainnet-guard scoping bug that broke
@@ -52,7 +61,7 @@ is counted as passed or covered in the summary or the acceptance matrix.
 
 ## Optional, tracked not silently dropped
 
-5. **Pool coinbase-rebuild rehearsal** and **DNS seeder bootstrap smoke
+4. **Pool coinbase-rebuild rehearsal** and **DNS seeder bootstrap smoke
    check** — same status as S1's own open items (not yet done, cross-repo,
    proposed as semi-manual annex scripts).
 

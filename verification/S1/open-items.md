@@ -14,14 +14,39 @@ counted as passed or covered in the summary or the acceptance matrix.
 2. **Two commitment test-vector gaps**, `FC-N08` (correct payload plus a
    trailing separate script operation) and the `FC-N14` duplicate-detection
    variant — see [`commitment-test-vectors.md`](commitment-test-vectors.md).
-3. **CI result on the pushed commit.** `consensus/s1-testing` at `e79704fb3`
-   is pushed and CI is running
-   ([run 33436297657](https://github.com/rincoin-community/rincoin-core/actions/runs/33436297657))
-   but had not concluded as of this draft. Update `build-manifest.json`'s
-   `ci_run_status_at_time_of_writing` and this item once it has.
 
 ## Done since the previous draft
 
+- **CI is green.** `consensus/s1-testing` at `73eb5b3ce` has a fully passing
+  CI run
+  ([run 33994483614](https://github.com/rincoin-community/rincoin-core/actions/runs/33994483614)):
+  all three jobs (`unit+functional`, `asan+ubsan`, `fork-scenario-tests`)
+  succeeded. This is no longer an open item.
+- **A fourth real bug, found by CI's own first full functional-test run, now
+  fixed.** With the previous round's fixes in place, CI got far enough to
+  actually run the functional suite for the first time and immediately hit a
+  different failure: `test_runner.py --ci` calls `check_script_list(fail_on_warn=True)`,
+  which `sys.exit(1)`s the moment any `.py` file in `test/functional/` isn't
+  registered in `ALL_SCRIPTS` or `NON_SCRIPTS`. The six `feature_fork_*.py`
+  scripts and `fork_report.py` (added by this branch's own fork-testing
+  framework) were never registered — they're deliberately run through the
+  separate `fork-scenario-tests` CI job instead — so this silently hard-failed
+  the `unit+functional` job before a single test ran, on every push since the
+  very first one. It surfaced behind a benign-but-confusing Bash 5.2 artifact
+  (`pop_var_context: head of shell_variables not a function context`, an
+  `errexit`-unwind message unrelated to the real cause) that had to be looked
+  past to find the actual `sys.exit(1)`. Fixed by adding all seven files to
+  `NON_SCRIPTS`; reproduced the failure and confirmed the fix locally before
+  pushing.
+- **`feature_taproot.py` CI-runner flake, confirmed not a real bug.** Once the
+  above fix let the full functional suite actually run, `unit+functional`'s
+  first attempt failed on `feature_taproot.py`'s `sync_blocks()` assertion (a
+  node transiently reporting zero peers) — identically on all three scenario
+  branches, clustered with the suite's other heaviest "tail" tests
+  (`feature_pruning.py`, `feature_dbcrash.py`, `rpc_bind.py`), consistent with
+  GitHub Actions runner resource contention rather than a code defect (none
+  of this round's fixes touch P2P peer/ban logic). Confirmed by `gh run
+  rerun --failed`: a clean pass with no further changes.
 - **Three real bugs found by the previous CI run, all fixed.** CI run
   33423822277 (commit `a8617fc73`) actually concluded and failed; root cause
   was tracked down rather than guessed at:

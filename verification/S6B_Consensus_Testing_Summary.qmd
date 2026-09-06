@@ -37,9 +37,9 @@ readiness or deployment claim.
 ::: {.callout-note}
 ## Editorial note — for maintainers, not part of the reported evidence
 
-This branch is pushed to `rincoin-community/rincoin-core`; CI was still in
-progress at time of writing (see Provenance below for the run). All results
-below are from local verification, not from that CI run concluding. The
+This branch is pushed to `rincoin-community/rincoin-core`; CI has concluded
+green on the commit below (see Provenance), confirming the results reported
+here rather than resting on local verification alone. The
 cross-implementation producer × validator matrix and two narrow commitment
 test-vector cases (inherited from S1, not new here) are also outstanding.
 The full, current list is [`S6B/open-items.md`](S6B/open-items.md).
@@ -256,8 +256,8 @@ Same deliberate scoping as S1 and S5/b — not repeated in full here. See
 | Repository | `rincoin-community/rincoin-core` |
 | Branch | `consensus/s6b-testing` |
 | Branched from | `consensus/s1-testing` @ `a8617fc73` (post branch_id migration) |
-| Commit tested | `4b05eda72` |
-| CI run | [github.com/rincoin-community/rincoin-core/actions/runs/33436296904](https://github.com/rincoin-community/rincoin-core/actions/runs/33436296904) — in progress at time of writing |
+| Commit tested | `1e5a4201d` |
+| CI run | [github.com/rincoin-community/rincoin-core/actions/runs/33994483613](https://github.com/rincoin-community/rincoin-core/actions/runs/33994483613) — concluded, success (all three jobs green; unit+functional's first attempt hit a shared `feature_taproot.py` CI-runner flake, confirmed transient by a clean rerun) |
 | `branch_id` | `00112233445566778899aabbccddeeff` — the specification's own canonical synthetic test value, inherited directly |
 | `scenario_id` | `3` — provisional, ad-hoc, pending official upstream assignment (S1=1, S5/b=2, S6/b=3 by convention) |
 | Build | testing-mode only; refuses to start on mainnet unless `RINCOIN_TESTING_ALLOW_MAINNET=1` is set in the process environment |

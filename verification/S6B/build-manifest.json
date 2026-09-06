@@ -3,20 +3,20 @@
   "repository": "rincoin-community/rincoin-core",
   "branch": "consensus/s6b-testing",
   "branched_from": "consensus/s1-testing @ a8617fc73 (post branch_id migration)",
-  "commit": "4b05eda72419617feea060ec601845a32fac5930",
-  "note_on_binary_provenance": "Binaries were built from a clean incremental rebuild at this exact commit (no uncommitted changes on top). Supersedes the 2cec8c6d9 build recorded in earlier drafts (which also carried a build-before-commit -dirty version-string quirk, now gone): this commit cherry-picks the same three real bug fixes as S1 (mainnet-guard scope, a ConnectBlock() use-after-free found by CI's ASan leg, and a CI artifact-naming fix), with the guard's scenario-name text corrected from S1 to S6/b -- see open-items.md's \"Done since the previous draft\".",
-  "version_string_reported": "v1.2.0.0-4b05eda72",
+  "commit": "1e5a4201d416bb8b7ca8edc3f3c03960a78e9781",
+  "note_on_binary_provenance": "Binaries were built from a clean incremental rebuild at this exact commit (no uncommitted changes on top). Supersedes the 4b05eda72 build recorded in the previous draft: this commit cherry-picks one more real fix from S1 (test_runner.py's NON_SCRIPTS registration, see open-items.md's \"Done since the previous draft\") that CI's own first full run of the functional suite surfaced.",
+  "version_string_reported": "v1.2.0.0-1e5a4201d",
   "build_flags": {
     "configure": "default (./scripts/build.sh, no non-default WITH_* flags)",
     "mainnet_guard": "RINCOIN_TESTING_ALLOW_MAINNET env var required at every invocation to run on mainnet; unset in all tests below"
   },
   "binary_sha256": {
-    "src/rincoind": "71dbb4660a9b71b5458fa6c70de825a0d9154539ed5748fb4da9695c321ca00b",
-    "src/rincoin-cli": "32ecb924c427326ee9df325a3203602a6e6656e8c0c87dd59da6d7032010798e",
-    "src/test/test_rincoin": "a52c733f95d977ba9555b685904902a46b40a678850fef63115d0ccc049c5714"
+    "src/rincoind": "d27edd4bbb6ea6c8a0b874c91c447708efbc765b2929649ba7d726a743d17ee9",
+    "src/rincoin-cli": "257de88a4048e7ec01adb0a417cf6934645c51fef66ddfc1c313ebc2771dc80f",
+    "src/test/test_rincoin": "8b73d94e58a3d7f5d8e45bcdd548e86a6ce84f1eb28169244bc311524fc7bbc5"
   },
-  "ci_run": "https://github.com/rincoin-community/rincoin-core/actions/runs/33436296904",
-  "ci_run_status_at_time_of_writing": "in progress -- update this field once concluded",
+  "ci_run": "https://github.com/rincoin-community/rincoin-core/actions/runs/33994483613",
+  "ci_run_status_at_time_of_writing": "concluded: success (all three jobs -- unit+functional, asan+ubsan, fork-scenario-tests -- green; unit+functional's first attempt hit a feature_taproot.py sync_blocks() flake shared with the other two scenario branches, confirmed transient by a clean gh run rerun --failed)",
   "reference_binaries_used": {
     "v1.1.0": "rincoin-community/rincoin-core, tag v1.1.0, built via test/build_reference_node.py",
     "v1.0.1": "Rin-coin/rincoin, tag v1.0.1, built via test/build_reference_node.py",

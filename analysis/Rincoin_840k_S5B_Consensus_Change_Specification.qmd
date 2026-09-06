@@ -279,8 +279,8 @@ The public implementation home is the `rincoin-community` GitHub organization.
 A testing-mode-only candidate implementation is published at
 [`rincoin-community/rincoin-core`](https://github.com/rincoin-community/rincoin-core),
 branch [`consensus/s5b-testing`](https://github.com/rincoin-community/rincoin-core/tree/consensus/s5b-testing),
-branched from `consensus/s1-testing`, commit `08faf8844`
-([CI run](https://github.com/rincoin-community/rincoin-core/actions/runs/33436296857)).
+branched from `consensus/s1-testing`, commit `b40c765ff`
+([CI run](https://github.com/rincoin-community/rincoin-core/actions/runs/33994483619), concluded green).
 This branch refuses to start on mainnet unless `RINCOIN_TESTING_ALLOW_MAINNET=1`
 is set in the process environment at every invocation; it is not for
 production use.

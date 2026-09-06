@@ -209,8 +209,8 @@ release decision, not a readiness claim):
 - source repository and commit:
   [`rincoin-community/rincoin-core`](https://github.com/rincoin-community/rincoin-core),
   branch [`consensus/s6b-testing`](https://github.com/rincoin-community/rincoin-core/tree/consensus/s6b-testing)
-  (branched from `consensus/s1-testing`), commit `4b05eda72`
-  ([CI run](https://github.com/rincoin-community/rincoin-core/actions/runs/33436296904));
+  (branched from `consensus/s1-testing`), commit `1e5a4201d`
+  ([CI run](https://github.com/rincoin-community/rincoin-core/actions/runs/33994483613), concluded green);
 - subsidy implementation path and symbol: `src/validation.cpp`,
   `GetBlockSubsidyPostFork()`, scanning `Consensus::Params::ForkSubsidyPhases`
   (`src/consensus/params.h`), populated per network in `src/chainparams.cpp`;

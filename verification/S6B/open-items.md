@@ -15,16 +15,10 @@ is counted as passed or covered in the summary or the acceptance matrix.
 
 ## Specific to this scenario
 
-3. **CI result on the pushed commit.** This branch is pushed to
-   `rincoin-community/rincoin-core` at `4b05eda72`
-   ([run 33436296904](https://github.com/rincoin-community/rincoin-core/actions/runs/33436296904)),
-   but that run had not concluded as of this draft — everything above was
-   verified locally. Update `build-manifest.json`'s
-   `ci_run_status_at_time_of_writing` and this item once it has.
-4. **Per-scenario `-reindex-chainstate` re-verification.** Not
+3. **Per-scenario `-reindex-chainstate` re-verification.** Not
    independently re-run for S6/b; architectural property, not
    scenario-specific.
-5. **Regtest/testnet/preview's own small-scale phase table** (offsets
+4. **Regtest/testnet/preview's own small-scale phase table** (offsets
    0/50/100/150/160) is an independently *chosen* schedule, not derived
    from a real published specification for a "test network" — unlike the
    mainnet table, there's no external document to cross-check it against
@@ -36,6 +30,23 @@ is counted as passed or covered in the summary or the acceptance matrix.
 
 ## Done since the previous draft
 
+- **CI is green.** This branch at `1e5a4201d` has a fully passing CI run
+  ([run 33994483613](https://github.com/rincoin-community/rincoin-core/actions/runs/33994483613)):
+  all three jobs succeeded. This is no longer an open item.
+- **A fourth real bug, found by CI's own first full functional-test run, now
+  fixed.** Cherry-picked from `consensus/s1-testing`: `test_runner.py --ci`
+  was hard-failing the `unit+functional` job before any test ran, because the
+  fork-testing framework's own script files weren't registered in
+  `test_runner.py`'s `NON_SCRIPTS` list. Fixed by registering them. See
+  [`S1/open-items.md`](../S1/open-items.md) for the full root-cause detail.
+- **`feature_taproot.py` CI-runner flake, confirmed not a real bug.** Once
+  the above fix let the functional suite run, `unit+functional`'s first
+  attempt failed on a `sync_blocks()` peer-count assertion — the same test,
+  same assertion, on all three scenario branches simultaneously (clustered
+  with a burst of near-simultaneous first-attempt failures in the other
+  heaviest "tail" tests on this branch's run specifically), consistent with
+  CI-runner resource contention rather than a code defect. Confirmed by
+  `gh run rerun --failed`: a clean pass with no further changes.
 - **Three real bugs found by CI, all fixed.** Cherry-picked from
   `consensus/s1-testing` (its own CI run 33423822277 on commit `a8617fc73`
   actually concluded and failed): a mainnet-guard scoping bug that broke
@@ -52,7 +63,7 @@ is counted as passed or covered in the summary or the acceptance matrix.
 
 ## Optional, tracked not silently dropped
 
-6. **Pool coinbase-rebuild rehearsal** and **DNS seeder bootstrap smoke
+5. **Pool coinbase-rebuild rehearsal** and **DNS seeder bootstrap smoke
    check** — same status as S1's and S5/b's own open items.
 
 ## Explicitly out of scope, not "open"

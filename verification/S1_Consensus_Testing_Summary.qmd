@@ -298,8 +298,8 @@ Deliberate scoping, not oversight:
 | --- | --- |
 | Repository | `rincoin-community/rincoin-core` |
 | Branch | `consensus/s1-testing` |
-| Commit tested | `e79704fb3` |
-| CI run | [github.com/rincoin-community/rincoin-core/actions/runs/33436297657](https://github.com/rincoin-community/rincoin-core/actions/runs/33436297657) — in progress at time of writing |
+| Commit tested | `73eb5b3ce` |
+| CI run | [github.com/rincoin-community/rincoin-core/actions/runs/33994483614](https://github.com/rincoin-community/rincoin-core/actions/runs/33994483614) — concluded, success (all three jobs green; unit+functional's first attempt hit a shared `feature_taproot.py` CI-runner flake, confirmed transient by a clean rerun) |
 | `branch_id` | `00112233445566778899aabbccddeeff` — the specification's own canonical synthetic test value (`technology/consensus-transition.md` §5), migrated from an earlier ad-hoc value on this same commit |
 | Build | testing-mode only; refuses to start on mainnet unless `RINCOIN_TESTING_ALLOW_MAINNET=1` is set in the process environment |
 
