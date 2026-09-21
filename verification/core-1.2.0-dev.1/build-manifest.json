@@ -1,0 +1,83 @@
+{
+ "what": "Rincoin Community Core 1.2.0, first development build (label v1.2.0-dev.1). A development build for review and testing: not tagged, not released, not for mainnet use.",
+ "date": "2026-09-21",
+ "source": {
+  "repository": "rincoin-community/rincoin-core",
+  "publication_status": "not published at the time of writing; the commit IDs below become verifiable when the branches are",
+  "base_branch": {
+   "name": "dev",
+   "commit": "7373f1e0f13f21e0bccf40ffb35fe74f76a953de"
+  },
+  "upstream_synchronization": {
+   "description": "Litecoin Core up to v0.21.5.8 (ec1b6489a900d09cf5991e220dce089c77a232a2): 60 of its 71 changes since the previous common ancestor cherry-picked with references to their upstream commits, the other 11 (Litecoin-only: version bumps, release notes, README, SECURITY.md, desktop file, DNS seed, scrypt test dependency) not taken, and a merge commit that records the upstream history without changing the tree",
+   "tip": "ff9a657bc8741640af32ec1d03f7431753faec65"
+  },
+  "development_branch": {
+   "description": "14 commits on top of the synchronization: the transition, its tests and documentation",
+   "tip": "b9bfeca1d3e4b193e5c6a4295ddea9ebb3337dcc",
+   "tree": "03509c3100ee24776202ee40e2b43080cab2fef4",
+   "note": "the git tree ID identifies the content independently of how the commits are arranged"
+  },
+  "sha256_of_git_diff": {
+   "upstream_tip..tip": "c4c7956512bba9cd56c8113ebced661d5918a6e4e57f8880de5cac8fdd033e4d",
+   "dev..tip": "2c9a99d2af8a1f96fa77b7f086215d963c6ac5e659c50c930283ec277e6cbd75"
+  }
+ },
+ "version_identity": {
+  "configure_ac": "1.2.0, release candidate 0, IS_RELEASE=false",
+  "user_agent": "/RincoinCommunityCore:1.2.0(dev.1)/",
+  "protocol_version": 70019,
+  "mainnet_guard": "refuses to start on mainnet unless RINCOIN_TESTING_ALLOW_MAINNET=1 is in the environment (verified for the production-configuration binary)"
+ },
+ "builds": [
+  {
+   "name": "production configuration",
+   "built": "2026-09-20",
+   "how": "contrib/build_release.sh --local --version v1.2.0-dev.1 --only linux-x86_64-ubuntu20 (the project's release path: depends build inside a Docker image of Ubuntu 20.04, static dependencies, Berkeley DB 4.8 wallet, GUI included, tests and benchmarks disabled, stripped)",
+   "source_tree_note": "built from tree c6b6bdb8a73ff477148c4e86cb4937f838469bfd (twice) and from the final tree above (once). The two trees differ only by an empty unit test case that was removed afterwards, and this configuration does not compile the unit tests",
+   "toolchain": "gcc 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2), GNU ld 2.34, Ubuntu 20.04.6",
+   "dependencies_from_depends": {
+    "boost": "1.70.0",
+    "libevent": "2.1.11-stable",
+    "zeromq": "4.3.1",
+    "qt": "5.9.8",
+    "sqlite": "3.32.1",
+    "miniupnpc": "2.2.2",
+    "qrencode": "3.4.4",
+    "berkeley_db": "4.8.30"
+   },
+   "configure": "CONFIG_SITE=depends/x86_64-pc-linux-gnu/share/config.site ./configure BDB_LIBS=... BDB_CFLAGS=... --prefix=/ --disable-tests --disable-bench --enable-reduce-exports --with-incompatible-bdb=no",
+   "reported_version": "v1.2.0.0-unk (the release path builds from a source copy without git metadata)",
+   "sha256": {
+    "rincoind": "ceccfb491503bb50805125152d51019e48a784c3761d743cfc758053933628a8",
+    "rincoin-cli": "9582b16e4d7a22af9a2f2ca81b49c03cafdd7eaf841a43289f54a1fc18bda42d",
+    "rincoin-tx": "af73b1f5db85a50b8dcef4c199ae1e37ab389e2422617fd8cb599c87bc29d817",
+    "rincoin-wallet": "7dba874b4128fe1e2072c5600a0d6fc8b63b5c14e507cc190ba7a7397bce8135",
+    "rincoin-qt": "83b94a9015ddcc5deb50f857a29ef6b2a4145678e05114de015e0076b2164e66",
+    "rincoin-1.2.0-dev.1-x86_64-linux-gnu.tar.gz": "24c912463851e39e234cc77fff6dc0fd0581756aa6e7de102e77c03bf99c9ca2"
+   },
+   "used_for": "functional tests (CI allowlist), the cross-implementation matrix, offline revalidation of mainnet history",
+   "reproducibility": "rincoind, rincoin-cli, rincoin-tx and rincoin-wallet came out bit-identical in all three runs of the release path; rincoin-qt (and therefore the archive) did not, so the GUI binary is not bit-reproducible with this procedure. The rincoin-qt and archive hashes above are those of the first run. Every test in this directory used rincoind and rincoin-cli."
+  },
+  {
+   "name": "development configuration",
+   "built": "2026-09-21",
+   "how": "./autogen.sh && ./configure --with-gui=qt5 BDB_LIBS=... BDB_CFLAGS=... CXXFLAGS=-O3 && make (system libraries of Debian 12; unit tests enabled)",
+   "toolchain": "gcc 12.2.0 (Debian 12.2.0-14+deb12u1), Debian GNU/Linux 12, Linux 6.8",
+   "system_libraries": {
+    "boost": "1.74.0",
+    "libevent": "2.1.12-stable",
+    "openssl": "3.0.19",
+    "zeromq": "4.3.4",
+    "berkeley_db": "4.8.30"
+   },
+   "reported_version": "v1.2.0.0-b9bfeca1d",
+   "sha256": {
+    "rincoind": "c232b959e8e78ecf210f8c7e5882b23f2493860dfb98d673eac8f414f2f68988",
+    "test_rincoin": "478e1505089811d30dab68e57bda865c0c6d4eed103f16f33079e23943602e00"
+   },
+   "used_for": "unit tests (make check), functional tests (CI allowlist and the complete base set)",
+   "note": "the version string of this build embeds the commit ID, so its hash changes with every commit"
+  }
+ ]
+}

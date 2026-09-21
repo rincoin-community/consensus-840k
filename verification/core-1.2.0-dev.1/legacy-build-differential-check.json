@@ -1,0 +1,44 @@
+{
+ "original": "/RincoinCore:1.0.5(testnode0)/",
+ "patched": "/RincoinCore:1.0.5(testnode1)/",
+ "checks": [
+  {
+   "name": "patched accepts the original's blocks 1-149 (with a wallet transaction)",
+   "ok": true,
+   "rejected": []
+  },
+  {
+   "name": "original's block 150 pays 25 (its second epoch); patched accepts it (a lower claim is valid)",
+   "ok": true,
+   "value": 2500000000,
+   "result": null
+  },
+  {
+   "name": "patched's block 150 pays 50 (first epoch is 210 blocks); original rejects it",
+   "ok": true,
+   "value": 5000000000,
+   "result": "bad-cb-amount"
+  },
+  {
+   "name": "original pays 6.25 at height 599 and 3.125 at height 600 (its own fourth halving)",
+   "ok": true,
+   "h599": 625000000,
+   "h600": 312500000
+  },
+  {
+   "name": "patched pays 6.25 at height 839 and 3.125 at height 840",
+   "ok": true,
+   "h839": 625000000,
+   "h840": 312500000
+  }
+ ],
+ "finished": "2026-09-20T22:18:07Z",
+ "original_binary": {
+  "description": "unmodified v1.0.5 release build (linux, Ubuntu 20.04 variant)",
+  "sha256": "aea74ce203dfd805e45e5a41a42f9d2dac2d8cc96b666c7e817517bce86d346c"
+ },
+ "patched_binary": {
+  "description": "rincoind built from Rin-coin/rincoin b52c87778 (version 1.0.5) with patches/rin-coin-rincoin-v1.0.5-regtest-interval.patch",
+  "sha256": "356c41713967f2637cfb95dbdf8d48ce9a6321008fbfec9ae0cab72fa8d6d336"
+ }
+}

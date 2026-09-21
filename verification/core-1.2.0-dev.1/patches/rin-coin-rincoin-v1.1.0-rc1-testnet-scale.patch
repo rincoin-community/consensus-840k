@@ -1,0 +1,22 @@
+diff --git a/src/chainparams.cpp b/src/chainparams.cpp
+index e37491e23..f425b7e54 100644
+--- a/src/chainparams.cpp
++++ b/src/chainparams.cpp
+@@ -346,7 +346,7 @@ public:
+         consensus.signet_blocks = false;
+         consensus.signet_challenge.clear();
+         // 1/1000 scale; 4x = 840 must match nRinHashForkHeight. See CMainParams.
+-        consensus.nSubsidyHalvingInterval = 210;
++        consensus.nSubsidyHalvingInterval = 2100; // TEST PATCH (cross-implementation matrix): was 210; aligned with the 1/100-scale testnet of Rincoin Community Core 1.2.0
+         consensus.BIP16Height = 0; // always enforce P2SH BIP16 on testnet
+         consensus.BIP34Height = 76;
+         consensus.BIP34Hash = uint256S("8075c771ed8b495ffd943980a95f702ab34fce3c8c54e379548bda33cc8c0573");
+@@ -363,7 +363,7 @@ public:
+         consensus.nRuleChangeActivationThreshold = 158; // 75% for testchains
+         consensus.nMinerConfirmationWindow = 210; // nPowTargetTimespan / nPowTargetSpacing
+         consensus.DGWHeight = 0; // Dark Gravity Wave (DGW) difficulty adjustment algorithm
+-        consensus.nRinHashForkHeight = 840; // RIN3 testnet activation height
++        consensus.nRinHashForkHeight = 8400; // TEST PATCH: was 840; 4 * nSubsidyHalvingInterval
+         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
+         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
+         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;

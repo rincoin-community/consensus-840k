@@ -1,11 +1,23 @@
 # Rincoin Consensus Transition — Verification
 
-**No scenario has been selected, preferred, or adopted.** This directory does not
-argue for S1, S5/b, or S6/b. It answers a narrower question, one scenario at a
-time, once that scenario has a testing-mode implementation: *if this schedule
-is the one eventually chosen, does the code that implements it actually hold up*
-— against its own specification, against itself under reorgs and restarts, and
-against other, differently-behaving node software it will meet in the wild?
+> **Status note (2026-09-20).** Rincoin Community Forge has selected S6/b for its implementation
+> (see the [root README](../README.md) and [`../technology/`](../technology/)). The evidence for
+> that implementation, the first development build of Rincoin Community Core 1.2.0, is in
+> [`core-1.2.0-dev.1/`](core-1.2.0-dev.1/).
+>
+> Everything else in this directory is evidence for the *testing-mode* branches of
+> August–September 2026 (`consensus/s1-testing`, `consensus/s5b-testing`,
+> `consensus/s6b-testing`). Those branches implemented the design of that time, including a
+> mandatory coinbase commitment that has since been withdrawn and synthetic identifier constants.
+> That evidence is kept unchanged as the record of that testing; it does **not** describe Rincoin
+> Community Core 1.2.0. Where the text below says that no scenario has been selected, read it as the
+> state at the time the evidence was produced.
+
+This directory does not argue for S1, S5/b, or S6/b. It answers a narrower question, one scenario
+at a time, once that scenario has a testing-mode implementation: *if this schedule is the one
+eventually chosen, does the code that implements it actually hold up* — against its own
+specification, against itself under reorgs and restarts, and against other, differently-behaving
+node software it will meet in the wild?
 
 `technology/` describes what changes and why. `analysis/` describes why a change
 is being considered at all. This directory is the third leg: evidence that the
@@ -80,8 +92,8 @@ this testing deliberately left out).
 Same pattern as `analysis/`: `.qmd` sources render to PDF with
 [Quarto](https://quarto.org/); tables and figures under `includes/`, `data/`,
 and `figures/` are generated, not hand-edited, and are pulled in at render
-time. [`scripts/regenerate_verification.sh`](scripts/regenerate_verification.sh)
-rebuilds this directory's own artifacts from the underlying test results. The
+time. The generator and plotting scripts under [`scripts/`](scripts/) rebuild this
+directory's own tables and figures from the underlying test results. The
 tests themselves — unit, functional, and cross-implementation — run against the
 `rincoin-core` source tree; see each scenario's annex for the exact commit,
 build flags, and commands used.

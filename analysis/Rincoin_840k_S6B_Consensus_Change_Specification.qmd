@@ -3,8 +3,8 @@ title: "Rincoin 840k S6/b Consensus Change Specification"
 subtitle: "Bounded Height-Only Customized Halving Transition"
 author: "Rincoin Community Forge"
 date: "2026-08-07"
-document-version: "1.0"
-status: "Discussion Draft"
+document-version: "1.1"
+status: "Selected for implementation (Rincoin Community Core 1.2.0) — not yet activated consensus"
 format:
   pdf:
     toc: true
@@ -23,11 +23,14 @@ link-citations: true
 
 # Status
 
-This is a **Candidate Specification — Discussion Draft** for a possible
-Rincoin consensus change at block height 840,000. It is independently
-implementable, but it is not adopted consensus and does not activate itself.
+This is the specification of the S6/b consensus change at block height
+840,000. On 2026-09-19 Rincoin Community Forge selected S6/b for its
+implementation, Rincoin Community Core 1.2.0. The rule is independently
+implementable; it is not yet activated consensus and does not activate itself.
 
-**Document version 1.0 · Public-review date 2026-08-07**
+**Document version 1.1 · Public-review date 2026-08-07 · Revised 2026-09-19
+(status and the height-840,000 coinbase exception; the rule, the vectors and the
+arithmetic are unchanged from version 1.0)**
 
 S6/b is a provisional deterministic bounded interpretation of Customized
 Halving Scenario II pending clarification from the study's author. This
@@ -135,7 +138,8 @@ Maximum scheduled issuance is the sum of the maximum subsidy permitted at
 every height. Under this rule it is exactly `16800000000000000` base units,
 or `168000000.00000000 RIN`.
 
-A miner may claim less than the maximum subsidy. Any unclaimed amount is not
+A miner may claim less than the maximum subsidy (except at height 840,000; see
+the exception under Coinbase Amount Validation). Any unclaimed amount is not
 reissued, does not accumulate, does not extend the 0.6 RIN phase, and does not
 change the subsidy at any later height. Actual issued supply can therefore be
 lower than maximum scheduled issuance.
@@ -158,6 +162,21 @@ An exact claim of $S(h)+F$ is valid if every other consensus rule passes. An
 underclaim is valid and permanently forgoes the difference. A claim one base
 unit above $S(h)+F$ is invalid. At and after height 234,587,500, the coinbase
 may claim fees but no new subsidy.
+
+**Exception at the activation height (document version 1.1).** For the single
+block at height 840,000, Rincoin Community Core 1.2.0 additionally requires
+
+$$
+C = S(840000) + F,
+$$
+
+that is, the coinbase must claim exactly the maximum subsidy plus all fees; an
+underclaim at that one height is invalid. This is a block-validation rule that
+ensures the activation block is rejected by software applying the historical
+schedule. It changes neither the emission curve nor the vectors below. Its
+definition and rationale are in `technology/consensus-transition.md`, section 3,
+of the same repository. At every other height the upper-bound rule above applies
+unchanged.
 
 # Boundary and Normative Vectors
 

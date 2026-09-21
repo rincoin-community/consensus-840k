@@ -1,64 +1,61 @@
-# Sighash Fork Identifier — Phased Implementation Plan
+# Sighash Fork Identifier — Implementation and Adoption Plan
 
-Status: Brief, high-level — first draft. Each phase gets its own detailed spec/task list once it
-starts; this is a scheduling and scope document, not the specification itself.
+Status: Plan and status document, updated 2026-09-20 (first draft 2026-08-16)
 
-Date: 2026-08-16
+This is the schedule and scope document for the transaction-replay-protection design specified in
+[`consensus-transition.md §5`](consensus-transition.md#5-transaction-replay-protection-sig_fork_id):
+a fork identifier (`sig_fork_id`) mixed into the signature hash, rather than a required
+transaction-version value. See [`response-to-rip-0009.md`](response-to-rip-0009.md) and
+[`replay-protection-comparison.md`](replay-protection-comparison.md) for why we're not using the
+version-marker approach (RIP-0009) instead.
 
-This is the plan for the transaction-replay-protection design chosen in
-[`consensus-transition.md §6`](consensus-transition.md#6-transaction-replay-a-sighash-level-fork-identifier): a fork identifier
-mixed into the signature hash, rather than a required transaction-version value. See
-[`response-to-rip-0009.md`](response-to-rip-0009.md) for why we're not using the version-marker
-approach instead.
-
-## Scope decision: cut hard, cover legacy + SegWit v0 only for H1
+## Scope: legacy and SegWit v0 only for height 840,000
 
 SegWit has been active on Rincoin mainnet since height 26,500, so legacy pre-SegWit and SegWit v0
-(BIP143) transactions can both appear in any block around height 840,000. Both need `sig_fork_id`
-coverage from day one — this is the scope for H1.
+(BIP143) transactions can both appear in any block around height 840,000. Both are covered from
+the activation block.
 
-Taproot and MWEB are **not** in scope for H1, and don't need to be: checked against
-`src/chainparams.cpp`, mainnet Taproot activates at height 2,161,152 and MWEB at 2,217,600 — both
-inherited from Litecoin's own historical deployment and both roughly 1.3–1.4 million blocks
-(~2.5–2.7 target years) past 840,000. Neither soft fork will have activated by H1, so no
-Taproot-spend or MWEB-kernel transaction can exist in a block before then regardless of what we do
-now. Cutting them from the H1 critical path removes the largest source of schedule risk (MWEB in
-particular is a different cryptographic construction — Pedersen-commitment kernels, not script-based
-signatures — and needs its own dedicated review whenever it's tackled). They are tracked as
-follow-up work with their own, much longer, runway — not dropped.
+Taproot and MWEB are not in scope and do not need to be: on mainnet, Taproot's deployment starts
+at height 2,161,152 and MWEB's at 2,217,600 (both inherited from Litecoin's schedule, both roughly
+1.3–1.4 million blocks after 840,000). No Taproot spend or MWEB kernel can exist in a block before
+then, whatever is done now. They are tracked as follow-up work with their own review (MWEB in
+particular is a different cryptographic construction and needs a dedicated design), not dropped.
 
-## Phases (H1 critical path)
+## Status of the work
 
-| Phase | Content | Rough duration |
+| Phase | Content | Status on 2026-09-20 |
 |---|---|---|
-| 1. Design & spec | Finalize `sig_fork_id` derivation (`SHA256(branch_id \|\| fork_no \|\| scenario_id)[:8]`); height-gating rule; both-direction enforcement (old-style tx rejected post-H1 by explicit rule; new-style tx fails verification elsewhere automatically); publish as its own reviewable proposal, decoupled from the monetary-scenario decision | ~1 week |
-| 2. Legacy + SegWit v0 implementation | Patch sighash preimage construction for both paths; consensus height gate at H1; mempool/block-assembly defense-in-depth and non-punitive peer classification (the two RIP-0009 ideas worth keeping, reapplied here); standardness policy update | ~1–2 weeks |
-| 3. Test matrix | Per-input-type vectors (legacy P2PKH/P2SH, P2WPKH/P2WSH, multisig) × pre/post-H1; cross-validation in both replay directions; boundary/off-by-one handling around H1; reorg stress test crossing H1 (adapting RIP-0009's own large-reorg methodology); full IBD regression; fuzzing | ~2–3 weeks, overlapping phase 2's tail |
-| 4. Ecosystem adoption window | Publish the final spec early enough for wallets, PSBT tooling, and exchanges to implement and verify independently before enforcement goes live | ~3–4 weeks minimum — least controllable phase; protect its *start date*, not just its duration |
-| 5. Signalling & warning tail | Folds into the existing P-SIGNAL / pre-H1 warning pattern already defined for the monetary transition — no separate schedule needed | — |
+| 1. Design and specification | derivation, byte placement, height gating, both-direction enforcement, `SIGHASH_SINGLE` edge case | specified in `consensus-transition.md §5`; constants and the `SIGHASH_SINGLE` rule fixed 2026-09-19 |
+| 2. Legacy + SegWit v0 implementation | preimage construction for both paths; consensus height gate; mempool admission and boundary eviction; non-punitive rejection classification (the two RIP-0009 ideas worth keeping, reapplied here); wallet, raw-transaction, PSBT and `rincoin-tx` signing; validation-cache keying | implemented in the 1.2.0 development build (`v1.2.0-dev.1`), including the `SIGHASH_SINGLE` rule, boundary eviction in both directions, and the checking of signatures made by other parties (multi-party raw transactions, `combinerawtransaction`, `finalizepsbt`, `analyzepsbt`, the GUI); an earlier form was in the testing-mode branch `consensus/s6b-testing` (Aug 23 – Sep 5, 2026). The source of the development build has not been published yet |
+| 3. Test matrix | per-input-type vectors (P2PKH, P2SH, P2WPKH, P2WSH, multisig) × pre/post-840,000; both replay directions; boundary and off-by-one cases; reorganization across the boundary (adapting RIP-0009's own large-reorg methodology); cross-implementation cases; full regression suite | executed for the development build: unit vectors generated independently of the C++ code; functional tests for every listed input type and hash type on both sides, in the mempool and in blocks, at the boundary and across reorganizations; wallet, raw-transaction and PSBT flows; a three-implementation regtest matrix. Results: [`../verification/core-1.2.0-dev.1/`](../verification/core-1.2.0-dev.1/). Not yet covered: see the open items there |
+| 4. Ecosystem adoption window | final constants and vectors published early enough for wallets, PSBT tooling, exchanges and pools to implement and verify independently | starts with the publication of the 1.2.0 development build; a stable release is planned by 2026-09-30 |
+| 5. Signalling | voluntary `coinbaseaux.flags` tag, no consensus effect | part of 1.2.0 |
 
-Phases 1–4, sequenced with realistic overlap, run roughly 7–9 weeks. Against a budget of
-~14 weeks to height 840,000 (see open items below), this fits with real margin.
+There is no plan to ship 1.2.0 without transaction replay protection. If the implementation or
+its verification cannot be completed in time, the question is the release schedule, not the
+removal of the rule.
 
-## Follow-up track (not before ~2,161,152 / ~2,217,600)
+## Who must change what
 
-Extend `sig_fork_id` coverage to Taproot sighash (BIP341) and MWEB kernel signing before each
-respectively activates. Independent schedule, independent review (MWEB especially), does not block
-H1, and is tracked here specifically so it doesn't get quietly forgotten.
+| Component | Required change |
+|---|---|
+| Rincoin Community Core (node, wallet, RPC, PSBT, `rincoin-tx`) | in 1.2.0 |
+| Electrum-style wallets (Electrin) | implement the new preimage in the legacy and BIP143 signing paths; decide the regime from the verified chain height, with an explicit override for offline signing; refuse to sign near the boundary rather than guess; hardware-wallet plugins cannot follow and must be disabled for the new regime |
+| Exchange, pool-payout and custody systems signing outside Core | same as above; systems that sign through the Core wallet RPCs need no change beyond upgrading the node |
+| PSBT tooling and cosigners | agree on the regime out of band; PSBT carries no height |
+| Hardware wallets | unusable for the new regime unless the vendor adds support |
+| Fulcrum/Electrum servers, explorers, block relays | no signature change; upgrade the backing node before 840,000 |
+| Pools (yiimp, Miningcore, others), solo GBT miners, stratum miners, proxies | no signature change; the ordinary node upgrade, the voluntary `coinbaseaux.flags` tag, and one thing to check: the coinbase of block 840,000 has to claim the full `coinbasevalue` of the template (payout schemes that leave part of the reward unclaimed would lose that block) |
 
-## Fallback
+## Timeline
 
-If phases 1–4 can't be genuinely completed — spec, implementation, tests, and real ecosystem
-adoption time, not just merged code — before height 840,000, we ship H1 with the operational runbook
-instead of rushing consensus code, per
-[`consensus-transition.md §9`](consensus-transition.md#9-what-we-will-not-do): don't bundle, and
-don't rush.
+On 2026-09-19 the mainnet height was about 747,250, roughly 92,750 blocks (about 64 days at the
+60-second target) before 840,000. The stable release planned by 2026-09-30 leaves about seven
+weeks for ecosystem adoption. Exchanges and services should plan a deposit and withdrawal pause
+around the activation and confirm which continuation their node, wallet and backend follow
+before resuming; a one-day window is a plan, not a consensus guarantee.
 
-## Open items before phase 1 starts
+## Follow-up track (before heights 2,161,152 and 2,217,600)
 
-- Confirm current mainnet tip height against our own node. This plan assumes roughly 140,000–150,000
-  blocks (~14 weeks) remain to height 840,000, based on Aevust's RIP-0002 claiming mainnet
-  confirmation "through block ≈690,000" as of early August 2026 — a third-party figure that needs
-  independent verification, not a number we've confirmed ourselves.
-- Confirm engineering resourcing: this now runs in parallel with the header-isolation contingency
-  decision (due 31 August 2026) and the monetary-scenario selection itself.
+Extend `sig_fork_id` coverage to the Taproot signature hash (BIP341) and to MWEB kernel signing
+before each activates. Independent schedule, independent review, no effect on 840,000.

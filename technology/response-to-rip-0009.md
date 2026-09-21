@@ -4,6 +4,18 @@ Status: Community technical response — not a consensus document
 
 Date: 2026-08-16
 
+> **Status note (2026-09-19).** This assessment is kept as published. Since then: Rincoin
+> Community Forge selected the bounded S6/b schedule for its implementation (see the
+> [root README](../README.md)); the mempool-classification fix discussed in point 4 below is
+> present in Rin-coin/rincoin `v1.1.0-rc1` (commit `9426ca366`, 2026-08-26), so that objection no
+> longer applies; and the coinbase-commitment design referenced in point 3 has been withdrawn
+> ([`consensus-transition.md §4`](consensus-transition.md#4-why-there-is-no-mandatory-branch-commitment)).
+> A comparison of the two replay mechanisms against the code as released is in
+> [`replay-protection-comparison.md`](replay-protection-comparison.md). Section links into
+> `consensus-transition.md` in the text below point at its Revision 4.0 of 2026-08-16 (see the
+> repository history); in the current revision the signature-hash identifier is §5 and the
+> withdrawn commitment is discussed in §4.
+
 Subject documents: [RIP-0009](https://github.com/Aevust/rincoin-rips/blob/main/rip-0009/rip-0009.md)
 ("RinHash Transaction Version Enforcement / RIN3") and
 [RIP-0002](https://github.com/Aevust/rincoin-rips/blob/main/rip-0002/rip-0002.md) ("Customized
