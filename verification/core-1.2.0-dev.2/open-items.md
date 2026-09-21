@@ -17,8 +17,9 @@ What the evidence in this directory does not cover, stated so that nobody has to
   `feature_s6b_coinbase_flags.py` (flags copied raw, all `coinbaseaux` values wrapped in one push,
   flags ignored); no pool stack was run against the node.
 - **External wallets and signers.** Electrum-style wallets, hardware wallets and exchange or pool
-  payout systems that sign outside Rincoin Core have to implement the new signature hash themselves;
-  none has been tested, because none implements it yet.
+  payout systems that sign outside Rincoin Core have to produce the new signatures themselves; none
+  has been tested against this build. (The construction itself is checked against signatures of real
+  Bitcoin Gold transactions in the unit tests.)
 - **Other platforms.** Only the Linux x86_64 build (Ubuntu 20.04 variant) was built and tested. The
   aarch64, Windows and Ubuntu 24.04 variants of the release path were not built.
 - **Sanitizer builds** (ASan/UBSan) and the fuzz targets were not run for this build.
@@ -27,7 +28,7 @@ What the evidence in this directory does not cover, stated so that nobody has to
 
 ## Known limitations of the build
 
-- **Taproot and MWEB are not covered by `sig_fork_id`.** Neither is active on mainnet before heights
+- **Taproot and MWEB signatures are not replay-protected.** Neither is active on mainnet before heights
   2,161,152 and 2,217,600; both are tracked as follow-up work
   ([`../../technology/replay-protection-plan.md`](../../technology/replay-protection-plan.md)).
 - **`libbitcoinconsensus`-style script verification** (the shared library's `verify_script` entry

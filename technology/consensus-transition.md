@@ -1,11 +1,11 @@
 # Rincoin Height-840,000 Consensus Transition — Technical Specification
 
-Status: Working specification for Rincoin Community Core 1.2.0 (Revision 5.1 — supersedes
-Revision 4.0 of 2026-08-16, which described a mandatory coinbase-commitment design that is no
-longer planned)
+Status: Working specification for Rincoin Community Core 1.2.0 (Revision 6.0). Revision 6.0 gives
+transaction replay protection the `SIGHASH_FORKID` form ([§5](#5-transaction-replay-protection-sighash_forkid));
+Revisions 5.0 and 5.1 appended a 16-byte identifier to the signature hash instead. Revision 4.0 of
+2026-08-16 described a mandatory coinbase-commitment design that is no longer planned.
 
-Date: 2026-09-20 (Revision 5.0: 2026-09-19; 5.1 adds the tested state of the development build, the
-per-network parameter table and the checking of signatures made by others)
+Date: 2026-09-21 (Revision 5.0: 2026-09-19; 5.1: 2026-09-20)
 
 This document describes the rules that Rincoin Community Core 1.2.0 applies from mainnet block
 height 840,000, the reasoning behind each rule, and the exact compatibility consequences for
@@ -26,9 +26,9 @@ Changes (all activated by the height of the block being validated, never by a no
 calendar date, configuration, or any marker):
 
 1. **Block subsidy** follows the S6/b schedule ([§2](#2-the-monetary-rule-s6b)).
-2. **Transaction signatures** for legacy (pre-SegWit) and SegWit v0 inputs are computed over a
-   preimage that includes a fixed fork identifier, `sig_fork_id`
-   ([§5](#5-transaction-replay-protection-sig_fork_id)).
+2. **Transaction signatures** of pre-SegWit and SegWit v0 inputs are replay-protected ones: they
+   set `SIGHASH_FORKID` and are hashed with the BIP143 algorithm with the fork ID 840
+   ([§5](#5-transaction-replay-protection-sighash_forkid)).
 3. **Block 840,000 only** carries one additional coinbase-value condition
    ([§3](#3-the-coinbase-condition-in-block-840000)).
 
@@ -72,24 +72,24 @@ scaled.
 |---|---|---|---|---|
 | BIP34/65/66, CSV, SegWit | 26,500 | 265 | 26 | upstream regtest conventions (BIP34 500, BIP66 1,251, BIP65 1,351, CSV 432, SegWit from genesis) |
 | Dark Gravity Wave | 30,000 | 300 | 30 | disabled |
-| this transition (subsidy, `sig_fork_id`, activation-block coinbase rule), minimum peer version 70018 | 840,000 | 8,400 | 840 | 840 |
+| this transition (subsidy, `SIGHASH_FORKID`, activation-block coinbase rule), minimum peer version 70018 | 840,000 | 8,400 | 840 | 840 |
 | 2 RIN / 1 RIN / 0.6 RIN | 2,100,000 / 4,200,000 / 6,300,000 | 21,000 / 42,000 / 63,000 | 2,100 / 4,200 / 6,300 | 2,100 / 4,200 / 6,300 |
 | zero subsidy | 234,587,500 | 2,345,875 | 234,587 | 234,587 |
-| Taproot deployment start / timeout | 2,161,152 / 2,370,816 | 20,160 / 22,176 | 2,160 / 2,592 | always active |
-| MWEB deployment start / timeout | 2,217,600 / 2,427,264 | 22,176 / 24,192 | 2,160 / 2,592 | 2,160 / 2,304 |
+| Taproot deployment start / timeout | 2,161,152 / 2,370,816 | 20,160 / 22,176 | 2,160 / 2,304 | always active |
+| MWEB deployment start / timeout | 2,217,600 / 2,427,264 | 22,176 / 24,192 | 2,160 / 2,304 | 2,160 / 2,304 |
 
 Regtest deliberately keeps the upstream regtest conventions for the buried deployments, Taproot and
 difficulty, because the inherited test suite depends on them; everything that belongs to this
 transition is scaled like on the other test networks.
 
 A version-bits state changes only on a window boundary (mainnet 8,064 blocks, testnet 2,016, preview
-432, regtest 144), and the windows are not scaled. The scaled start and timeout heights of the two
+and regtest 144), and the windows are not scaled. The scaled start and timeout heights of the two
 deployments are therefore rounded down to a multiple of the network's window, with at least one
 window between them; the table shows the resulting heights (the mainnet heights already are
 multiples of 8,064). On every test network the timeout is exactly one window after the start, and
 a height-based deployment locks in at its timeout even without signalling, so the activation
-heights are fixed: Taproot is active from 24,192 on testnet and from 3,024 on preview; MWEB from
-26,208 on testnet, 3,024 on preview and 2,448 on regtest. The unrounded values and the derivation
+heights are fixed: Taproot is active from 24,192 on testnet and from 2,448 on preview; MWEB from
+26,208 on testnet and from 2,448 on preview and regtest. The unrounded values and the derivation
 are tabulated in Rincoin Community Core's `doc/rincoin-parameters.md`.
 
 Testnet keeps its genesis block and message start; a testnet chain built under earlier parameters is
@@ -165,7 +165,8 @@ The commitment would have forced every pool and solo miner to change coinbase co
 have required a `getblocktemplate` extension, and would have made a common chain with any other
 new implementation impossible by design even if the consensus rules were otherwise aligned. Given
 the goal of coordination, that cost is not justified. Separation from unchanged software is
-provided by the block-840,000 condition; separation of transactions is provided by `sig_fork_id`.
+provided by the block-840,000 condition; separation of transactions is provided by the
+replay-protected signature hash ([§5](#5-transaction-replay-protection-sighash_forkid)).
 
 What this design guarantees and what it does not:
 
@@ -185,86 +186,103 @@ Blocks that carry a voluntary `RINF`-style output, any other `OP_RETURN` output,
 `OP_RETURN` transactions are not rejected for that reason. The SegWit witness commitment is a
 different mechanism and remains required exactly as before.
 
-## 5. Transaction replay protection: `sig_fork_id`
+## 5. Transaction replay protection: `SIGHASH_FORKID`
+
+From height 840,000 Rincoin Community Core uses the replay-protected signature hash that Bitcoin
+Cash introduced in 2017 and that Bitcoin Gold deployed on a chain with SegWit. The construction is
+theirs; only the fork ID and the activation height are Rincoin's. Software that supports Bitcoin
+Gold or Bitcoin Cash already contains it.
 
 The alternative of a required transaction version (the RIN3 rule of RIP-0009) is assessed in
 [`response-to-rip-0009.md`](response-to-rip-0009.md) and compared against the released code in
 [`replay-protection-comparison.md`](replay-protection-comparison.md).
 
-### 5.1 Identifier
+### 5.1 Flag and fork ID
 
-`sig_fork_id` is the 16-byte ASCII constant
+| Item | Value |
+|---|---|
+| Flag in the hash-type byte of a signature | `SIGHASH_FORKID` = `0x40` |
+| Fork ID | `840` (`0x000348`), a 24-bit number, the same on every network |
+| Hash type that ends the signature-hash preimage | four bytes, little-endian: `hash-type byte \| (fork ID << 8)` |
+| ... for a `SIGHASH_ALL` signature | `0x00034841`: the preimage ends in `41 48 03 00`, the signature ends in `0x41` |
+| Flag and fork ID as one number, as some software is configured (for example `fork_id` in the `coins` file of Komodo DeFi Framework) | `0x00034840` |
+| For comparison | Bitcoin Cash uses fork ID `0`, Bitcoin Gold `79` |
 
-```
-Rincoin-840k-S6b        (hex 52696e636f696e2d3834306b2d533662)
-```
+The fork ID is a static consensus parameter compiled into the node. It is not serialized into any
+block and does not depend on the software version, the signalling tag, pool configuration, or the
+presence of any marker. It is not zero, because with zero a SegWit v0 signature made for this chain
+would also verify under the unchanged rules, and it is below 2^23, so that the shifted value is a
+positive number in a signed 32-bit integer, which is how several implementations hold it. `840`
+stands for the activation height in thousands; a later scheduled fork would take its own value the
+same way.
 
-The string names the chain, the activation height and the scenario. It is used as is: no hashing,
-no derivation, no byte-order conversion. It is a static consensus parameter compiled into the
-node, identical on every network, and it is not serialized into any block. It does not depend on
-the software version, the signalling tag, pool configuration, or the presence of any marker.
+Earlier constructions are not valid under this specification: the 8-byte identifier of the
+testing-mode branches of August–September 2026, and the 16-byte identifier that Revisions 5.0 and
+5.1 of this document appended after the hash type.
 
-The testing-mode branches of August–September 2026 used a different, 8-byte identifier derived as
-`SHA256(branch_id || fork_no || scenario_id)[:8]` from a synthetic `branch_id`; signatures made
-that way are not valid under this specification. Test vectors pinning the constant above will be
-published with the 1.2.0 source.
+### 5.2 The signature hash
 
-### 5.2 Where it enters the signature hash
+For every ECDSA signature that is evaluated by `OP_CHECKSIG`, `OP_CHECKSIGVERIFY`,
+`OP_CHECKMULTISIG` or `OP_CHECKMULTISIGVERIFY`, in a pre-SegWit script or a SegWit v0 script, in a
+block at height ≥ 840,000:
 
-For every signature check of a legacy (pre-SegWit) input and of a SegWit v0 (BIP143) input in a
-block at height ≥ 840,000, the 16 bytes of `sig_fork_id` are appended verbatim as the final field of
-the preimage, immediately after the 4-byte little-endian `nHashType`. No length prefix and no
-integer reinterpretation are applied. Everything before that point is the unchanged legacy or
-BIP143 serialization, so all hash types (`SIGHASH_ALL`, `SIGHASH_NONE`, `SIGHASH_SINGLE`, each with
-or without `SIGHASH_ANYONECANPAY`) are covered, including `ANYONECANPAY` variants.
+1. **The flag is mandatory.** A non-empty signature whose hash-type byte does not have
+   `SIGHASH_FORKID` set is a **script error**: the script fails as a whole, and not merely with a
+   false result that a following `OP_NOT` could turn into success. An empty signature (the
+   conventional placeholder for "not signed") remains an ordinary failed check, as before.
+2. **The digest is the BIP143 one for every input,** pre-SegWit inputs included, so every signature
+   commits to the amount of the output it spends. The script code is the one the script version
+   defines: for SegWit v0 as in BIP143; for a pre-SegWit script, the executed script from the most
+   recent `OP_CODESEPARATOR` on, with the signature being checked removed, as before, and
+   serialized as it is (any later `OP_CODESEPARATOR` is not stripped, as in BIP143). For the
+   standard pre-SegWit forms that is the `scriptPubKey` (P2PK, P2PKH, bare multisig) or the
+   `redeemScript` (P2SH).
+3. **The hash type that ends the preimage carries the fork ID** in its upper three bytes
+   ([§5.1](#51-flag-and-fork-id)); the low byte is the hash-type byte of the signature and selects
+   the BIP143 mode as usual.
 
-The signature encoding is unchanged: the hash-type byte appended to a DER signature keeps its
-existing values. No new hash-type flag (such as Bitcoin Cash's `SIGHASH_FORKID`, `0x40`) is
-introduced, so a signature cannot be told apart from an old-style one by inspection; it can only
-be verified against one regime.
+All hash types (`SIGHASH_ALL`, `SIGHASH_NONE`, `SIGHASH_SINGLE`, each with or without
+`SIGHASH_ANYONECANPAY`) are covered. Only the requirement to set the flag is a consensus rule; the
+other checks of a signature's encoding (defined hash types, public-key formats) remain relay
+policy, as they have always been. The reference for every detail is the Bitcoin Gold
+implementation.
 
-**`SIGHASH_SINGLE` without a matching output (rule fixed 2026-09-19).** In the legacy
-serialization, a `SIGHASH_SINGLE` signature for an input index that has no corresponding output has
-historically been computed over the constant digest `1` (the well-known `uint256::ONE` behavior).
-That digest does not depend on the transaction, so such a signature would remain valid on both
-sides of the fork. From height 840,000, in the legacy (pre-SegWit) script path, checking a
-non-empty signature whose hash type is `SIGHASH_SINGLE`, with or without `SIGHASH_ANYONECANPAY`,
-for an input index `nIn ≥ vout.size()` is a **script error**: the script fails as a whole, in
-`OP_CHECKSIG`, `OP_CHECKSIGVERIFY`, `OP_CHECKMULTISIG` and `OP_CHECKMULTISIGVERIFY` alike, and not
-merely a false result that a following `OP_NOT` could turn into success. An empty signature (the
-conventional placeholder for "not signed" in multisig) remains an ordinary failed check, as
-before. `SIGHASH_SINGLE` with a matching output is unchanged; SegWit v0 and Taproot are unchanged
-(their digest constructions have no such case); the hash type itself is not banned. Validation
-below 840,000 is unchanged. Mempool admission and every signing path in Core apply the same rule
-for the next block height, including across a reorganization of the boundary.
+**`SIGHASH_SINGLE` without a matching output.** In the historical pre-SegWit serialization such a
+signature is computed over the constant digest `1`, so it fits any transaction on any chain. From
+height 840,000 that digest is out of reach: a signature without the flag is a script error, and
+one with the flag is hashed the BIP143 way, where this case is an ordinary signature that commits
+to no output.
+
+Validation below 840,000 is unchanged in every respect. There the bit `0x40` in a hash-type byte
+has no meaning to consensus, and a signature is hashed the historical way whatever that byte says,
+so no historical block is affected.
 
 ### 5.3 Activation and both directions
 
 The rule is keyed to the height of the block that contains the transaction. In a block at height
-≥ 840,000 every legacy and SegWit v0 signature must verify against the preimage with
-`sig_fork_id`; in a block below 840,000 every such signature must verify against the historical
-preimage. Both directions therefore hold by construction:
+≥ 840,000 every evaluated ECDSA signature must be a replay-protected one; in a block below 840,000
+every signature is verified the historical way. Both directions therefore hold by construction:
 
 - a transaction signed for the new rule fails signature verification under the historical rule
-  (unchanged software and any implementation that does not apply the same identifier);
-- a transaction signed the historical way fails verification in any Community Core block at or
+  (unchanged software and any implementation that does not apply the same fork ID);
+- a transaction signed the historical way is a script error in any Community Core block at or
   above 840,000.
 
 A node's mempool evaluates transactions against the height of the next block (tip height + 1). A
-transaction signed for the new rule is rejected while the next block height is below 840,000;
-one signed the historical way is rejected once the next block height reaches 840,000. Such
-rejections are classified as a recent consensus change, not as misbehavior, so honest peers relaying
-pre-fork residue are not penalized. Unconfirmed transactions with historical signatures that are
-still in a node's mempool when the boundary is crossed are removed and must be re-signed by their
-wallets; the same applies in the opposite direction after a reorganization back below the boundary.
-The script-validation cache includes the activation state in its key, so a result cached under one
-regime is never reused under the other.
+transaction signed for the new rule is rejected while the next block height is below 840,000
+(`new-style-sig-fork-id`); one signed the historical way is rejected once the next block height
+reaches 840,000 (`old-style-sig-fork-id`). Such rejections are classified as a recent consensus
+change, not as misbehavior, so honest peers relaying pre-fork residue are not penalized. Unconfirmed
+transactions with historical signatures that are still in a node's mempool when the boundary is
+crossed are removed and must be re-signed by their wallets; the same applies in the opposite
+direction after a reorganization back below the boundary. The script-validation cache includes the
+activation state in its key, so a result cached under one regime is never reused under the other.
 
 ### 5.4 Signing in Rincoin Community Core
 
 The Core wallet, `signrawtransactionwithwallet`, `signrawtransactionwithkey`, the PSBT RPCs
 (`walletprocesspsbt`, and any path that fills PSBT signatures) sign for the regime of the next
-block height, without any fallback to the historical preimage once the next block height is
+block height, without any fallback to the historical signature once the next block height is
 840,000 or more. `rincoin-tx`, which has no chain state, takes an explicit signing height
 (`-signheight=<n>`) and otherwise signs the historical way.
 
@@ -273,9 +291,16 @@ second party adds its signature to a partially signed multisig transaction, in
 `combinerawtransaction`, and when `finalizepsbt`, `analyzepsbt` or the GUI decide whether the
 signatures of a PSBT are complete. A signature is recognized only under the rule it was made for.
 
+Two things are visible to users of the RPC interface. Decoded scripts name the new hash types
+(`[ALL|FORKID]` and so on), and the `sighashtype` arguments accept those names from the transition
+height on, where the flag is added whether it is named or not. And because the signature hash now
+commits to the amount of every input, an output that the caller describes in `prevtxs`
+(`signrawtransactionwithkey`, `signrawtransactionwithwallet`, `rincoin-tx`) needs its `amount` also
+when it is a pre-SegWit output; for coins that the wallet or the node can see, nothing changes.
+
 ### 5.5 What is and is not covered
 
-Only signature checks (`OP_CHECKSIG`, `OP_CHECKMULTISIG` and their `VERIFY` forms, in legacy and
+Only signature checks (`OP_CHECKSIG`, `OP_CHECKMULTISIG` and their `VERIFY` forms, in pre-SegWit and
 SegWit v0 scripts) are affected. A transaction whose inputs require no signature — for example a
 spend of an anyone-can-spend output or of a script satisfied by a hash preimage alone — is not
 affected and can be valid on both continuations; no new restriction is placed on such scripts.
@@ -286,15 +311,20 @@ guarantee about every conceivable transaction.
 
 ### 5.6 External signers and integrators
 
-Every piece of software that produces Rincoin signatures must implement §5.2 and know which
-regime applies: Electrum-style wallets (including Electrin), exchange and pool payout systems that
-sign outside Rincoin Core, PSBT tooling, and libraries. A signer that cannot learn the current
-height (offline signing, PSBT without height information) must be told the regime explicitly.
-Hardware wallets that compute the digest in firmware with Bitcoin parameters cannot produce the new
-preimage and cannot be used on the Community Core continuation after 840,000 unless their firmware
-adds support. Software that only verifies, indexes or relays (Fulcrum-style servers, explorers,
-stratum-only miners, proxies) needs no signature change. This is a real ecosystem cost of the
-design, and the reason the specification is published before the release.
+Every piece of software that produces Rincoin signatures has to produce the signatures of §5.2 from
+height 840,000 and know which regime applies: Electrum-style wallets (including Electrin), swap
+software, exchange and pool payout systems that sign outside Rincoin Core, PSBT tooling, and
+libraries. What it needs is the flag, the fork ID `840`, the BIP143 digest for every input (and
+therefore the amount of every input), and the height. Software that supports Bitcoin Gold has all
+of it except the two numbers; where the flag and the fork ID are configured as one number, that
+number is `0x00034840`. A signer that cannot learn the current height (offline signing, PSBT
+without height information, software with a static per-coin configuration) has to be told the
+regime, or switched, at the transition. Transactions that are signed in advance and kept for later
+do not survive the transition. No hardware wallet supports Rincoin today; the form is the one
+their generic coin definitions express for Bitcoin Gold (a fork ID and BIP143 for every input).
+Software that only verifies, indexes or relays (Fulcrum-style servers, explorers, stratum-only
+miners, proxies) needs no signature change. This is a real ecosystem cost of replay protection,
+and the reason the specification is published before the release.
 
 ## 6. Voluntary signalling: `coinbaseaux.flags`
 
@@ -332,18 +362,18 @@ version schedule (70017 from genesis, 70018 from height 840,000 on mainnet) is a
 inherited from the 1.1 line: from 840,000, peers announcing a lower protocol version are
 disconnected. It does not affect block validity. Rincoin Community Core 1.2.0 advertises protocol
 version 70019 and the subversion `/RincoinCommunityCore:1.2.0/` (development builds add a comment
-such as `(dev.1)`); the version increase is diagnostic, the schedule above is unchanged, and no
+such as `(dev.2)`); the version increase is diagnostic, the schedule above is unchanged, and no
 service bit is introduced.
 
 ## 8. Release status and safeguards
 
 - As of 2026-09-19 no 1.2.0 build has been published. The public branch `consensus/s6b-testing`
   (commit `1e5a4201d`, 2026-09-05) is the earlier testing-mode implementation: it contains the S6/b
-  subsidy and `sig_fork_id`, but also the superseded `RINF` commitment, synthetic test constants, a
+  subsidy and an earlier form of replay protection, but also the superseded `RINF` commitment, synthetic test constants, a
   mainnet start guard and its own test suite. Its results apply to that branch only.
-- A first 1.2.0 development build, labelled `v1.2.0-dev.1`, has been built and tested by Rincoin
-  Community Forge on a consensus branch based on `dev` (state of 2026-09-20; the executed tests and
-  their results are in [`../verification/core-1.2.0-dev.1/`](../verification/core-1.2.0-dev.1/)).
+- A 1.2.0 development build, labelled `v1.2.0-dev.2`, has been built and tested by Rincoin
+  Community Forge on a consensus branch based on `dev` (state of 2026-09-21; the executed tests and
+  their results are in [`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/)).
   Its source has not been published at the time of writing; it will be published for testing after
   review. It is not production software: it is marked as a pre-release build and it carries an
   explicit safeguard against accidental production use that the stable release removes. Unlike the

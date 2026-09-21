@@ -5,7 +5,7 @@ transition at block height 840,000. It holds the monetary review, the candidate 
 technical specification that Rincoin Community Core 1.2.0 implements, and testing evidence. The
 first preference remains a common consensus and one chain.
 
-## Current status (2026-09-20)
+## Current status (2026-09-21)
 
 - **Rincoin Community Forge has selected the S6/b scenario** (bounded, height-only customized
   halving: 4 / 2 / 1 / 0.6 RIN from heights 840,000 / 2,100,000 / 4,200,000 / 6,300,000, zero from
@@ -13,8 +13,10 @@ first preference remains a common consensus and one chain.
   1.2.0. S6/b was chosen because it offers the widest achievable compatibility with other Rincoin
   software and therefore the best chance of one chain. This is a decision about Community Core's
   own implementation, not a claim that the whole network has agreed.
-- **Transactions** are kept apart from other continuations by a fork identifier mixed into the
-  signature hash (`sig_fork_id`) from height 840,000. The required-transaction-version approach
+- **Transactions** are kept apart from other continuations by the replay-protected signature hash
+  of Bitcoin Cash and Bitcoin Gold (`SIGHASH_FORKID`, with the fork ID 840) from height 840,000;
+  see [`technology/consensus-transition.md §5`](technology/consensus-transition.md#5-transaction-replay-protection-sighash_forkid).
+  The required-transaction-version approach
   ("RIN3", RIP-0009) used by another implementation is not adopted, for the technical reasons in
   [`technology/response-to-rip-0009.md`](technology/response-to-rip-0009.md) (the August 2026
   assessment of RIP-0002 and RIP-0009) and in
@@ -31,10 +33,10 @@ first preference remains a common consensus and one chain.
 - **Coordination.** Community Forge will contact the maintainers of every known Rincoin
   implementation to align consensus and signature rules and keep one chain. No agreement exists
   at the time of writing.
-- **Releases.** No 1.2.0 build has been published yet. A first development build
-  (`v1.2.0-dev.1`) has been built and tested by Community Forge; the executed tests, including a
+- **Releases.** No 1.2.0 build has been published yet. A development build
+  (`v1.2.0-dev.2`) has been built and tested by Community Forge; the executed tests, including a
   matrix of three implementations run against each other, are in
-  [`verification/core-1.2.0-dev.1/`](verification/core-1.2.0-dev.1/). Its source will be published
+  [`verification/core-1.2.0-dev.2/`](verification/core-1.2.0-dev.2/). Its source will be published
   for testing after review; a stable production release is planned by **2026-09-30**, after
   verification. These are plans, not statements of production readiness. The previously published
   testing-mode branches (below) implement an older design and their results do not describe 1.2.0.
@@ -146,8 +148,8 @@ historical).
 - [`STATUS.md`](STATUS.md) records the current publication and decision status.
 - [`technology/`](technology/) is the technical specification implemented by Rincoin Community
   Core 1.2.0: the S6/b rule, the block-840,000 coinbase condition, why no mandatory branch
-  commitment is used and what that means for compatibility, the `sig_fork_id` replay protection
-  with exact byte placement, the voluntary signalling tag, the comparison with the
+  commitment is used and what that means for compatibility, the `SIGHASH_FORKID` replay protection
+  with its exact constants, the voluntary signalling tag, the comparison with the
   required-transaction-version approach of another implementation, the adoption plan, and the
   August 2026 assessment of the external RIP-0002/RIP-0009 proposals
   (`response-to-rip-0009.md`). Starts with a brief for pool, exchange, wallet, and mining-software

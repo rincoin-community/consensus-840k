@@ -1,6 +1,6 @@
 # Rincoin Consensus Transition — Technology
 
-Status: Working specification for Rincoin Community Core 1.2.0 (updated 2026-09-20)
+Status: Working specification for Rincoin Community Core 1.2.0 (updated 2026-09-21)
 
 This folder covers the *technical* side of the height-840,000 transition as implemented by
 Rincoin Community Core: what changes, how blocks and transactions of different continuations are
@@ -25,12 +25,13 @@ source.
   ([`consensus-transition.md §3`](consensus-transition.md#3-the-coinbase-condition-in-block-840000)).
   Claiming the full template value satisfies it; no other height gets a minimum-claim rule. A
   payout scheme that deliberately leaves part of the reward unclaimed would lose that one block.
-- **Transactions** are kept apart by a fork identifier (`sig_fork_id`) mixed into the signature
-  hash of every legacy and SegWit v0 input from height 840,000. If you run wallet or signing
-  infrastructure, you must compute signatures this way from that height
-  ([§5](consensus-transition.md#5-transaction-replay-protection-sig_fork_id)). Software that only
-  verifies, indexes, relays or mines is not affected. Hardware wallets with fixed Bitcoin firmware
-  cannot follow.
+- **Transactions** are kept apart by the replay-protected signature hash of Bitcoin Cash and
+  Bitcoin Gold from height 840,000: every signature of a pre-SegWit or SegWit v0 input sets
+  `SIGHASH_FORKID` (`0x40`) and is hashed with the BIP143 algorithm with the fork ID `840`. If you
+  run wallet or signing infrastructure, you must produce signatures this way from that height
+  ([§5](consensus-transition.md#5-transaction-replay-protection-sighash_forkid)); software that
+  supports Bitcoin Gold has the construction and needs the two numbers and the height. Software
+  that only verifies, indexes, relays or mines is not affected.
 - **No coinbase commitment, no required transaction version.** Nothing must be added to the
   coinbase, and the transaction `nVersion` field keeps its ordinary meaning; the "RIN3" required
   version proposed in RIP-0009 and used by another implementation is not part of Community Core
@@ -44,8 +45,8 @@ source.
   version 70019. From 840,000, Community Core disconnects peers announcing a protocol version below
   70018 (a networking policy that predates this change); no service bit is introduced.
 - **Timeline.** Mainnet height was about 747,250 on 2026-09-19, roughly 64 days before 840,000. A
-  first 1.2.0 development build has been built and tested
-  ([`../verification/core-1.2.0-dev.1/`](../verification/core-1.2.0-dev.1/)); its source will be
+  1.2.0 development build has been built and tested
+  ([`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/)); its source will be
   published for testing after review, and a stable release is planned by 2026-09-30. These are
   plans, not readiness statements.
 
@@ -53,11 +54,11 @@ source.
 
 - **[`consensus-transition.md`](consensus-transition.md)** — the specification: the S6/b rule,
   the block-840,000 condition, why no mandatory branch commitment is used and what that means for
-  compatibility, the `sig_fork_id` construction with its exact byte placement and boundary
+  compatibility, the `SIGHASH_FORKID` replay protection with its exact constants and boundary
   behavior, the voluntary signalling tag, node identity, release status and safeguards.
 - **[`replay-protection-comparison.md`](replay-protection-comparison.md)** — technical comparison
   of the two replay-protection mechanisms currently planned by Rincoin implementations
-  (`sig_fork_id` and the required "RIN3" transaction version), and a table of the other rule
+  (the `SIGHASH_FORKID` signature hash and the required "RIN3" transaction version), and a table of the other rule
   differences between the implementations as verified in their code.
 - **[`response-to-rip-0009.md`](response-to-rip-0009.md)** — our assessment (August 2026, kept
   as published, with a dated status note) of the two external proposals published by Aevust
@@ -69,8 +70,9 @@ source.
 ## What we will do
 
 - Ship exactly one compiled-in monetary scenario (S6/b); never a runtime switch.
-- Keep `sig_fork_id` as the transaction replay mechanism for legacy and SegWit v0, and extend it
-  to Taproot and MWEB before their own activation heights.
+- Keep the replay-protected signature hash as the transaction replay mechanism for pre-SegWit and
+  SegWit v0 inputs, and extend replay protection to Taproot and MWEB before their own activation
+  heights.
 - Apply the single block-840,000 coinbase condition and no other minimum-claim rule.
 - Publish the final constants, test vectors and executed test evidence with the 1.2.0 source
   before any release is called ready.

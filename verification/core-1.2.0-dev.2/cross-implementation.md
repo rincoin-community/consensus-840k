@@ -1,6 +1,6 @@
 # Three implementations against each other — method and findings
 
-Date of the runs: 2026-09-20. Result tables: [`cross-implementation-tables.md`](cross-implementation-tables.md)
+Date of the runs: 2026-09-21. Result tables: [`cross-implementation-tables.md`](cross-implementation-tables.md)
 (generated from [`cross-implementation-results.json`](cross-implementation-results.json) by
 [`scripts/render_matrix.py`](scripts/render_matrix.py)).
 
@@ -13,8 +13,8 @@ a public network.
 
 | | What | Source identity | Binary used |
 |---|---|---|---|
-| **C** | Rincoin Community Core 1.2.0, development build `v1.2.0-dev.1` | see [`build-manifest.json`](build-manifest.json) | the production-configuration build, `rincoind` SHA-256 `ceccfb491503bb50805125152d51019e48a784c3761d743cfc758053933628a8` |
-| **A** | Rin-coin/rincoin `v1.1.0-rc1` | `https://github.com/Rin-coin/rincoin`, tag `v1.1.0-rc1` → commit `a1b12dc8c332677c1fb8b3dbf32ca91f258f6d59`. On 2026-09-20 this was both the newest (pre)release and the head of its `v1.1` branch | the **unmodified official release binary**: `bin/rincoind` from `rincoin-1.1.0rc1-x86_64-linux-gnu.tar.gz` (archive SHA-256 `2e5303e384a4822f0ea250df85a64062ac58f65b6fff91bf182bbd291dee3e42`, as listed in the release's `SHA256SUMS`; the detached signature was not verified), binary SHA-256 `b1f800a270aeed85c52e3c76d55d3c0b8027229d174748197d91eb1dcfc065d3`. It is linked against Ubuntu 24.04 libraries, so it ran inside an Ubuntu 24.04 container with host networking ([`scripts/rincoind-in-container.sh`](scripts/rincoind-in-container.sh)) |
+| **C** | Rincoin Community Core 1.2.0, development build `v1.2.0-dev.2` | see [`build-manifest.json`](build-manifest.json) | the production-configuration build, `rincoind` SHA-256 `23d100744c8ddbe5eb96369ac9abaef1ae6d780a2016afbe2c06e9e3afe40f01` |
+| **A** | Rin-coin/rincoin `v1.1.0-rc1` | `https://github.com/Rin-coin/rincoin`, tag `v1.1.0-rc1` → commit `a1b12dc8c332677c1fb8b3dbf32ca91f258f6d59`. On 2026-09-21 this was both the newest (pre)release and the head of its `v1.1` branch | the **unmodified official release binary**: `bin/rincoind` from `rincoin-1.1.0rc1-x86_64-linux-gnu.tar.gz` (archive SHA-256 `2e5303e384a4822f0ea250df85a64062ac58f65b6fff91bf182bbd291dee3e42`, as listed in the release's `SHA256SUMS`; the detached signature was not verified), binary SHA-256 `b1f800a270aeed85c52e3c76d55d3c0b8027229d174748197d91eb1dcfc065d3`. It is linked against Ubuntu 24.04 libraries, so it ran inside an Ubuntu 24.04 container with host networking ([`scripts/rincoind-in-container.sh`](scripts/rincoind-in-container.sh)) |
 | **L** | the unchanged schedule: Rin-coin/rincoin version 1.0.5 | `https://github.com/Rin-coin/rincoin`, `master` → commit `b52c87778f800dc5f4e2f59c372badbc139f933f` (reports itself as 1.0.5; that repository has no `v1.0.5` tag, and the tree is identical to the `v1.0.5` tag of `rincoin-community/rincoin-core`) | built from that commit **with a one-line patch** (below), `rincoind` SHA-256 `356c41713967f2637cfb95dbdf8d48ce9a6321008fbfec9ae0cab72fa8d6d336` |
 
 Two different projects have published something called 1.1.0: the `v1.1.0-rc1` above, and the
@@ -43,8 +43,8 @@ P2P connections directly. Two things differ on regtest:
 A was **not** patched for these runs. (A patch that rescales A's *testnet* to Community Core's
 testnet parameters was prepared as well,
 [`patches/rin-coin-rincoin-v1.1.0-rc1-testnet-scale.patch`](patches/rin-coin-rincoin-v1.1.0-rc1-testnet-scale.patch);
-a build with it gave the same 190 regtest results as the official binary, and no testnet run was
-made.)
+a build with it gave the same regtest verdicts as the official binary in an earlier run of this
+matrix, and no testnet run was made.)
 
 **Is the patched L still L?** [`scripts/l_authenticity.py`](scripts/l_authenticity.py) ran the patched
 build against an unmodified 1.0.5 release build (SHA-256
@@ -75,11 +75,11 @@ always means a controlled number of regtest blocks at minimum difficulty, never 
 - **Manipulated blocks** are built by the test, not by any miner, and are reported separately.
 - **Peers.** Manual outbound connections (`addnode … onetry`), checked after four seconds.
 
-The harness is [`scripts/cal_matrix.py`](scripts/cal_matrix.py). The matrix was run four times: with
-a locally built A and a development-configuration C, with the official A binary and the same C, and
-twice with the official A binary and a production-configuration C (the build recorded here and an
-earlier build of the same development line). All 190 recorded verdicts were identical in all four
-runs; the tables show the last one.
+The harness is [`scripts/cal_matrix.py`](scripts/cal_matrix.py). The matrix was run twice with the
+binaries named above: all 190 recorded verdicts and reasons were identical; the tables show the
+second run. The same 190 accept/reject verdicts had been recorded for the earlier development build
+`v1.2.0-dev.1`, whose replay protection had a different form; only four reject reasons differ, as
+expected.
 
 ## Findings
 
@@ -106,15 +106,16 @@ Regtest heights; read 840 as mainnet 840,000.
    hand-built child that satisfies every rule on its own (scenario 7).
 4. **The first ordinary transaction separates C and A.** C's block with a C transaction is rejected
    by A (`bad-tx-rinhash-version`: the transaction does not carry A's required version). A's block
-   with an A transaction is rejected by C (the signature does not verify under C's signature hash).
+   with an A transaction is rejected by C (its signatures are not replay-protected ones:
+   `Signature must use SIGHASH_FORKID`).
    After that each rejects the other's later blocks for their ancestor.
 5. **Transactions across the three** (above the transition height):
 
    | Made by ↓ / judged by → | C | A | L |
    |---|---|---|---|
-   | C | valid | mempool and block: `bad-tx-rinhash-version` | mempool and block: signature invalid |
-   | A | mempool: `old-style-sig-fork-id`; block: signature invalid | valid | mempool: `version` (standardness); **block: accepted** |
-   | L | mempool: `old-style-sig-fork-id`; block: signature invalid | mempool and block: `bad-tx-rinhash-version` | valid |
+   | C | valid | mempool and block: `bad-tx-rinhash-version` | mempool: hash type not understood (standardness); block: signature invalid |
+   | A | mempool: `old-style-sig-fork-id`; block: `Signature must use SIGHASH_FORKID` | valid | mempool: `version` (standardness); **block: accepted** |
+   | L | mempool: `old-style-sig-fork-id`; block: `Signature must use SIGHASH_FORKID` | mempool and block: `bad-tx-rinhash-version` | valid |
 
    C's transactions are invalid for both others at the consensus level, and theirs for C. A's
    transactions are kept out of L's mempool only by a standardness rule; a block that contains one

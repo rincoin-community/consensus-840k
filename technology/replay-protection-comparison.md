@@ -4,15 +4,19 @@ Status: Technical comparison — not a consensus document (complements the 2026-
 [`response-to-rip-0009.md`](response-to-rip-0009.md), which remains published; this document
 compares the two mechanisms against the code as released)
 
-Date: 2026-09-20 (first version 2026-09-19; this version adds the behavior observed when the three
-implementations were run against each other, [§5](#5-observed-behavior))
+Date: 2026-09-21 (first version 2026-09-19; the behavior observed when the three implementations
+were run against each other was added on 2026-09-20, [§5](#5-observed-behavior); this version
+follows Revision 6.0 of the specification, in which Community Core's mechanism has the
+`SIGHASH_FORKID` form)
 
 Two Rincoin implementations plan to change the rules at mainnet height 840,000, and each uses a
 different mechanism to keep ordinary transactions from being valid on both continuations:
 
-- **Rincoin Community Core 1.2.0** (rincoin-community/rincoin-core, in development) appends a fixed
-  16-byte ASCII identifier, `sig_fork_id`, to the signature-hash preimage of every legacy and SegWit
-  v0 input from height 840,000 — see [`consensus-transition.md §5`](consensus-transition.md#5-transaction-replay-protection-sig_fork_id).
+- **Rincoin Community Core 1.2.0** (rincoin-community/rincoin-core, in development) changes the
+  signature hash of every pre-SegWit and SegWit v0 input from height 840,000 to the replay-protected
+  form of Bitcoin Cash and Bitcoin Gold: the signature sets `SIGHASH_FORKID`, the digest is the
+  BIP143 one for every input, and the hash type in the preimage carries the fork ID 840 — see
+  [`consensus-transition.md §5`](consensus-transition.md#5-transaction-replay-protection-sighash_forkid).
 - **Rin-coin/rincoin v1.1.0-rc1** (tag `v1.1.0-rc1`, commit `a1b12dc8c332677c1fb8b3dbf32ca91f258f6d59`,
   published 2026-09-15 by its maintainer, Aevust) requires every non-coinbase transaction in a block
   at height ≥ 840,000 to carry `nVersion = 0x52494e33` (ASCII "RIN3"); the signature hash is
@@ -40,16 +44,18 @@ that matter for a common chain are listed in [§4](#4-other-rule-differences-bet
 - Networking: service bit `NODE_RIN3` (bit 25) is advertised and required for outbound peer
   selection; `PROTOCOL_VERSION` is 70018; no minimum peer version floor is raised.
 
-**`sig_fork_id` (Rincoin Community Core 1.2.0):**
+**`SIGHASH_FORKID` with fork ID 840 (Rincoin Community Core 1.2.0):**
 
-- Consensus: from height 840,000 every legacy and BIP143 signature hash includes `sig_fork_id`
-  as the final preimage field; signatures computed without it fail script verification.
+- Consensus: from height 840,000 every evaluated ECDSA signature must set `SIGHASH_FORKID`
+  (a script error otherwise) and is hashed with the BIP143 algorithm, pre-SegWit inputs included,
+  with the fork ID in the upper three bytes of the hash type that ends the preimage.
 - Mempool: transactions are checked against the regime of the next block; historical-style
   signatures after the boundary are reported as a recent consensus change, not as misbehavior;
   stale entries are evicted when the boundary is crossed.
 - Block assembly: the mempool contains only transactions valid for the next block, so templates
   are unaffected; the template validity check in Core covers the remainder.
-- Standardness and transaction format: unchanged (`nVersion` 1 or 2).
+- Standardness and transaction format: unchanged (`nVersion` 1 or 2); the hash-type byte of a
+  signature has the additional flag.
 - Wallet, raw-transaction RPCs, PSBT and `rincoin-tx` sign for the next block's regime.
 - Networking: no service bit; the pre-existing per-height minimum peer version schedule applies.
 
@@ -62,7 +68,7 @@ consensus accepts any `nVersion` in a block. Unchanged *policy* (`IsStandardTx`)
 versions above 2 in the mempool, so such a transaction would normally not be relayed by unchanged
 nodes, but a miner can include it in a block through its own template or a modified policy. The
 protection toward the unchanged rules is therefore a standardness property, not a consensus
-property. A signature computed with `sig_fork_id` is invalid under the unchanged rules at the
+property. A replay-protected signature is invalid under the unchanged rules at the
 consensus level, and a historical signature is invalid under the new rules at the consensus level;
 neither direction depends on relay policy or on the other implementation's cooperation.
 
@@ -82,22 +88,23 @@ requirement.
 **Compatibility surface.** Both mechanisms require every signing or transaction-constructing
 component to change, but in different places:
 
-| Component | RIN3 | `sig_fork_id` |
+| Component | RIN3 | `SIGHASH_FORKID` |
 |---|---|---|
-| Wallets and libraries that build transactions | must set `nVersion = 0x52494e33` | must compute the new preimage |
-| Software that only signs a prepared transaction (PSBT signers, hardware wallets) | unaffected if the version is already set | must implement the new preimage; hardware wallets with fixed Bitcoin firmware cannot |
+| Wallets and libraries that build transactions | must set `nVersion = 0x52494e33` | must sign the Bitcoin Gold way with the fork ID 840; software that supports Bitcoin Gold or Bitcoin Cash has the construction, some of it by configuration |
+| Software that only signs a prepared transaction (PSBT signers, hardware wallets) | unaffected if the version is already set | must produce the new signatures and know the amount of every input; the generic coin definitions of hardware wallets express the form (as for Bitcoin Gold), none supports Rincoin today |
 | Indexers, explorers, relays | may need to accept version `0x52494e33` where they validate standardness themselves | unaffected |
 | Mining software and pools | unaffected | unaffected |
 | Fee estimation, RBF signalling | unaffected (BIP125 uses `nSequence`, not `nVersion`) | unaffected |
 
 Claims that "all indexers" or RBF depend on `nVersion` in one specific way are not supported by the
 code reviewed; the assessment above is per component. The signature-hash approach places its cost
-on every signer, including external and offline ones; that cost is real and is why the
-specification is published ahead of the release.
+on every signer, including external and offline ones; that cost is real, it is why the
+specification is published ahead of the release, and it is why the form chosen is one that has been
+in use since 2017 and that existing software already implements.
 
 **Bundling.** In Rin-coin/rincoin the activation height of RIN3 is asserted to equal
 `4 × nSubsidyHalvingInterval`, the same height as its subsidy change. Community Core's
-`sig_fork_id` is a separate rule that happens to activate at the same height; either rule could be
+signature rule is a separate rule that happens to activate at the same height; either rule could be
 reviewed or replaced on its own.
 
 **Obsolete objections.** The August assessment ([`response-to-rip-0009.md`](response-to-rip-0009.md),
@@ -107,7 +114,7 @@ implementation. It is present in
 
 ## 3. What Community Core adopts from the RIN3 implementation
 
-Three practices are applied to `sig_fork_id` in the same spirit as in the RIN3 implementation:
+Three practices are applied to the signature rule in the same spirit as in the RIN3 implementation:
 rejecting non-conforming transactions at mempool admission and not only in block validation,
 classifying that rejection as a recent consensus change so honest peers are not penalized, and
 switching the wallet to the new regime as soon as the *next* block is the activation block. No code
@@ -124,7 +131,7 @@ Verified in the source of `Rin-coin/rincoin` at commit `a1b12dc8c` and of the Ri
 | Subsidy, heights 840,000 – 234,587,499 | 4 / 2 / 1 / 0.6 RIN (S6/b) | identical values and boundaries | 3.125 RIN, halving every 210,000 |
 | Subsidy from 234,587,500 | 0 | 0.6 RIN, no terminal cutoff in consensus (a 168,000,000 RIN cap exists as an accounting constant that no consensus rule reads) | 0 (right shift exhausts at height 13,440,000) |
 | Block 840,000 coinbase | must claim exactly 4 RIN plus fees | ordinary upper bound only (a lower claim is accepted) | ordinary upper bound only |
-| Transaction replay protection | `sig_fork_id` in the signature hash | required `nVersion = 0x52494e33` | none |
+| Transaction replay protection | `SIGHASH_FORKID` signature hash, fork ID 840 | required `nVersion = 0x52494e33` | none |
 | Standard transaction versions | 1, 2 | 1, 2, `0x52494e33` | 1, 2 |
 | Taproot / MWEB (mainnet) | Litecoin-inherited heights 2,161,152 / 2,217,600 | both set to never activate | Litecoin-inherited heights |
 | Version-bits window | 8,064 blocks (threshold 6,048) | 7,920 blocks (threshold 5,940) | 8,064 |
@@ -139,7 +146,7 @@ Practical consequences at height 840,000, given these rules:
   implementations and is invalid for unchanged software.
 - The first block containing an ordinary transaction is valid for at most one of the two new
   implementations: a RIN3-version transaction carries a historical-style signature, which Community
-  Core rejects at 840,000 and above; a `sig_fork_id` transaction carries version 1 or 2, which
+  Core rejects at 840,000 and above; a Community Core transaction carries version 1 or 2, which
   Rin-coin/rincoin rejects.
 - On regtest the two new implementations share the genesis block, the message start, the halving
   interval (210) and the transition height (840); they differ in when MWEB activates (by height in
@@ -153,13 +160,13 @@ Practical consequences at height 840,000, given these rules:
 
 ## 5. Observed behavior
 
-On 2026-09-20 the three implementations were run side by side on a private regtest chain: the
+On 2026-09-21 the three implementations were run side by side on a private regtest chain: the
 Community Core 1.2.0 development build, the unmodified official `v1.1.0-rc1` release binary of
 Rin-coin/rincoin, and v1.0.5 built from source with the one-line regtest change named above. Blocks
 were mined by each implementation's own miner and handed to the others with `submitblock`;
 transactions were made by each implementation's own wallet. Method, identities, hashes and the full
 result tables are in
-[`../verification/core-1.2.0-dev.1/`](../verification/core-1.2.0-dev.1/cross-implementation.md).
+[`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/cross-implementation.md).
 The heights below are regtest heights; 840 stands for 840,000.
 
 - **Empty blocks.** An empty block at height 840 claiming 4 RIN is accepted by both new
@@ -171,11 +178,11 @@ The heights below are regtest heights; 840 stands for 840,000.
   whatever work accumulates on them.
 - **The first ordinary transaction separates the two new implementations.** A block with a Community
   Core transaction is rejected by Rin-coin/rincoin (`bad-tx-rinhash-version`); a block with a
-  Rin-coin/rincoin transaction is rejected by Community Core (the signature does not verify).
+  Rin-coin/rincoin transaction is rejected by Community Core (`Signature must use SIGHASH_FORKID`).
   Both mempools refuse the other's transactions as a recent consensus change
   (`bad-tx-rinhash-version`, `old-style-sig-fork-id`).
 - **Toward the unchanged rules the two mechanisms differ as described in §2.** A Community Core
-  transaction is invalid for v1.0.5 in a block (the signature does not verify). A Rin-coin/rincoin
+  transaction is invalid for v1.0.5 in a block (the signature does not verify there). A Rin-coin/rincoin
   transaction is refused by the v1.0.5 mempool (`version`, a standardness rule) but is accepted
   by v1.0.5 when a block contains it. In the other direction both new implementations reject
   v1.0.5 transactions in blocks at and above the transition height.
@@ -191,8 +198,9 @@ The heights below are regtest heights; 840 stands for 840,000.
 
 Community Core 1.2.0 does not adopt RIN3 because a required transaction version separates
 transactions from the unchanged rules only by policy, not by consensus, and because it permanently
-repurposes a field with ordinary uses. It uses a signature-hash identifier, which is invalid in both
-directions at the consensus level, at the cost of requiring every signer to implement it. The
+repurposes a field with ordinary uses. It uses the replay-protected signature hash of Bitcoin Cash
+and Bitcoin Gold with a fork ID of its own, which is invalid in both directions at the consensus
+level, at the cost of requiring every signer to produce it. The
 mempool and block-assembly practices of the RIN3 implementation are sound and are applied to the
 signature-hash design as well. Community Forge will contact the maintainers of every known
 implementation to align the rules at 840,000; nothing in this document assumes such an agreement.

@@ -1,9 +1,9 @@
 # Rincoin Consensus Transition — Verification
 
-> **Status note (2026-09-20).** Rincoin Community Forge has selected S6/b for its implementation
+> **Status note (2026-09-21).** Rincoin Community Forge has selected S6/b for its implementation
 > (see the [root README](../README.md) and [`../technology/`](../technology/)). The evidence for
-> that implementation, the first development build of Rincoin Community Core 1.2.0, is in
-> [`core-1.2.0-dev.1/`](core-1.2.0-dev.1/).
+> that implementation, the current development build of Rincoin Community Core 1.2.0, is in
+> [`core-1.2.0-dev.2/`](core-1.2.0-dev.2/).
 >
 > Everything else in this directory is evidence for the *testing-mode* branches of
 > August–September 2026 (`consensus/s1-testing`, `consensus/s5b-testing`,
