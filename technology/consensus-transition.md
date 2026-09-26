@@ -1,11 +1,12 @@
 # Rincoin Height-840,000 Consensus Transition — Technical Specification
 
-Status: Working specification for Rincoin Community Core 1.2.0 (Revision 6.0). Revision 6.0 gives
+Status: Working specification for Rincoin Community Core 1.2.0 (Revision 6.1). Revision 6.1 leaves
+MWEB unactivated on mainnet ([§1](#1-what-changes-at-height-840000-and-what-does-not)). Revision 6.0 gives
 transaction replay protection the `SIGHASH_FORKID` form ([§5](#5-transaction-replay-protection-sighash_forkid));
 Revisions 5.0 and 5.1 appended a 16-byte identifier to the signature hash instead. Revision 4.0 of
 2026-08-16 described a mandatory coinbase-commitment design that is no longer planned.
 
-Date: 2026-09-21 (Revision 5.0: 2026-09-19; 5.1: 2026-09-20)
+Date: 2026-09-26 (Revision 5.0: 2026-09-19; 5.1: 2026-09-20; 6.0: 2026-09-21)
 
 This document describes the rules that Rincoin Community Core 1.2.0 applies from mainnet block
 height 840,000, the reasoning behind each rule, and the exact compatibility consequences for
@@ -32,10 +33,20 @@ calendar date, configuration, or any marker):
 3. **Block 840,000 only** carries one additional coinbase-value condition
    ([§3](#3-the-coinbase-condition-in-block-840000)).
 
+Not tied to the height, but part of the same release: **MWEB is not activated on mainnet.** Its
+deployment inherited from Litecoin would have activated it by height at its timeout, 2,427,264, even
+without signalling. In line with other implementations of this chain, the mainnet deployment is set
+to never activate, so MWEB transactions stay non-standard and MWEB data in a block stays invalid, as
+they are today. In 2026 Litecoin had to fix a consensus flaw in its MWEB validation that allowed the
+MWEB balance to be broken on its mainnet, and to freeze the affected outputs (Litecoin Core 0.21.5.4
+to 0.21.5.6, whose fixes this release includes); activating MWEB on Rincoin is left to a later,
+deliberate decision. The test networks keep
+their MWEB deployment so that it stays testable.
+
 Unchanged: proof of work (RinHash), block header format, transaction serialization,
 transaction `nVersion` semantics, standardness of `nVersion` (1 and 2), witness commitment rules,
-SegWit, the Taproot and MWEB deployment schedules inherited from Litecoin (heights 2,161,152 and
-2,217,600, neither active before 840,000), and the validity of every block and signature below
+SegWit, the Taproot deployment schedule inherited from Litecoin (height 2,161,152, not active before
+840,000), and the validity of every block and signature below
 height 840,000.
 
 Not introduced: a mandatory coinbase commitment or marker, a required transaction version value
@@ -76,7 +87,7 @@ scaled.
 | 2 RIN / 1 RIN / 0.6 RIN | 2,100,000 / 4,200,000 / 6,300,000 | 21,000 / 42,000 / 63,000 | 2,100 / 4,200 / 6,300 | 2,100 / 4,200 / 6,300 |
 | zero subsidy | 234,587,500 | 2,345,875 | 234,587 | 234,587 |
 | Taproot deployment start / timeout | 2,161,152 / 2,370,816 | 20,160 / 22,176 | 2,160 / 2,304 | always active |
-| MWEB deployment start / timeout | 2,217,600 / 2,427,264 | 22,176 / 24,192 | 2,160 / 2,304 | 2,160 / 2,304 |
+| MWEB deployment start / timeout | never activated | 22,176 / 24,192 | 2,160 / 2,304 | 2,160 / 2,304 |
 
 Regtest deliberately keeps the upstream regtest conventions for the buried deployments, Taproot and
 difficulty, because the inherited test suite depends on them; everything that belongs to this
@@ -86,7 +97,8 @@ A version-bits state changes only on a window boundary (mainnet 8,064 blocks, te
 and regtest 144), and the windows are not scaled. The scaled start and timeout heights of the two
 deployments are therefore rounded down to a multiple of the network's window, with at least one
 window between them; the table shows the resulting heights (the mainnet heights already are
-multiples of 8,064). On every test network the timeout is exactly one window after the start, and
+multiples of 8,064; the test networks derive MWEB's from the Litecoin mainnet heights 2,217,600 and
+2,427,264). On every test network the timeout is exactly one window after the start, and
 a height-based deployment locks in at its timeout even without signalling, so the activation
 heights are fixed: Taproot is active from 24,192 on testnet and from 2,448 on preview; MWEB from
 26,208 on testnet and from 2,448 on preview and regtest. The unrounded values and the derivation
@@ -304,9 +316,9 @@ Only signature checks (`OP_CHECKSIG`, `OP_CHECKMULTISIG` and their `VERIFY` form
 SegWit v0 scripts) are affected. A transaction whose inputs require no signature — for example a
 spend of an anyone-can-spend output or of a script satisfied by a hash preimage alone — is not
 affected and can be valid on both continuations; no new restriction is placed on such scripts.
-Coinbase transactions have no signed inputs. Taproot (witness version 1) and MWEB are not active on
-mainnet, are not part of this change, and will receive their own treatment before their own
-activation heights. Replay protection is therefore a property of signed spends, not an absolute
+Coinbase transactions have no signed inputs. Taproot (witness version 1) is not active on mainnet
+before height 2,161,152 and MWEB is not activated there at all; neither is covered by this replay
+protection, and each will receive its own treatment before any activation. Replay protection is therefore a property of signed spends, not an absolute
 guarantee about every conceivable transaction.
 
 ### 5.6 External signers and integrators
@@ -400,7 +412,7 @@ validation and reindexing of earlier blocks keep working. No second activation i
 - Reuse the transaction `nVersion` field as a mandatory fork marker (the RIN3 rule of RIP-0009);
   see [`response-to-rip-0009.md`](response-to-rip-0009.md) and
   [`replay-protection-comparison.md`](replay-protection-comparison.md).
-- Activate, deactivate, or reschedule Taproot or MWEB as part of this change.
+- Activate or reschedule Taproot, or activate MWEB, as part of this change.
 - Claim a release is ready without executed, reviewable evidence for the exact published constants.
 
 ## 11. Reviewing this specification

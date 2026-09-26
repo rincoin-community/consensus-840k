@@ -5,8 +5,8 @@ branch tip listed there. Date: 2026-09-26.
 
 | Command | Result | Duration |
 |---|---|---|
-| `make -k -j40 check` | exit code 0: all 127 per-file runs of `test_rincoin` passed, as did the GUI tests (`test_rincoin-qt`), the secp256k1-zkp tests (`tests`, `exhaustive_tests`), the UniValue tests and the `rincoin-tx` utility test vectors | 130 s |
-| `src/test/test_rincoin` (one process, all suites) | 558 test cases: 557 passed, 1 skipped itself with a warning; 8,806,813 assertions, none failed (the number varies between runs because some suites are randomized) | 99 s |
+| `make -k -j40 check` | exit code 0: all 127 per-file runs of `test_rincoin` passed, as did the GUI tests (`test_rincoin-qt`), the secp256k1-zkp tests (`tests`, `exhaustive_tests`), the UniValue tests and the `rincoin-tx` utility test vectors | not timed |
+| `src/test/test_rincoin` (one process, all suites) | 559 test cases: 558 passed, 1 skipped itself with a warning; 8,386,790 assertions, none failed (the number varies between runs because some suites are randomized) | not timed |
 
 The skipped case is `script_tests/script_assets_test`. It needs the optional upstream asset file
 (`DIR_UNIT_TEST_DATA` unset), reports that as a warning and does nothing; this is the same on the
@@ -36,4 +36,4 @@ Existing tests adapted to the new test-network parameters: `validation_tests` (s
 210 and 2,100 intervals), `miner_tests`, `script_tests` (error table), `rinhash_tests` (the peer
 protocol floor now rises at each network's transition height) and `versionbits_tests` (the start and
 timeout heights of every deployment are multiples of the version-bits window on every network, the
-start is below the timeout, and the preview network is checked as well).
+start is below the timeout, and the preview network is checked as well). A new case, `versionbits_tests/mweb_is_not_activated_on_mainnet`, pins that MWEB never activates on mainnet and keeps its scaled heights on the three test networks.

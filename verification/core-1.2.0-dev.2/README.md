@@ -4,7 +4,8 @@ Date: 2026-09-26 (first version 2026-09-21)
 
 This directory records what was built and which tests were actually run for the current development
 build of Rincoin Community Core 1.2.0, the release line that implements the height-840,000
-transition specified in [`../../technology/consensus-transition.md`](../../technology/consensus-transition.md).
+transition specified in [`../../technology/consensus-transition.md`](../../technology/consensus-transition.md) and
+leaves MWEB unactivated on mainnet.
 
 **What this is, and is not.** `v1.2.0-dev.2` is a label for a development build. It is not a tag, not
 a release and not production software; it refuses to start on mainnet without an explicit
@@ -42,10 +43,10 @@ with an earlier form of replay protection, which remains in the history of this 
 
 | What | Result |
 |---|---|
-| Unit tests (`make check`, development configuration) | passed; 558 test cases, 1 of them a skip |
-| Unit tests under ASan and UBSan, and the functional allowlist (166) on a plain build, in the project's CI at the branch tip | passed |
+| Unit tests (`make check`, development configuration) | passed; 559 test cases, 1 of them a skip |
+| Unit tests under ASan and UBSan, and the functional allowlist (166) on a plain build, in the project's CI for the commit the binaries were built from | passed |
 | The signature-hash code against real Bitcoin Gold signatures (run with fork ID 79) | a pre-SegWit and a SegWit v0 input of main-chain transactions accepted; rejected with any other fork ID and under the historical rules |
-| Functional tests, CI allowlist, production configuration | 164 passed, and the two tests added to the list afterwards passed as well |
+| Functional tests, CI allowlist (166), production configuration | 166 passed |
 | Functional tests, CI allowlist (166), development configuration | 166 passed |
 | Functional tests, complete base set | 180 passed, 42 skipped, 2 baseline failures |
 | Cross-implementation matrix | 190 verdicts, identical in two runs; every expectation of the specification about the other implementations confirmed |

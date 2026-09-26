@@ -16,9 +16,10 @@ SegWit has been active on Rincoin mainnet since height 26,500, so legacy pre-Seg
 the activation block.
 
 Taproot and MWEB are not in scope and do not need to be: on mainnet, Taproot's deployment starts
-at height 2,161,152 and MWEB's at 2,217,600 (both inherited from Litecoin's schedule, both roughly
-1.3–1.4 million blocks after 840,000). No Taproot spend or MWEB kernel can exist in a block before
-then, whatever is done now. They are tracked as follow-up work with their own review (MWEB in
+at height 2,161,152 (inherited from Litecoin's schedule, roughly 1.3 million blocks after
+840,000), and MWEB is not activated at all, in line with other implementations of this chain. No
+Taproot spend can exist in a block before that height and no MWEB kernel before an activation that
+has yet to be decided, whatever is done now. They are tracked as follow-up work with their own review (MWEB in
 particular is a different cryptographic construction and needs a dedicated design), not dropped.
 
 ## Status of the work
@@ -56,7 +57,7 @@ weeks for ecosystem adoption. Exchanges and services should plan a deposit and w
 around the activation and confirm which continuation their node, wallet and backend follow
 before resuming; a one-day window is a plan, not a consensus guarantee.
 
-## Follow-up track (before heights 2,161,152 and 2,217,600)
+## Follow-up track (before Taproot at 2,161,152 and before any MWEB activation)
 
 Extend replay protection to the Taproot signature hash (BIP341) and to MWEB kernel signing
 before each activates. Independent schedule, independent review, no effect on 840,000.

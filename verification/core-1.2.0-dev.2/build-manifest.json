@@ -15,15 +15,15 @@
    "publication_status": "published: it is the dev branch of rincoin-community/rincoin-core"
   },
   "development_branch": {
-   "description": "19 commits on top of the synchronization: the transition, its tests and documentation, the block-assembly safeguard, mainnet checkpoints through 744,278",
-   "tip": "c26267ac1885c970003f2f9e88a8b8dd8f47c1be",
-   "tree": "f215d683797af6a32a8acf11566727ca3a7afc54",
-   "binaries_built_from": "5fe6c1272db9f7c4f0942b1ddcfa72c09eb8deb1",
-   "note": "the last commit only adds two tests to the CI list; the binaries were built from its parent and are unaffected by it. The git tree ID identifies the content independently of how the commits are arranged"
+   "description": "21 commits on top of the synchronization: the transition, its tests and documentation, the block-assembly safeguard, mainnet checkpoints through 744,278, MWEB not activated on mainnet",
+   "tip": "5507bc7d54870161aa57e21f28074c725b9e585c",
+   "tree": "ac86f6062d9e853e70ea082ab7553addf2f298d4",
+   "binaries_built_from": "5fad8ecbb8879e57095199f8d6e01b8ea2c8f782",
+   "note": "the last commit changes only the release notes; the binaries were built from its parent. The git tree ID identifies the content independently of how the commits are arranged"
   },
   "sha256_of_git_diff": {
-   "upstream_tip..tip": "ad34b5dc403a013dd2ebfc12624780d1300d32cb873aa5afd957a6fefdbda2e3",
-   "dev_start..tip": "c664f8fe987af429357c2877898aa8f30d59085a560e48bf25ee698c7a9f4916"
+   "upstream_tip..tip": "3036f1843cbd1d2fdd41235169d1c369bcb2e0297a049254437355ebbafab627",
+   "dev_start..tip": "fbdf2e552e453e687538ba55193391c751f7c7e21b4077a991921d379177c812"
   }
  },
  "version_identity": {
@@ -43,7 +43,7 @@
   {
    "name": "production configuration, built by GitHub Actions",
    "built": "2026-09-26",
-   "how": "workflow 'Build Release Binaries' of rincoin-community/rincoin-core, run 36245295696 on commit 5fe6c1272, artifact rincoin-local-linux-x86_64-ubuntu20; the same contrib/build_release.sh path as a local release build (depends inside a Docker image of Ubuntu 20.04, static dependencies, Berkeley DB 4.8 wallet, GUI included, tests and benchmarks disabled, stripped)",
+   "how": "workflow 'Build Release Binaries' of rincoin-community/rincoin-core, run 36255902007 on commit 5fad8ecbb, artifact rincoin-local-linux-x86_64-ubuntu20; the same contrib/build_release.sh path as a local release build (depends inside a Docker image of Ubuntu 20.04, static dependencies, Berkeley DB 4.8 wallet, GUI included, tests and benchmarks disabled, stripped)",
    "toolchain": "gcc 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2), GNU ld 2.34, Ubuntu 20.04.6",
    "dependencies_from_depends": {
     "boost": "1.70.0",
@@ -58,15 +58,15 @@
    "configure": "CONFIG_SITE=depends/x86_64-pc-linux-gnu/share/config.site ./configure BDB_LIBS=... BDB_CFLAGS=... --prefix=/ --disable-tests --disable-bench --enable-reduce-exports --with-incompatible-bdb=no",
    "reported_version": "v1.2.0.0-unk (the release path builds from a source copy without git metadata)",
    "sha256": {
-    "rincoind": "2f1942cdef9c5f567c57b8abfaefe89e62fe7ac4e9e25e16e761202af430e9c2",
+    "rincoind": "c20215cdd30b09496a4fa48b6744d40ed3a045048cc11923d4ea0a301068c16c",
     "rincoin-cli": "96d9106c4eb68da78b59e53f6c56a9ade83085d82b47a9f39a2d2d1d24a4268c",
-    "rincoin-tx": "e0611dfea42798038a3b034edd441efd31c70d7f946cf3b76c9768c9860190b4",
-    "rincoin-wallet": "c0d5e89fdf84f33b9a1a73c63da357d86d1c383fb3ba550c5739281c61c3aad6",
-    "rincoin-qt": "34a25651e29fd79dc3cfb6dbc144d0c4eafb51cc5c7d267e3e607babf957735c",
-    "rincoin-local-x86_64-linux-gnu.tar.gz": "1d8a837a82607d31f9028e864991f4cd2bda0f187424768739adc736e51bb0b3"
+    "rincoin-tx": "e8ac7b6be88600a98d9c68b3074719fb99c3f547ebd84ace82a6ee5a3665f7a5",
+    "rincoin-wallet": "768dc6c59103c3cdb89478a033086aa79bf829be6edefa41b2a3fe0c7329c5d4",
+    "rincoin-qt": "882b13b723837f8a4c9ee0b7bf35cf2d425a814552f4804dd821ed549ffb9795",
+    "rincoin-local-x86_64-linux-gnu.tar.gz": "7184dce1612d99542568427b5c4f82f52e254d9f69ecf97470d5bb745259e6f6"
    },
    "used_for": "functional tests (CI allowlist), the cross-implementation matrix, offline re-validation of mainnet history, the upgrade test from a 1.1.0 data directory",
-   "reproducibility": "The same commit was built again locally with contrib/build_release.sh --local on this host. rincoind, rincoin-cli, rincoin-tx and rincoin-wallet came out bit-identical to the GitHub Actions build; rincoin-qt did not (local SHA-256 81a94c6599c3627d49b70f774e029add77f945e9d8ebc5f435ad4d27da3764d3), so the GUI binary is not bit-reproducible with this procedure. Every test in this directory used rincoind and rincoin-cli."
+   "reproducibility": "The same commit was built again locally with contrib/build_release.sh --local on this host. rincoind, rincoin-cli, rincoin-tx and rincoin-wallet came out bit-identical to the GitHub Actions build; rincoin-qt did not (local SHA-256 e2d8e5bbe7a928abd87a6f4d1e1fc9d61a7849c96fce038c59941185af80d7ae), so the GUI binary is not bit-reproducible with this procedure. Every test in this directory used rincoind and rincoin-cli."
   },
   {
    "name": "development configuration",
@@ -80,10 +80,10 @@
     "zeromq": "4.3.4",
     "berkeley_db": "4.8.30"
    },
-   "reported_version": "v1.2.0.0-5fe6c1272-dirty (built from 5fe6c1272 with the CI list change of the last commit staged; the sources compiled are those of the tip)",
+   "reported_version": "v1.2.0.0-5fad8ecbb",
    "sha256": {
-    "rincoind": "1cdbef3d5a0b70582da40b27445de13cb4a8427945555633ea059ed9ece9c869",
-    "test_rincoin": "a888ee5f5deb1bde88843500ccee5ade938cd34d1f3853ea07dc3ceaff8b35ee"
+    "rincoind": "5b1a488992114aaa8d53ab558d467bb262c0ee5c484e222c2db2b2bdb53447e6",
+    "test_rincoin": "e7e1e95b145c2e3bd4ce3b5f2759d9b2cfe67bd7e69a4f737790ac6b9ccdb926"
    },
    "used_for": "unit tests (make check), functional tests (CI allowlist and the complete base set)",
    "note": "the version string of this build embeds the commit ID, so its hash changes with every commit"

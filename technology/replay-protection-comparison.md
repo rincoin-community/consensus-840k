@@ -133,7 +133,7 @@ Verified in the source of `Rin-coin/rincoin` at commit `a1b12dc8c` and of the Ri
 | Block 840,000 coinbase | must claim exactly 4 RIN plus fees | ordinary upper bound only (a lower claim is accepted) | ordinary upper bound only |
 | Transaction replay protection | `SIGHASH_FORKID` signature hash, fork ID 840 | required `nVersion = 0x52494e33` | none |
 | Standard transaction versions | 1, 2 | 1, 2, `0x52494e33` | 1, 2 |
-| Taproot / MWEB (mainnet) | Litecoin-inherited heights 2,161,152 / 2,217,600 | both set to never activate | Litecoin-inherited heights |
+| Taproot / MWEB (mainnet) | Taproot at the Litecoin-inherited height 2,161,152; MWEB set to never activate | both set to never activate | Litecoin-inherited heights |
 | Version-bits window | 8,064 blocks (threshold 6,048) | 7,920 blocks (threshold 5,940) | 8,064 |
 | Service bits | no new bit | `NODE_RIN3` (bit 25), required for outbound peers | none |
 | Protocol version | 70019; minimum peer version 70018 from 840,000 | 70018; no floor | 70017 |
@@ -154,9 +154,9 @@ Practical consequences at height 840,000, given these rules:
   run time. Cross-implementation tests can therefore run on regtest with unmodified binaries of
   both. The unchanged v1.0.x software needs its regtest halving interval changed from 150 to 210 to
   take part. Their testnets are not rule-compatible with each other.
-- The Taproot/MWEB schedules and the terminal cutoff differ only at heights far beyond 840,000;
-  they are listed so that a future alignment covers them, not because they matter for the
-  activation.
+- The Taproot schedule and the terminal cutoff differ only at heights far beyond 840,000; MWEB is
+  set to never activate in both new implementations. They are listed so that a future alignment
+  covers them, not because they matter for the activation.
 
 ## 5. Observed behavior
 

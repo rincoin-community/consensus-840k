@@ -71,8 +71,8 @@ source.
 
 - Ship exactly one compiled-in monetary scenario (S6/b); never a runtime switch.
 - Keep the replay-protected signature hash as the transaction replay mechanism for pre-SegWit and
-  SegWit v0 inputs, and extend replay protection to Taproot and MWEB before their own activation
-  heights.
+  SegWit v0 inputs, and extend replay protection to Taproot before its activation height and to
+  MWEB before any activation; MWEB itself stays unactivated on mainnet.
 - Apply the single block-840,000 coinbase condition and no other minimum-claim rule.
 - Publish the final constants, test vectors and executed test evidence with the 1.2.0 source
   before any release is called ready.
@@ -90,7 +90,7 @@ source.
   [`response-to-rip-0009.md`](response-to-rip-0009.md) and
   [`replay-protection-comparison.md`](replay-protection-comparison.md).
 - Add an identification `OP_RETURN` to coinbases or ordinary transactions.
-- Activate, deactivate, or reschedule Taproot or MWEB as a side effect of this change.
+- Activate or reschedule Taproot, or activate MWEB, as a side effect of this change.
 - Ship 1.2.0 without transaction replay protection.
 
 ## Comment or object

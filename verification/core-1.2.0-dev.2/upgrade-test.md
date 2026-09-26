@@ -1,8 +1,10 @@
 # Upgrade from a running 1.1.0 node, and back
 
 Date: 2026-09-26. Binary: `rincoind` of the release build of commit `5fe6c1272` made by GitHub
-Actions (see [`build-manifest.json`](build-manifest.json)), SHA-256
-`2f1942cdef9c5f567c57b8abfaefe89e62fe7ac4e9e25e16e761202af430e9c2`.
+Actions, SHA-256 `2f1942cdef9c5f567c57b8abfaefe89e62fe7ac4e9e25e16e761202af430e9c2`, and afterwards
+the build of the current commit `5fad8ecbb` (see [`build-manifest.json`](build-manifest.json)), SHA-256
+`c20215cdd30b09496a4fa48b6744d40ed3a045048cc11923d4ea0a301068c16c`, which differs only in leaving
+MWEB unactivated on mainnet.
 
 ## What was tested
 
@@ -34,6 +36,9 @@ upgrades in place.
 | Restart | | second start without errors, same UTXO set hash | |
 | Errors in `debug.log` | | 0 | 0 |
 | Peers connected | | 0 | 0 |
+
+The build of `5fad8ecbb` then opened the same copy once more: same best block, both indexes in
+sync, the same UTXO set hash, `verifychain 4 5000` true, no errors.
 
 A start takes about two and a half minutes on this data directory, the same for 1.1.0 and 1.2.0;
 most of it is loading the block index and the transaction index.

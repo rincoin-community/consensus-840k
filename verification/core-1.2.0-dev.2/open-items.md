@@ -33,8 +33,8 @@ What the evidence in this directory does not cover, stated so that nobody has to
 
 ## Known limitations of the build
 
-- **Taproot and MWEB signatures are not replay-protected.** Neither is active on mainnet before heights
-  2,161,152 and 2,217,600; both are tracked as follow-up work
+- **Taproot and MWEB signatures are not replay-protected.** Taproot is not active on mainnet before
+  height 2,161,152 and MWEB is not activated there at all; both are tracked as follow-up work
   ([`../../technology/replay-protection-plan.md`](../../technology/replay-protection-plan.md)).
 - **`libbitcoinconsensus`-style script verification** (the shared library's `verify_script` entry
   points) has no height argument and verifies with the historical signature hash only.
