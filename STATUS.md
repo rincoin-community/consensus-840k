@@ -1,6 +1,6 @@
 # Current status
 
-Updated 2026-09-21.
+Updated 2026-09-26.
 
 - [x] Coordination invitation: published (2026-08-01)
 - [x] Economic study summary: first publication (2026-08-02)
@@ -15,7 +15,7 @@ Updated 2026-09-21.
 - [x] Replay-protection constants: fixed 2026-09-21: flag `0x40`, fork ID `840` (`0x000348`); a `SIGHASH_ALL` preimage ends in `41 48 03 00`; flag and fork ID as one number: `0x00034840` ([`§5.1`](technology/consensus-transition.md#51-flag-and-fork-id)); test vectors to be published with the 1.2.0 source
 - [x] Test-network parameters: fixed 2026-09-20 (every scheduled height scaled by the epoch ratio, deployment heights rounded down to the version-bits window; [`§2`](technology/consensus-transition.md#2-the-monetary-rule-s6b))
 - [x] Testing-mode implementations of the three candidates: published August–September 2026 (historical; see [`verification/`](verification/))
-- [x] Rincoin Community Core 1.2.0 development build (`v1.2.0-dev.2`): built and tested 2026-09-21; evidence in [`verification/core-1.2.0-dev.2/`](verification/core-1.2.0-dev.2/)
+- [x] Rincoin Community Core 1.2.0 development build (`v1.2.0-dev.2`): built and tested 2026-09-21, again 2026-09-26 from the project's release build, with an upgrade test from 1.1.0; evidence in [`verification/core-1.2.0-dev.2/`](verification/core-1.2.0-dev.2/)
 - [x] Source of the 1.2.0 development build: published for testing 2026-09-22 as branch [`consensus/840k-s6b`](https://github.com/rincoin-community/rincoin-core/tree/consensus/840k-s6b) of `rincoin-community/rincoin-core` (not a release)
 - [ ] Stable 1.2.0 release: planned by 2026-09-30, after verification
 - [ ] Coordination with other implementations: planned; no agreement exists yet

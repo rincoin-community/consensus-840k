@@ -1,6 +1,6 @@
 # Three implementations against each other — method and findings
 
-Date of the runs: 2026-09-21. Result tables: [`cross-implementation-tables.md`](cross-implementation-tables.md)
+Date of the runs: 2026-09-26 (first run 2026-09-21 on an earlier build of the same rules, with the same 190 verdicts). Result tables: [`cross-implementation-tables.md`](cross-implementation-tables.md)
 (generated from [`cross-implementation-results.json`](cross-implementation-results.json) by
 [`scripts/render_matrix.py`](scripts/render_matrix.py)).
 
@@ -13,7 +13,7 @@ a public network.
 
 | | What | Source identity | Binary used |
 |---|---|---|---|
-| **C** | Rincoin Community Core 1.2.0, development build `v1.2.0-dev.2` | see [`build-manifest.json`](build-manifest.json) | the production-configuration build, `rincoind` SHA-256 `23d100744c8ddbe5eb96369ac9abaef1ae6d780a2016afbe2c06e9e3afe40f01` |
+| **C** | Rincoin Community Core 1.2.0, development build `v1.2.0-dev.2` | see [`build-manifest.json`](build-manifest.json) | the release build made by GitHub Actions, `rincoind` SHA-256 `2f1942cdef9c5f567c57b8abfaefe89e62fe7ac4e9e25e16e761202af430e9c2` |
 | **A** | Rin-coin/rincoin `v1.1.0-rc1` | `https://github.com/Rin-coin/rincoin`, tag `v1.1.0-rc1` → commit `a1b12dc8c332677c1fb8b3dbf32ca91f258f6d59`. On 2026-09-21 this was both the newest (pre)release and the head of its `v1.1` branch | the **unmodified official release binary**: `bin/rincoind` from `rincoin-1.1.0rc1-x86_64-linux-gnu.tar.gz` (archive SHA-256 `2e5303e384a4822f0ea250df85a64062ac58f65b6fff91bf182bbd291dee3e42`, as listed in the release's `SHA256SUMS`; the detached signature was not verified), binary SHA-256 `b1f800a270aeed85c52e3c76d55d3c0b8027229d174748197d91eb1dcfc065d3`. It is linked against Ubuntu 24.04 libraries, so it ran inside an Ubuntu 24.04 container with host networking ([`scripts/rincoind-in-container.sh`](scripts/rincoind-in-container.sh)) |
 | **L** | the unchanged schedule: Rin-coin/rincoin version 1.0.5 | `https://github.com/Rin-coin/rincoin`, `master` → commit `b52c87778f800dc5f4e2f59c372badbc139f933f` (reports itself as 1.0.5; that repository has no `v1.0.5` tag, and the tree is identical to the `v1.0.5` tag of `rincoin-community/rincoin-core`) | built from that commit **with a one-line patch** (below), `rincoind` SHA-256 `356c41713967f2637cfb95dbdf8d48ce9a6321008fbfec9ae0cab72fa8d6d336` |
 

@@ -8,9 +8,10 @@ What the evidence in this directory does not cover, stated so that nobody has to
   "stronger" branch here is a controlled number of regtest blocks at minimum difficulty. Nothing here
   says anything about hash-rate shares or about how long a shared empty continuation lasts in
   practice.
-- **Testnet and the preview network as running networks.** Their parameters are unit-tested
-  (`s6b_subsidy_tests`, `versionbits_tests`, `rinhash_tests`); no multi-node testnet or preview chain
-  was run through its transition height.
+- **Testnet as a running network.** Its parameters are unit-tested (`s6b_subsidy_tests`,
+  `versionbits_tests`, `rinhash_tests`); no testnet chain was run through its transition height
+  8,400. The preview network was run through its transition height with real proof of work, pools
+  and miners in the project's test lab, with an earlier build of the same rules; not with this one.
 - **The terminal height (234,587,500) in a functional test.** It is covered by unit tests of the
   subsidy function only; the functional tests go up to the 0.6 RIN phase.
 - **Pool software end to end.** The coinbase constructions of pool software were modelled in
@@ -20,9 +21,13 @@ What the evidence in this directory does not cover, stated so that nobody has to
   payout systems that sign outside Rincoin Core have to produce the new signatures themselves; none
   has been tested against this build. (The construction itself is checked against signatures of real
   Bitcoin Gold transactions in the unit tests.)
-- **Other platforms.** Only the Linux x86_64 build (Ubuntu 20.04 variant) was built and tested. The
-  aarch64, Windows and Ubuntu 24.04 variants of the release path were not built.
-- **Sanitizer builds** (ASan/UBSan) and the fuzz targets were not run for this build.
+- **Other platforms.** The release build also produced aarch64, Windows, macOS and Ubuntu 24.04
+  variants. Only the Linux x86_64 Ubuntu 20.04 variant was tested; the others were built, not run.
+- **Sanitizers and fuzzing.** The project's CI ran the unit tests under ASan and UBSan and the
+  functional allowlist on a plain build, both passing for the commit the binaries were built from.
+  The functional tests did not run under the sanitizers, and the fuzz targets did not run at all.
+- **Real wallet files of earlier releases.** The upgrade test left the wallets out on purpose;
+  opening a 1.1.0 wallet file with this build was not tested.
 - **Automatic outbound peer selection of Rin-coin/rincoin** (which asks for service bit 25) was read
   in its source, not exercised; the peer table in the matrix uses manual connections.
 
@@ -35,8 +40,9 @@ What the evidence in this directory does not cover, stated so that nobody has to
   points) has no height argument and verifies with the historical signature hash only.
 - **A transaction that is unconfirmed when the last block below the transition height connects
   becomes invalid**, and so does one that a reorganization across that height returns to the mempool
-  from a block below it. The wallet keeps such a transaction until it is abandoned
-  (`abandontransaction`) and sent again; there is no automatic re-signing.
+  from a block below it. The node drops it from the mempool, so its coins can be spent again at once;
+  the wallet keeps the old transaction until it is abandoned (`abandontransaction`). There is no
+  automatic re-signing.
 - **Inherited from upstream 0.21, unrelated to the transition:** `signrawtransactionwithkey`,
   `signrawtransactionwithwallet` and `combinerawtransaction` abort the node
   (`Assertion 'this->txdata' failed` in `CheckSchnorrSignature`) when the transaction they are given
