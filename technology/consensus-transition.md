@@ -1,12 +1,12 @@
 # Rincoin Height-840,000 Consensus Transition — Technical Specification
 
-Status: Working specification for Rincoin Community Core 1.2.0 (Revision 6.1). Revision 6.1 leaves
-MWEB unactivated on mainnet ([§1](#1-what-changes-at-height-840000-and-what-does-not)). Revision 6.0 gives
+Status: Specification of the rules of Rincoin Community Core 1.2.0, released 2026-10-11
+(Revision 6.1). Revision 6.1 leaves MWEB unactivated on mainnet ([§1](#1-what-changes-at-height-840000-and-what-does-not)). Revision 6.0 gives
 transaction replay protection the `SIGHASH_FORKID` form ([§5](#5-transaction-replay-protection-sighash_forkid));
 Revisions 5.0 and 5.1 appended a 16-byte identifier to the signature hash instead. Revision 4.0 of
 2026-08-16 described a mandatory coinbase-commitment design that is no longer planned.
 
-Date: 2026-09-26 (Revision 5.0: 2026-09-19; 5.1: 2026-09-20; 6.0: 2026-09-21)
+Date: 2026-09-26 (Revision 5.0: 2026-09-19; 5.1: 2026-09-20; 6.0: 2026-09-21); release status in §8 updated 2026-10-11
 
 This document describes the rules that Rincoin Community Core 1.2.0 applies from mainnet block
 height 840,000, the reasoning behind each rule, and the exact compatibility consequences for
@@ -379,21 +379,20 @@ service bit is introduced.
 
 ## 8. Release status and safeguards
 
-- As of 2026-09-19 no 1.2.0 build has been published. The public branch `consensus/s6b-testing`
-  (commit `1e5a4201d`, 2026-09-05) is the earlier testing-mode implementation: it contains the S6/b
-  subsidy and an earlier form of replay protection, but also the superseded `RINF` commitment, synthetic test constants, a
-  mainnet start guard and its own test suite. Its results apply to that branch only.
-- A 1.2.0 development build, labelled `v1.2.0-dev.2`, has been built and tested by Rincoin
-  Community Forge on a consensus branch based on `dev` (state of 2026-09-21; the executed tests and
-  their results are in [`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/)).
-  Its source has not been published at the time of writing; it will be published for testing after
-  review. It is not production software: it is marked as a pre-release build and it carries an
-  explicit safeguard against accidental production use that the stable release removes. Unlike the
-  terminal 1.1.x line, it continues past 840,000 under the rules above; there is no
-  stop-at-840,000 behavior.
-- A stable production release is planned by 2026-09-30, after verification. On 2026-09-19 the
-  mainnet height was about 747,250, roughly 92,750 blocks (about 64 days at the 60-second target)
-  before 840,000. These are plans and estimates, not readiness statements.
+- Rincoin Community Core 1.2.0 implements these rules. It was released on 2026-10-11 as
+  [`v1.2.0`](https://github.com/rincoin-community/rincoin-core/releases/tag/v1.2.0), after the
+  public beta `v1.2.0-beta.1` (2026-09-27) and the release candidate `v1.2.0rc1` (2026-09-30).
+  Pre-release builds of the line refuse to run on mainnet unless an environment setting allows it;
+  release builds have no such guard. Unlike the terminal 1.1.x line, 1.2.0 continues past 840,000
+  under the rules above; there is no stop-at-840,000 behavior.
+- The executed tests of the development build `v1.2.0-dev.2`, and the later test-lab runs with the
+  release candidate, are in [`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/).
+- The public branch `consensus/s6b-testing` (commit `1e5a4201d`, 2026-09-05) is the earlier
+  testing-mode implementation: it contains the S6/b subsidy and an earlier form of replay
+  protection, but also the superseded `RINF` commitment, synthetic test constants, a mainnet start
+  guard and its own test suite. Its results apply to that branch only.
+- On 2026-10-11 the mainnet height was 774,346; at the block rate of the previous week block
+  840,000 is expected around 2026-12-01. This is an estimate.
 
 ## 9. A future scheduled fork
 

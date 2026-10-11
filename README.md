@@ -33,9 +33,9 @@ first preference remains a common consensus and one chain.
 - **Coordination.** Community Forge will contact the maintainers of every known Rincoin
   implementation to align consensus and signature rules and keep one chain. No agreement exists
   at the time of writing.
-- **Releases.** Rincoin Community Core
-  [`v1.2.0rc1`](https://github.com/rincoin-community/rincoin-core/releases/tag/v1.2.0rc1), a release
-  candidate, was published on 2026-09-30 after the public beta `v1.2.0-beta.1`. The executed
+- **Releases.** Rincoin Community Core [`v1.2.0`](https://github.com/rincoin-community/rincoin-core/releases/tag/v1.2.0), the stable release that implements
+  the transition, was published on 2026-10-11, after the public beta `v1.2.0-beta.1` and the release
+  candidate `v1.2.0rc1`. The executed
   tests, including a matrix of three implementations run against each other, are in
   [`verification/core-1.2.0-dev.2/`](verification/core-1.2.0-dev.2/).
 - **Operating through the height:** what node operators, pools, exchanges, Electrum servers and

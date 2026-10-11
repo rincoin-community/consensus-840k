@@ -44,11 +44,10 @@ source.
 - **Peers.** Protocol version and user-agent strings are diagnostic; 1.2.0 advertises protocol
   version 70019. From 840,000, Community Core disconnects peers announcing a protocol version below
   70018 (a networking policy that predates this change); no service bit is introduced.
-- **Timeline.** Mainnet height was about 747,250 on 2026-09-19, roughly 64 days before 840,000. A
-  1.2.0 development build has been built and tested
-  ([`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/)); its source will be
-  published for testing after review, and a stable release is planned by 2026-09-30. These are
-  plans, not readiness statements.
+- **Timeline.** Rincoin Community Core 1.2.0 was released on 2026-10-11 ([`v1.2.0`](https://github.com/rincoin-community/rincoin-core/releases/tag/v1.2.0)); the
+  executed tests are in [`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/).
+  On 2026-10-11 the mainnet height was 774,346; at the block rate of the previous week block
+  840,000 is expected around 2026-12-01. This is an estimate.
 
 ## Documents
 

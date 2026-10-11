@@ -29,7 +29,7 @@ particular is a different cryptographic construction and needs a dedicated desig
 | 1. Design and specification | the signature-hash form, its constants, height gating, both-direction enforcement | specified in `consensus-transition.md §5`: the `SIGHASH_FORKID` form with fork ID 840, fixed 2026-09-21 |
 | 2. Pre-SegWit + SegWit v0 implementation | the BIP143 digest with the fork ID for both kinds of input, the mandatory flag; consensus height gate; mempool admission and boundary eviction; non-punitive rejection classification (the two RIP-0009 ideas worth keeping, reapplied here); wallet, raw-transaction, PSBT and `rincoin-tx` signing; validation-cache keying | implemented in the 1.2.0 development build (`v1.2.0-dev.2`), including boundary eviction in both directions, and the checking of signatures made by other parties (multi-party raw transactions, `combinerawtransaction`, `finalizepsbt`, `analyzepsbt`, the GUI); an earlier form was in the testing-mode branch `consensus/s6b-testing` (Aug 23 – Sep 5, 2026). The source of the development build has not been published yet |
 | 3. Test matrix | per-input-type vectors (P2PKH, P2SH, P2WPKH, P2WSH, multisig) × pre/post-840,000; both replay directions; boundary and off-by-one cases; reorganization across the boundary (adapting RIP-0009's own large-reorg methodology); cross-implementation cases; full regression suite | executed for the development build: unit vectors generated independently of the C++ code, and signatures of real Bitcoin Gold transactions that the same code accepts when it runs with Bitcoin Gold's fork ID; functional tests for every listed input type and hash type on both sides, in the mempool and in blocks, at the boundary and across reorganizations; wallet, raw-transaction and PSBT flows; a three-implementation regtest matrix. Results: [`../verification/core-1.2.0-dev.2/`](../verification/core-1.2.0-dev.2/). Not yet covered: see the open items there |
-| 4. Ecosystem adoption window | final constants and vectors published early enough for wallets, PSBT tooling, exchanges and pools to implement and verify independently | starts with the publication of the 1.2.0 development build; a stable release is planned by 2026-09-30 |
+| 4. Ecosystem adoption window | final constants and vectors published early enough for wallets, PSBT tooling, exchanges and pools to implement and verify independently | started with the publication of the 1.2.0 development build (2026-09-22); the stable release `v1.2.0` was published on 2026-10-11 |
 | 5. Signalling | voluntary `coinbaseaux.flags` tag, no consensus effect | part of 1.2.0 |
 
 There is no plan to ship 1.2.0 without transaction replay protection. If the implementation or
@@ -52,7 +52,7 @@ removal of the rule.
 ## Timeline
 
 On 2026-09-19 the mainnet height was about 747,250, roughly 92,750 blocks (about 64 days at the
-60-second target) before 840,000. The stable release planned by 2026-09-30 leaves about seven
+60-second target) before 840,000. The stable release `v1.2.0`, published on 2026-10-11, leaves about seven
 weeks for ecosystem adoption. Exchanges and services should plan a deposit and withdrawal pause
 around the activation and confirm which continuation their node, wallet and backend follow
 before resuming; a one-day window is a plan, not a consensus guarantee.

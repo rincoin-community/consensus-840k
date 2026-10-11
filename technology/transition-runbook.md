@@ -18,7 +18,7 @@ weeks before the height; do not plan to the hour from this page.
 
 ## 2. What everyone has to do
 
-- **Run Rincoin Community Core 1.2.0 before height 840,000.** Community Core 1.1.0 stops at
+- **Run Rincoin Community Core 1.2.0 ([release](https://github.com/rincoin-community/rincoin-core/releases/tag/v1.2.0)) before height 840,000.** Community Core 1.1.0 stops at
   839,999 by design and refuses to start again. Upgrading is a binary replacement: the data
   directory, indexes included, is opened as it is, without a reindex
   ([upgrade test](../verification/core-1.2.0-dev.2/upgrade-test.md)).
@@ -118,6 +118,17 @@ under several rule sets) and switch when that branch does. If a node stays behin
    `old-style-sig-fork-id` in `debug.log`; they name blocks and transactions of another rule set;
 3. connect it to known 1.2.0 nodes (`addnode`). In an emergency `invalidateblock <hash>` on the
    first block of the wrong branch and `reconsiderblock` once it is resolved.
+
+A node that ran other software past the height and is then switched to 1.2.0 on the same data
+directory keeps the blocks that software connected. 1.2.0 moves to its own chain by itself, once
+that chain has more work, when the old software never received a block of that chain. If it did,
+the old software stored that block as invalid and 1.2.0 keeps the mark; then either
+
+- start the node once with `-reindex`, which checks the stored blocks again under the 1.2.0 rules
+  (on mainnet this takes hours), or
+- run `invalidateblock` with the hash of block 840,000 on the node's current chain
+  (`getblockhash 840000`) and `reconsiderblock` with the hash of block 840,000 of the 1.2.0 chain,
+  then restart the node or let it reconnect to its peers.
 
 ## 8. Test networks
 
