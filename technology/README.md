@@ -64,6 +64,8 @@ source.
   as published, with a dated status note) of the two external proposals published by Aevust
   (RIP-0002 "Customized Halving" and RIP-0009 "RIN3"), which we do not adopt as specified, with the
   specific technical reasons and the parts we do think are good ideas.
+- **[`transition-runbook.md`](transition-runbook.md)** — what operators of nodes, pools,
+  exchanges, Electrum servers and wallets should do before, at and after block 840,000.
 - **[`replay-protection-plan.md`](replay-protection-plan.md)** — implementation status, who must
   change what, and the adoption timeline.
 

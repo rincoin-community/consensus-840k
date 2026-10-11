@@ -9,9 +9,11 @@ What the evidence in this directory does not cover, stated so that nobody has to
   says anything about hash-rate shares or about how long a shared empty continuation lasts in
   practice.
 - **Testnet as a running network.** Its parameters are unit-tested (`s6b_subsidy_tests`,
-  `versionbits_tests`, `rinhash_tests`); no testnet chain was run through its transition height
-  8,400. The preview network was run through its transition height with real proof of work, pools
-  and miners in the project's test lab, with an earlier build of the same rules; not with this one.
+  `versionbits_tests`, `rinhash_tests`). With this build no testnet chain was run through its
+  transition height 8,400; a private testnet chain was later run through it with the `v1.2.0rc1`
+  release binaries (see below). The public testnet with other participants was not used. The
+  preview network was run through its transition height with real proof of work, pools and miners
+  in the project's test lab, with an earlier build of the same rules; not with this one.
 - **The terminal height (234,587,500) in a functional test.** It is covered by unit tests of the
   subsidy function only; the functional tests go up to the 0.6 RIN phase.
 - **Pool software end to end.** The coinbase constructions of pool software were modelled in
@@ -30,6 +32,29 @@ What the evidence in this directory does not cover, stated so that nobody has to
   opening a 1.1.0 wallet file with this build was not tested.
 - **Automatic outbound peer selection of Rin-coin/rincoin** (which asks for service bit 25) was read
   in its source, not exercised; the peer table in the matrix uses manual connections.
+
+## Covered later with the `v1.2.0rc1` release binaries
+
+Two scenarios of the project's test lab were added after this evidence was taken and run with the
+Linux x86_64 binaries of the `v1.2.0rc1` release (2026-10-11). Neither found a defect in Community
+Core, and no change to its code came out of them; the corrections made while writing them were to
+the scenarios' own expectations.
+
+- **Upgrade of a node halted by Community Core 1.1.0** (`05-legacy-halt-upgrade`, regtest,
+  17/17 checks). A 1.1.0 node stops at the last block below the transition height and stores the
+  first block above it without connecting it. After a binary swap to 1.2.0 on the same data
+  directory, a block valid under the new rules is connected; a block mined with the old subsidy is
+  marked invalid (`bad-cb-amount-transition`), the node stays at the last block below the height and
+  follows the valid chain as soon as a 1.2.0 peer offers it. Both outcomes survive a restart.
+- **Testnet through its transition height** (`06-testnet-transition`, 11/11 checks). Two 1.2.0
+  nodes on a private testnet chain built with real proof of work to height 8,404: a payment below
+  8,400 is signed with hash type `0x01`, block 8,400 claims exactly 4 RIN plus fees, the payment
+  signed at tip 8,399 is confirmed in block 8,400 with `0x41`, a transaction signed before the
+  height is refused afterwards (`old-style-sig-fork-id`), payments above confirm with `0x41`, the
+  second node follows across the height, and Taproot and MWEB stay inactive. A 1.2.0 testnet node
+  connected to a testnet node of another implementation follows that chain to height 5 and rejects
+  block 6 (`unexpected-witness`), because SegWit is active there from the start and only from height
+  265 on Community Core's testnet.
 
 ## Known limitations of the build
 

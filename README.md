@@ -33,12 +33,14 @@ first preference remains a common consensus and one chain.
 - **Coordination.** Community Forge will contact the maintainers of every known Rincoin
   implementation to align consensus and signature rules and keep one chain. No agreement exists
   at the time of writing.
-- **Releases.** No 1.2.0 build has been published yet. A development build
-  (`v1.2.0-dev.2`) has been built and tested by Community Forge; the executed tests, including a
-  matrix of three implementations run against each other, are in
-  [`verification/core-1.2.0-dev.2/`](verification/core-1.2.0-dev.2/). Its source will be published
-  for testing after review; a stable production release is planned by **2026-09-30**, after
-  verification. These are plans, not statements of production readiness. The previously published
+- **Releases.** Rincoin Community Core
+  [`v1.2.0rc1`](https://github.com/rincoin-community/rincoin-core/releases/tag/v1.2.0rc1), a release
+  candidate, was published on 2026-09-30 after the public beta `v1.2.0-beta.1`. The executed
+  tests, including a matrix of three implementations run against each other, are in
+  [`verification/core-1.2.0-dev.2/`](verification/core-1.2.0-dev.2/).
+- **Operating through the height:** what node operators, pools, exchanges, Electrum servers and
+  wallets should do before, at and after block 840,000 is in
+  [`technology/transition-runbook.md`](technology/transition-runbook.md). The previously published
   testing-mode branches (below) implement an older design and their results do not describe 1.2.0.
 
 ## Start here

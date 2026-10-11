@@ -1,6 +1,6 @@
 # Current status
 
-Updated 2026-09-26.
+Updated 2026-10-11.
 
 - [x] Coordination invitation: published (2026-08-01)
 - [x] Economic study summary: first publication (2026-08-02)
@@ -17,5 +17,7 @@ Updated 2026-09-26.
 - [x] Testing-mode implementations of the three candidates: published August–September 2026 (historical; see [`verification/`](verification/))
 - [x] Rincoin Community Core 1.2.0 development build (`v1.2.0-dev.2`): built and tested 2026-09-21, again 2026-09-26 from the project's release build, with an upgrade test from 1.1.0; evidence in [`verification/core-1.2.0-dev.2/`](verification/core-1.2.0-dev.2/)
 - [x] Source of the 1.2.0 development build: published for testing 2026-09-22 as branch [`consensus/840k-s6b`](https://github.com/rincoin-community/rincoin-core/tree/consensus/840k-s6b) of `rincoin-community/rincoin-core` (not a release)
-- [ ] Stable 1.2.0 release: planned by 2026-09-30, after verification
+- [x] Release candidate `v1.2.0rc1`: published 2026-09-30 after the beta `v1.2.0-beta.1` of 2026-09-27
+- [x] Operator runbook for the height: [`technology/transition-runbook.md`](technology/transition-runbook.md), 2026-10-11
+- [ ] Stable 1.2.0 release
 - [ ] Coordination with other implementations: planned; no agreement exists yet
